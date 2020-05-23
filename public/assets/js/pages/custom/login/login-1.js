@@ -53,7 +53,6 @@ var KTLoginV1 = function () {
                     if (response.status === false) {
                         showErrorMsg(form, 'danger', response.message);
                     } else {
-						//console.log(response);return;
                         window.location.href = response.redirect_url;
                     }
 				}
