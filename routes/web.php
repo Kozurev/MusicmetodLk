@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('index');
 
 Route::get('/login', 'LoginController@index')->name('login.index');
-Route::post('/login', 'LoginController@auth')->name('login.make');
+Route::post('/login/auth', 'LoginController@auth')->name('login.make');
 Route::get('/logout', 'LoginController@logout')->name('login.logout');
 
 Route::get('/balance', 'BalanceController@index')->name('balance.index');

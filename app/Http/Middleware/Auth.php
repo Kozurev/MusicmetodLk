@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Auth
+class Auth extends Middleware
 {
     /**
      * Handle an incoming request.
@@ -14,10 +16,10 @@ class Auth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
         if (!User::isAuth()) {
-            redirect(route('login.index'));
+            return redirect(route('login.index'));
         }
         return $next($request);
     }
