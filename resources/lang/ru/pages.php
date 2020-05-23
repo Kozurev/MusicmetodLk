@@ -1,6 +1,11 @@
 <?php
 return [
     'main' => 'Главная',
+    'balance.index' => 'Пополнение баланса',
+    'rates.index' => 'Абонементы',
+    'faq.index' => 'Инструкция',
+    'faq.feedback' => 'Обратная связь',
+
     'to-main' => 'На главную',
     'schedule' => 'Расписание',
     'balance' => 'Баланс',

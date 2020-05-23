@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'index'])
+@extends('layouts.app', ['page' => 'main'])
 
 @section('content')
     <div class="kt-portlet">
