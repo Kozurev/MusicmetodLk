@@ -25,7 +25,7 @@ class BalanceController extends Controller
     {
         $amount = intval($request->input('amount', 0)) * 100;
         $response = User::makeDeposit($amount);
-
+        //dd($response);
         if (is_null($response) || !is_null($response->errorCode ?? null)) {
             return redirect()->back()->withErrors([__('pages.error-deposit')]);
         } else {
