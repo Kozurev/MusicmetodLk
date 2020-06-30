@@ -12,6 +12,10 @@ class Facade
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
     const PARAM_RATE_ID = 'tarif_id';
+    const PARAM_AMOUNT = 'amount';
+    const PARAM_DESCRIPTION = 'description';
+    const PARAM_SUCCESS_URL = 'successUrl';
+    const PARAM_ERROR_URL = 'errorUrl';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -25,6 +29,7 @@ class Facade
     const ACTION_GET_CLIENT_RATES = 'get_list';
     const ACTION_GET_RATE_BY_ID = 'get_rate_by_id';
     const ACTION_BUY_RATE = 'buy_tarif';
+    const ACTION_MAKE_DEPOSIT = 'registerOrder';
 
     /**
      * @var Facade
@@ -49,14 +54,16 @@ class Facade
         self::ACTION_GET_CLIENT_RATES       => '/tarif/index.php',
         self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
         self::ACTION_BUY_RATE               => '/tarif/index.php',
+        self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
     ];
 
     /**
      * Facade constructor.
+     * @param string $apiUrl
      */
-    private function __construct()
+    private function __construct(string $apiUrl)
     {
-        $this->apiUrl = env('SERVER_API_URL');
+        $this->apiUrl = $apiUrl;
     }
 
     /**
@@ -65,7 +72,7 @@ class Facade
     public static function instance() : Facade
     {
         if (is_null(self::$_instance)) {
-            self::$_instance = new self();
+            self::$_instance = new self(env('SERVER_API_URL', ''));
         }
         return self::$_instance;
     }
@@ -103,10 +110,6 @@ class Facade
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $queryParams);
         }
-
-//        if (isset($params[self::PARAM_RATE_ID])) {
-//            dd(curl_exec($ch));
-//        }
 
         $result = json_decode(curl_exec($ch));
         if (empty($result) || !is_null($result->error ?? null)) {
@@ -234,6 +237,34 @@ class Facade
             self::PARAM_RATE_ID => $rateId
         ];
         return $this->makeRequest($this->makeUrl(self::ACTION_BUY_RATE), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param int $amount
+     * @param string|null $description
+     * @param string|null $successUrl
+     * @param string|null $errorUrl
+     * @return \stdClass|null
+     */
+    public function makeDeposit(string $token, int $amount, string $description = null, string $successUrl = null, string $errorUrl = null)
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_MAKE_DEPOSIT,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_AMOUNT => $amount
+        ];
+        if (!is_null($description)) {
+            $params[self::PARAM_DESCRIPTION] = $description;
+        }
+        if (!is_null($successUrl)) {
+            $params[self::PARAM_SUCCESS_URL] = $successUrl;
+        }
+        if (!is_null($errorUrl)) {
+            $params[self::PARAM_ERROR_URL] = $errorUrl;
+        }
+
+        return $this->makeRequest($this->makeUrl(self::ACTION_MAKE_DEPOSIT), $params);
     }
 
 }

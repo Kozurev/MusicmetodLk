@@ -66,10 +66,17 @@ class User
         return Cookie::has(self::COOKIE_TOKEN_KEY) ? Cookie::get(self::COOKIE_TOKEN_KEY) : '';
     }
 
+    /**
+     * @param string $token
+     * @return |null
+     */
     public static function getByToken(string $token)
     {
         $userData = Api::instance()->getUser(self::getToken());
-        if ($userData->error) {
+        if (is_null($userData)) {
+            return null;
+        }
+        if ($userData->error ?? null) {
             self::setError($userData->error);
             return null;
         } else {
@@ -156,6 +163,17 @@ class User
     public static function buyRate(int $rateId)
     {
         return Api::instance()->buyRate(self::getToken(), $rateId);
+    }
+
+    /**
+     * @param int $amount
+     * @return \stdClass|null
+     */
+    public static function makeDeposit(int $amount)
+    {
+        $successUrl = route('balance.depositSuccess', ['amount' => $amount]);
+        $errorUrl = route('balance.depositError');
+        return Api::instance()->makeDeposit(self::getToken(), $amount, null, $successUrl, $errorUrl);
     }
 
 }

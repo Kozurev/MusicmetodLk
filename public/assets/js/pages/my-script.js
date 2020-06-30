@@ -46,7 +46,7 @@ $(function() {
             columns: [{
                 field: "datetime",
                 title: lang.get('date'),
-                width: 70,
+                width: 55,
                 sortable: true,
                 autoHide: false,
                 template: function(data) {
@@ -55,7 +55,7 @@ $(function() {
             }, {
                 field: "type",
                 title: lang.get('type'),
-                width: 90,
+                width: 100,
                 autoHide: false,
                 sortable: true,
                 className: 'dt-center',
@@ -67,6 +67,22 @@ $(function() {
                         default:  statusClass = 'btn-label-warning';    break;
                     }
                     return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('payment_type_' + data.type)+'</span>';
+                }
+            }, {
+                field: "status",
+                title: lang.get('status'),
+                width: 'auto',
+                autoHide: false,
+                sortable: true,
+                className: 'dt-center',
+                template: function(data, i) {
+                    let statusClass = '';
+                    switch (data.status) {
+                        case '1': statusClass = 'btn-label-success';    break;
+                        case '2': statusClass = 'btn-label-danger';     break;
+                        default:  statusClass = 'btn-label-warning';    break;
+                    }
+                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('payment_status_' + data.status)+'</span>';
                 }
             }, {
                 field: "value",
@@ -149,14 +165,14 @@ $(function() {
                     return '<span>'+data.refactored_date+'</span>';
                 }
             }, {
-                field: "teacher_id",
-                title: lang.get('teacher'),
-                width: 'auto',
-                sortable: true,
+                field: "time",
+                title: lang.get('time'),
+                width: 80,
+                sortable: false,
                 type: 'string',
-                className: 'dt-center',
+                autoHide: false,
                 template: function(data) {
-                    return '<span>'+data.teacher_fio+'</span>';
+                    return '<span>'+data.lesson_time_from+' - '+data.lesson_time_to+'</span>';
                 }
             }, {
                 field: "attendance",
@@ -173,6 +189,16 @@ $(function() {
                         default:  statusClass = 'btn-label-warning';    break;
                     }
                     return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('report_attendance_' + data.attendance)+'</span>';
+                }
+            }, {
+                field: "teacher_id",
+                title: lang.get('teacher'),
+                width: 'auto',
+                sortable: true,
+                type: 'string',
+                className: 'dt-center',
+                template: function(data) {
+                    return '<span>'+data.teacher_fio+'</span>';
                 }
             }]
         });

@@ -49,7 +49,6 @@
                     <!--end::New Feedbacks-->
                 </div>
                 <div class="col-md-12 col-lg-4 col-xl-4">
-                    <!--begin::New Users-->
                     <div class="kt-widget24">
                         <div class="kt-widget24__details">
                             <div class="kt-widget24__info">
@@ -69,10 +68,8 @@
                                     {{ __('pages.next-lessons-none') }}
                                 @endif
                             </span>
-{{--                            <a href="{{ route('schedule.index') }}" class="btn-btn-primary"></a>--}}
                         </div>
                     </div>
-                    <!--end::New Users-->
                 </div>
             </div>
         </div>
@@ -81,7 +78,7 @@
     <!--end:: Widgets/Stats-->
 
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-7 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobil ">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
@@ -97,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">

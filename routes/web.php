@@ -20,6 +20,9 @@ Route::post('/login/auth', 'LoginController@auth')->name('login.make');
 Route::get('/logout', 'LoginController@logout')->name('login.logout');
 
 Route::get('/balance', 'BalanceController@index')->name('balance.index');
+Route::post('/balance/makePayment', 'BalanceController@makeDeposit')->name('balance.makeDeposit');
+Route::get('/balance/success', 'BalanceController@depositSuccess')->name('balance.depositSuccess');
+Route::get('/balance/error', 'BalanceController@depositError')->name('balance.depositError');
 
 Route::get('/rates', 'RatesController@index')->name('rates.index');
 Route::get('/rates/buy/{id}', 'RatesController@buyPrepare')->name('rates.buy.prepare');

@@ -15,20 +15,20 @@
     <!--end::Fonts -->
 
     <!--begin::Page Custom Styles(used by this page) -->
-    <link href="{{ asset('assets/css/pages/error/error-3.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/assets/css/pages/error/error-1.css') }}" rel="stylesheet" type="text/css" />
 
     <!--end::Page Custom Styles -->
 
     <!--begin::Global Theme Styles(used by all pages) -->
-    <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <!--end::Global Theme Styles -->
 
     <!--begin::Layout Skins(used by all pages) -->
 
     <!--end::Layout Skins -->
-    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('/assets/media/logos/favicon.ico') }}" />
 </head>
 
 <!-- end::Head -->
@@ -38,19 +38,11 @@
 
 <!-- begin:: Page -->
 <div class="kt-grid kt-grid--ver kt-grid--root kt-page">
-    <div class="kt-grid__item kt-grid__item--fluid kt-grid  kt-error-v3" style="background-image: url({{ asset('assets/media/error/bg3.jpg') }});">
-        <div class="kt-error_container">
-            <span class="kt-error_number">
-                <h1>404</h1>
-            </span>
-            <p class="kt-error_title kt-font-light">
-                {{ __('errors.404-text-1') }}
-            </p>
-            <p class="kt-error_subtitle">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid  kt-error-v1" style="background-image: url({{ asset('/assets/media/error/bg1.jpg') }});">
+        <div class="kt-error-v1__container">
+            <h1 class="kt-error-v1__number">404</h1>
+            <p class="kt-error-v1__desc">
                 {{ __('errors.404-text-2') }}
-            </p>
-            <p class="kt-error_description">
-                {!! __('errors.404-text-3') !!}
             </p>
         </div>
     </div>
@@ -83,8 +75,8 @@
 <!-- end::Global Config -->
 
 <!--begin::Global Theme Bundle(used by all pages) -->
-<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/js/scripts.bundle.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/assets/plugins/global/plugins.bundle.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/assets/js/scripts.bundle.js') }}" type="text/javascript"></script>
 
 <!--end::Global Theme Bundle -->
 </body>

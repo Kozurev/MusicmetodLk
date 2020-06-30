@@ -41,6 +41,7 @@
 
 <!-- begin::Body -->
 <body class="kt-page-content-white kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
+{{--<body class="kt-page-content-white kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">--}}
 
 <!-- begin:: Page -->
 
@@ -70,6 +71,49 @@
                                 <img alt="Logo" src="{{ asset('assets/media/logos/logo-11.png') }}" />
                             </a>
                         </div>
+{{--                        <div class="kt-header__brand-nav">--}}
+{{--                            <div class="dropdown">--}}
+{{--                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                                    {{ __('pages.nav') }}--}}
+{{--                                </button>--}}
+{{--                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">--}}
+{{--                                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-margin-t-20 kt-margin-b-20">--}}
+{{--                                        <li class="kt-nav__item">--}}
+{{--                                            <a class="kt-nav__link active" href="{{ route('index') }}">--}}
+{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-icon flaticon2-architecture-and-city"></i></span>--}}
+{{--                                                <span class="kt-menu__link-text">{{ __('pages.main') }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        <li class="kt-nav__separator"></li>--}}
+{{--                                        <li class="kt-nav__item">--}}
+{{--                                            <a class="kt-nav__link" href="{{ route('balance.index') }}">--}}
+{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-piggy-bank"><span>&nbsp;</span></i></span>--}}
+{{--                                                <span class="kt-menu__link-text">{{ __('pages.make-payment') }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        <li class="kt-nav__item">--}}
+{{--                                            <a class="kt-nav__link" href="{{ route('rates.index') }}">--}}
+{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon2-shopping-cart-1"><span>&nbsp;</span></i></span>--}}
+{{--                                                <span class="kt-menu__link-text">{{ __('pages.buy-rates') }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        <li class="kt-nav__separator"></li>--}}
+{{--                                        <li class="kt-nav__item">--}}
+{{--                                            <a class="kt-nav__link" href="{{ route('faq.index') }}">--}}
+{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-notes"><span>&nbsp;</span></i></span>--}}
+{{--                                                <span class="kt-menu__link-text">{{ __('pages.faq-info') }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        <li class="kt-nav__item">--}}
+{{--                                            <a class="kt-nav__link" href="{{ route('faq.feedback') }}">--}}
+{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-speech-bubble"><span>&nbsp;</span></i></span>--}}
+{{--                                                <span class="kt-menu__link-text">{{ __('pages.faq-feedback') }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
 
                     <div class="kt-header__topbar">
@@ -206,10 +250,13 @@
         no_reports: '{{ __('pages.no-reports') }}',
         no_lessons: '{{ __('pages.no-lessons') }}',
         no_rates: '{{ __('pages.no-rates') }}',
-        payment_type_1: '{{ \App\Api\Payment::getName(1) }}',
-        payment_type_2: '{{ \App\Api\Payment::getName(2) }}',
-        payment_type_3: '{{ \App\Api\Payment::getName(3) }}',
-        payment_type_15: '{{ \App\Api\Payment::getName(15) }}',
+        payment_type_1: '{{ \App\Api\Payment::getTypeName(1) }}',
+        payment_type_2: '{{ \App\Api\Payment::getTypeName(2) }}',
+        payment_type_3: '{{ \App\Api\Payment::getTypeName(3) }}',
+        payment_type_15: '{{ \App\Api\Payment::getTypeName(15) }}',
+        payment_status_0: '{{ \App\Api\Payment::getStatusName(0) }}',
+        payment_status_1: '{{ \App\Api\Payment::getStatusName(1) }}',
+        payment_status_2: '{{ \App\Api\Payment::getStatusName(2) }}',
         report_attendance_0: '{{ __('api.report-attendance-0') }}',
         report_attendance_1: '{{ __('api.report-attendance-1') }}',
 
