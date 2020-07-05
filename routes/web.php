@@ -28,5 +28,8 @@ Route::get('/rates', 'RatesController@index')->name('rates.index');
 Route::get('/rates/buy/{id}', 'RatesController@buyPrepare')->name('rates.buy.prepare');
 Route::post('/rates/buy/{id}', 'RatesController@buyExecute')->name('rate.buy.execute');
 
+Route::get('/schedule/time', 'ScheduleController@findTeacherTime')->name('schedule.find_teacher_time');
+Route::post('/schedule/makeLesson', 'ScheduleController@makeLesson')->name('schedule.make_lesson');
+
 Route::get('/faq', 'FaqController@index')->name('faq.index');
 Route::get('/faq/feedback', 'FaqController@feedback')->name('faq.feedback');

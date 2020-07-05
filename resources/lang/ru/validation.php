@@ -163,6 +163,8 @@ return [
 
     'attributes' => [
         'amount' => __('pages.amount'),
+        'date' => __('pages.date'),
+        'teacherId' => __('pages.teacher')
     ],
 
 ];

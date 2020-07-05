@@ -176,4 +176,32 @@ class User
         return Api::instance()->makeDeposit(self::getToken(), $amount, null, $successUrl, $errorUrl);
     }
 
+    /**
+     * @return \stdClass|null
+     */
+    public static function getTeachers()
+    {
+        return Api::instance()->getTeachers(self::getToken());
+    }
+
+    /**
+     * @param int $teacherId
+     * @return \stdClass|null
+     */
+    public static function getTeacherSchedule(int $teacherId)
+    {
+        return Api::instance()->getTeacherSchedule(self::getToken(), $teacherId);
+    }
+
+    /**
+     * @param int $teacherId
+     * @param string $date
+     * @return \stdClass|null
+     */
+    public static function getTeacherNearestTime(int $teacherId, string $date)
+    {
+        return Api::instance()->getTeacherNearestTime(self::getToken(), $teacherId, $date, self::current()->lessonDuration);
+    }
+
+
 }

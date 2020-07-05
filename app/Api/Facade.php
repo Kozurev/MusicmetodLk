@@ -16,6 +16,9 @@ class Facade
     const PARAM_DESCRIPTION = 'description';
     const PARAM_SUCCESS_URL = 'successUrl';
     const PARAM_ERROR_URL = 'errorUrl';
+    const PARAM_TEACHER_ID = 'teacherId';
+    const PARAM_DATE = 'date';
+    const PARAM_LESSON_DURATION = 'lessonDuration';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -30,6 +33,9 @@ class Facade
     const ACTION_GET_RATE_BY_ID = 'get_rate_by_id';
     const ACTION_BUY_RATE = 'buy_tarif';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
+    const ACTION_GET_TEACHERS = 'getClientTeachers';
+    const ACTION_GET_TEACHER_SCHEDULE = 'getTeacherSchedule';
+    const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
 
     /**
      * @var Facade
@@ -55,6 +61,9 @@ class Facade
         self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
         self::ACTION_BUY_RATE               => '/tarif/index.php',
         self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
+        self::ACTION_GET_TEACHERS           => '/user/index.php',
+        self::ACTION_GET_TEACHER_SCHEDULE   => '/schedule/index.php',
+        self::ACTION_GET_TEACHER_NEAREST_TIME=> '/schedule/index.php'
     ];
 
     /**
@@ -265,6 +274,55 @@ class Facade
         }
 
         return $this->makeRequest($this->makeUrl(self::ACTION_MAKE_DEPOSIT), $params);
+    }
+
+    /**
+     * @param string $token
+     * @return \stdClass|null
+     */
+    public function getTeachers(string $token)
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_GET_TEACHERS,
+            self::PARAM_TOKEN => $token
+        ];
+
+        return $this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHERS), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param int $teacherId
+     * @return \stdClass|null
+     */
+    public function getTeacherSchedule(string $token, int $teacherId)
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_GET_TEACHER_SCHEDULE,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_TEACHER_ID => $teacherId
+        ];
+        return $this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHER_SCHEDULE), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param int $teacherId
+     * @param string $date
+     * @param int $lessonDurationMinutes
+     * @return \stdClass|null
+     */
+    public function getTeacherNearestTime(string $token, int $teacherId, string $date, int $lessonDurationMinutes)
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_GET_TEACHER_NEAREST_TIME,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_TEACHER_ID => $teacherId,
+            self::PARAM_DATE => $date,
+            self::PARAM_LESSON_DURATION => $lessonDurationMinutes
+        ];
+
+        return $this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHER_NEAREST_TIME), $params);
     }
 
 }

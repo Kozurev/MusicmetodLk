@@ -88,6 +88,11 @@
                             {{ __('pages.payments-history') }}
                         </h3>
                     </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="{{ route('balance.index') }}">
+                            {{ __('pages.make-payment') }}
+                        </a>
+                    </div>
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fit">
                     <div class="kt-datatable" id="kt_datatable_payments_history"></div>
@@ -113,7 +118,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8 col-sm-12">
+        <div class="col-md-12 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
@@ -121,6 +126,11 @@
                             <i class="flaticon-event-calendar-symbol kt-font-brand"></i>
                             &nbsp;{{ __('pages.schedule') }}
                         </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">
+                            {{ __('pages.get-teacher-time') }}
+                        </a>
                     </div>
                     <div class="kt-portlet__head-toolbar">
                         <a class="btn btn-primary btn-sm kt-subheader__btn-daterange" id="schedule_kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="{{ __('daterange.title') }}" data-placement="left">
