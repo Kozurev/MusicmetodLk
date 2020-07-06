@@ -36,6 +36,7 @@ class Facade
     const ACTION_GET_TEACHERS = 'getClientTeachers';
     const ACTION_GET_TEACHER_SCHEDULE = 'getTeacherSchedule';
     const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
+    const ACTION_SAVE_LESSON = 'saveLesson';
 
     /**
      * @var Facade
@@ -63,7 +64,8 @@ class Facade
         self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
         self::ACTION_GET_TEACHERS           => '/user/index.php',
         self::ACTION_GET_TEACHER_SCHEDULE   => '/schedule/index.php',
-        self::ACTION_GET_TEACHER_NEAREST_TIME=> '/schedule/index.php'
+        self::ACTION_GET_TEACHER_NEAREST_TIME=> '/schedule/index.php',
+        self::ACTION_SAVE_LESSON            => '/schedule/index.php',
     ];
 
     /**
@@ -323,6 +325,19 @@ class Facade
         ];
 
         return $this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHER_NEAREST_TIME), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param array $lessonData
+     * @return \stdClass|null
+     */
+    public function saveLesson(string $token, array $lessonData)
+    {
+        $lessonData[self::PARAM_TOKEN] = $token;
+        $lessonData[self::PARAM_ACTION] = self::ACTION_SAVE_LESSON;
+
+        return $this->makeRequest($this->makeUrl(self::ACTION_SAVE_LESSON), $lessonData, self::METHOD_POST);
     }
 
 }

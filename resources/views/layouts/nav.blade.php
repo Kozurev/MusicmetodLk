@@ -7,10 +7,6 @@
                     <span class="kt-menu__link-text">{{ __('pages.main') }}</span>
                 </a>
             </li>
-{{--            <li class="kt-menu__section ">--}}
-{{--                <h4 class="kt-menu__section-text">{{ __('pages.balance') }}</h4>--}}
-{{--                <i class="kt-menu__section-icon flaticon-more-v2"></i>--}}
-{{--            </li>--}}
             <li class="kt-menu__item kt-menu__item--submenu @if(($partition ?? '') == 'balance') kt-menu__item--active kt-menu__item--open kt-menu__item--here @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon fa fa-ruble-sign"></i>
@@ -29,6 +25,23 @@
                             <a href="{{ route('rates.index') }}" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet flaticon2-shopping-cart-1"><span>&nbsp;</span></i>
                                 <span class="kt-menu__link-text">{{ __('pages.buy-rates') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item kt-menu__item--submenu @if(($partition ?? '') == 'schedule') kt-menu__item--active kt-menu__item--open kt-menu__item--here @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                    <i class="kt-menu__link-icon flaticon-calendar-1"></i>
+                    <span class="kt-menu__link-text">{{ __('pages.schedule') }}</span>
+                    <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item @if($page == 'schedule.find_teacher_time') kt-menu__item--active @endif" aria-haspopup="true">
+                            <a href="{{ route('schedule.find_teacher_time') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet flaticon-clock-2"><span>&nbsp;</span></i>
+                                <span class="kt-menu__link-text">{{ __('pages.schedule.find_teacher_time') }}</span>
                             </a>
                         </li>
                     </ul>

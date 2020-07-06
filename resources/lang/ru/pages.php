@@ -7,6 +7,7 @@ return [
     'rates.index' => 'Абонементы',
     'faq.index' => 'Инструкция',
     'faq.feedback' => 'Обратная связь',
+    'schedule.find_teacher_time' => 'Самозапись',
 
     'nav' => 'Меню',
     'to-main' => 'На главную',
@@ -27,6 +28,7 @@ return [
     'status' => 'Статус',
     'area' => 'Филиал',
     'time' => 'Время',
+    'class' => 'Класс',
     'no-payments' => 'Платежей не найдено',
     'no-reports' => 'Истории занятий не найдено',
     'no-lessons' => 'Занятий не найдено',
@@ -82,4 +84,5 @@ return [
     'make-lesson-time-min' => 'Ошибка указания времени проведения занятия',
     'make-lesson-date-required' => 'Не указана дата занятия',
     'make-lesson-date-format' => 'Неверно указана дата занятия',
+    'lesson-saved-success' => 'Запись успешно принята. Дата занятия :date, время: :timeFrom - :timeTo',
 ];

@@ -92,11 +92,11 @@ class User
         if (empty(self::getToken())) {
             return null;
         }
-        if (!Session::has(self::SESSION_USER_DATA)) {
-            Session::put(self::SESSION_USER_DATA, self::getByToken(self::getToken()));
-            Session::save();
+        if (!session()->has(self::SESSION_USER_DATA)) {
+            session()->put(self::SESSION_USER_DATA, self::getByToken(self::getToken()));
+            //Session::save();
         }
-        return Session::get(self::SESSION_USER_DATA);
+        return session()->get(self::SESSION_USER_DATA);
     }
 
     /**
@@ -203,5 +203,14 @@ class User
         return Api::instance()->getTeacherNearestTime(self::getToken(), $teacherId, $date, self::current()->lessonDuration);
     }
 
+    /**
+     * @param array $lessonData
+     * @return \stdClass|null
+     */
+    public static function saveLesson(array $lessonData)
+    {
+        $lessonData[\App\Api\Schedule::PARAM_LESSON_CLIENT_ID] = self::current()->id;
+        return Api::instance()->saveLesson(self::getToken(), $lessonData);
+    }
 
 }

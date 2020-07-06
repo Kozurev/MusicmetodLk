@@ -6,7 +6,7 @@ use App\Http\Requests\NewLessonRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Api\Facade as Api;
+use App\Api\Schedule;
 
 class ScheduleController extends Controller
 {
@@ -62,16 +62,36 @@ class ScheduleController extends Controller
             ->with(['customErrors' => collect($errors)]);
     }
 
-
+    /**
+     * @param NewLessonRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function makeLesson(NewLessonRequest $request)
     {
         $teacherId = $request->input('teacherId');
-        $lessonTime = $request->input('time');
-        $timeSegments = explode(' - ', $lessonTime);
+        $lessonTime = json_decode($request->input('time'));
 
-        $timeFrom = $timeSegments[0];
-        $timeTo = $timeSegments[1];
-        dd($teacherId, $timeFrom, $timeTo);
+        $lessonData = [
+            Schedule::PARAM_LESSON_DATE => $lessonTime->date,
+            Schedule::PARAM_LESSON_AREA_ID => $lessonTime->area_id,
+            Schedule::PARAM_LESSON_CLASS_ID => $lessonTime->class_id,
+            Schedule::PARAM_LESSON_SCHEDULE_TYPE => Schedule::SCHEDULE_TYPE_CURRENT,
+            Schedule::PARAM_LESSON_TYPE_ID => Schedule::TYPE_SINGLE,
+            Schedule::PARAM_LESSON_TEACHER_ID => $teacherId,
+            Schedule::PARAM_LESSON_TIME_FROM => $lessonTime->timeFrom,
+            Schedule::PARAM_LESSON_TIME_TO => $lessonTime->timeTo
+        ];
+
+        $response = User::saveLesson($lessonData);
+        if ($response->status == true) {
+            return redirect()->back()->with('success', __('pages.lesson-saved-success', [
+                'date' => date('d.m.Y', strtotime($lessonTime->date)),
+                'timeFrom' => $lessonTime->refactoredTimeFrom,
+                'timeTo' => $lessonTime->refactoredTimeTo,
+            ]));
+        } else {
+            return redirect()->back()->withErrors(['request' => $response->message ?? '']);
+        }
     }
 
 }

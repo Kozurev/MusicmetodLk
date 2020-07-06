@@ -56,7 +56,7 @@
                                 @if(!empty($nextLessons->date))
                                     @foreach($nextLessons->lessons as $lesson)
                                         <span class="kt-widget24__desc">
-                                            {{ $lesson->area->title }} <br/> {{ $lesson->refactored_time_from }} - {{ $lesson->refactored_time_to }}
+                                            <br>{{ $lesson->area->title }}: {{ $lesson->refactored_time_from }} - {{ $lesson->refactored_time_to }}
                                         </span>
                                     @endforeach
                                 @endif
@@ -127,17 +127,21 @@
                             &nbsp;{{ __('pages.schedule') }}
                         </h3>
                     </div>
-                    <div class="kt-portlet__head-toolbar">
-                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">
-                            {{ __('pages.get-teacher-time') }}
-                        </a>
-                    </div>
+{{--                    <div class="kt-portlet__head-toolbar">--}}
+{{--                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">--}}
+{{--                            {{ __('pages.get-teacher-time') }}--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     <div class="kt-portlet__head-toolbar">
                         <a class="btn btn-primary btn-sm kt-subheader__btn-daterange" id="schedule_kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="{{ __('daterange.title') }}" data-placement="left">
                             <span class="kt-subheader__btn-daterange-title" id="schedule_kt_dashboard_daterangepicker_title"></span>&nbsp;
                             <span class="kt-subheader__btn-daterange-date" id="schedule_kt_dashboard_daterangepicker_date"></span>
                         </a>
                         <input type="hidden" class="form-control" id="schedule_kt_dashboard_daterangepicker_val">
+                        &nbsp;
+                        <a class="btn btn-success btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">
+                            {{ __('pages.get-teacher-time') }}
+                        </a>
                     </div>
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fit">
