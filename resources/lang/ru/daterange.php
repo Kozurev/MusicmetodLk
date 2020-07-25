@@ -3,10 +3,12 @@ return [
     'title' => 'Укажите период',
     'today' => 'Сегодня',
     'yesterday' => 'Вчера',
+    'tomorrow' => 'Завтра',
     'last_7_days' => 'Неделя',
     'last_30_days' => '30 дней',
     'this_month' => 'Текущий месяц',
     'last_month' => 'Прошлый месяц',
+    'next_month' => 'Следующий месяц',
 
     'format' => 'Формат',
     'separator' => ' - ',

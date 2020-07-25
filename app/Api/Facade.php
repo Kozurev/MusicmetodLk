@@ -19,6 +19,7 @@ class Facade
     const PARAM_TEACHER_ID = 'teacherId';
     const PARAM_DATE = 'date';
     const PARAM_LESSON_DURATION = 'lessonDuration';
+    const PARAM_LESSON_ID = 'lessonId';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -36,7 +37,8 @@ class Facade
     const ACTION_GET_TEACHERS = 'getClientTeachers';
     const ACTION_GET_TEACHER_SCHEDULE = 'getTeacherSchedule';
     const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
-    const ACTION_SAVE_LESSON = 'saveLesson';
+    const ACTION_LESSON_SAVE = 'saveLesson';
+    const ACTION_LESSON_ABSENT = 'markAbsent';
 
     /**
      * @var Facade
@@ -64,8 +66,9 @@ class Facade
         self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
         self::ACTION_GET_TEACHERS           => '/user/index.php',
         self::ACTION_GET_TEACHER_SCHEDULE   => '/schedule/index.php',
-        self::ACTION_GET_TEACHER_NEAREST_TIME=> '/schedule/index.php',
-        self::ACTION_SAVE_LESSON            => '/schedule/index.php',
+        self::ACTION_GET_TEACHER_NEAREST_TIME=>'/schedule/index.php',
+        self::ACTION_LESSON_SAVE            => '/schedule/index.php',
+        self::ACTION_LESSON_ABSENT          => '/schedule/index.php',
     ];
 
     /**
@@ -332,12 +335,31 @@ class Facade
      * @param array $lessonData
      * @return \stdClass|null
      */
-    public function saveLesson(string $token, array $lessonData)
+    public function lessonSave(string $token, array $lessonData)
     {
         $lessonData[self::PARAM_TOKEN] = $token;
-        $lessonData[self::PARAM_ACTION] = self::ACTION_SAVE_LESSON;
+        $lessonData[self::PARAM_ACTION] = self::ACTION_LESSON_SAVE;
 
-        return $this->makeRequest($this->makeUrl(self::ACTION_SAVE_LESSON), $lessonData, self::METHOD_POST);
+        return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_SAVE), $lessonData, self::METHOD_POST);
+    }
+
+    /**
+     * Отмена занятия
+     *
+     * @param string $token
+     * @param int $lessonId
+     * @param string $date
+     * @return \stdClass|null
+     */
+    public function lessonAbsent(string $token, int $lessonId, string $date)
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_LESSON_ABSENT,
+            self::PARAM_LESSON_ID => $lessonId,
+            self::PARAM_DATE => $date
+        ];
+        return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_ABSENT), $params, self::METHOD_POST);
     }
 
 }

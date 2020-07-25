@@ -1,3 +1,11 @@
+const alert = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+});
+
 $(function() {
     //Таблица истории платежей
     if ($('#kt_datatable_payments_history').length != 0) {
@@ -251,19 +259,21 @@ $(function() {
             columns: [{
                 field: "date",
                 title: lang.get('date'),
-                width: 'auto',
-                sortable: true,
-                type: 'string',
+                width: 100,
+                sortable: false,
+                //type: 'string',
+                class: 'dt-center',
                 autoHide: false,
                 template: function(data) {
                     return '<span>'+data.refactored_date+'</span>';
                 }
-            },{
+            }, {
                 field: "area_id",
                 title: lang.get('area'),
+                sortable: false,
                 width: 'auto',
-                sortable: true,
-                type: 'string',
+                //type: 'string',
+                class: 'dt-center',
                 autoHide: false,
                 template: function(data) {
                     let output = '';
@@ -276,9 +286,10 @@ $(function() {
                 field: "teacher_id",
                 title: lang.get('teacher'),
                 width: 'auto',
-                sortable: true,
-                type: 'string',
-                className: 'dt-center',
+                sortable: false,
+                //type: 'string',
+                class: 'dt-center',
+                autoHide: false,
                 template: function(data) {
                     let output = '';
                     $.each(data.lessons, function(key, lesson) {
@@ -289,15 +300,28 @@ $(function() {
             }, {
                 field: "time",
                 title: lang.get('time'),
-                width: 'auto',
+                width: 130,
                 sortable: true,
                 type: 'string',
-                className: 'dt-center',
+                class: 'dt-right',
+                autoHide: false,
                 template: function(data) {
-                    let output = '';
+                    let output = '<div style="width: 100%; text-align: right; margin-right: 25px">';
                     $.each(data.lessons, function(key, lesson) {
-                        output += '<p>'+ lesson.refactored_time_from + ' ' + lesson.refactored_time_to + '</p>';
+                        output += ''+lesson.refactored_time_from + ' ' + lesson.refactored_time_to + '';
+                        output += '<div class="dropdown" style="display: inline-block">' +
+                                        '<a data-toggle="dropdown" class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-expanded="false">' +
+                                            '<i class="la la-cog"></i>' +
+                                        '</a>' +
+                                    '<div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="display: none; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1474px, 531px, 0px);">' +
+                                        '<a href="#" class="dropdown-item lessonCancel" data-lesson="'+lesson.id+'" data-date="'+data.date+'">' +
+                                            '<i class="flaticon-circle"></i> '+lang.get('cancel')+
+                                        '</a>' +
+                                    '</div>' +
+                                '</div>';
+                        output += '<br>';
                     });
+                    output += '</div>';
                     return output;
                 }
             }]
@@ -336,11 +360,11 @@ $(function() {
 
         let ranges = {};
         ranges[lang.get('today')] = [moment(), moment()];
-        ranges[lang.get('yesterday')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
-        ranges[lang.get('last_7_days')] = [moment().subtract(6, 'days'), moment()];
-        ranges[lang.get('last_30_days')] = [moment().subtract(29, 'days'), moment()];
+        ranges[lang.get('tomorrow')] = [moment().add(1, 'days'), moment().add(1, 'days')];
+        ranges[lang.get('last_7_days')] = [moment(), moment().add(6, 'days')];
+        ranges[lang.get('last_30_days')] = [moment(), moment().add(29, 'days')];
         ranges[lang.get('this_month')] = [moment().startOf('month'), moment().endOf('month')];
-        ranges[lang.get('last_month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+        ranges[lang.get('next_month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
 
         let locales = {
             "format": lang.get('daterangepicker_format'),
@@ -486,5 +510,40 @@ $(function() {
         });
     }
 
-
+    $(document)
+        .on('click', '.lessonCancel', function(e) {
+            e.preventDefault();
+            let lessonId = $(this).data('lesson');
+            let date = $(this).data('date');
+            alert.fire({
+                title: lang.get('lesson_cancel_alert'),
+                //text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: lang.get('yes'),
+                cancelButtonText: lang.get('no'),
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/schedule/lessonAbsent',
+                        dataType: 'json',
+                        data: {
+                            _token: $('meta[name=csrf_token]').attr('content'),
+                            token: $('meta[name=token]').attr('content'),
+                            lesson_id: lessonId,
+                            date: date
+                        },
+                        success: function(response) {
+                            alert.fire({
+                                type: response.status,
+                                title: response.message
+                            });
+                            $('#kt_datatable_schedule').KTDatatable().reload();
+                        }
+                    });
+                }
+            })
+        });
 });

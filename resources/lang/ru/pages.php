@@ -37,6 +37,8 @@ return [
     'cancel' => 'Отменить',
     'submit' => 'Подтвердить',
     'back' => 'Назад',
+    'yes' => 'Да',
+    'no' => 'Нет',
 
     'payments-history' => 'История платежей',
     'schedule-history' => 'История занятий',
@@ -85,4 +87,6 @@ return [
     'make-lesson-date-required' => 'Не указана дата занятия',
     'make-lesson-date-format' => 'Неверно указана дата занятия',
     'lesson-saved-success' => 'Запись успешно принята. Дата занятия :date, время: :timeFrom - :timeTo',
+    'lesson-cancel-alert' => 'Вы уверены что хотите отменить занятие?',
+    'lesson-cancel-success' => 'Занятие успешно отменено',
 ];

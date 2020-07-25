@@ -82,7 +82,7 @@ class ScheduleController extends Controller
             Schedule::PARAM_LESSON_TIME_TO => $lessonTime->timeTo
         ];
 
-        $response = User::saveLesson($lessonData);
+        $response = User::lessonSave($lessonData);
         if ($response->status == true) {
             return redirect()->back()->with('success', __('pages.lesson-saved-success', [
                 'date' => date('d.m.Y', strtotime($lessonTime->date)),
@@ -92,6 +92,26 @@ class ScheduleController extends Controller
         } else {
             return redirect()->back()->withErrors(['request' => $response->message ?? '']);
         }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function lessonAbsent(Request $request)
+    {
+        $lessonId = $request->input('lesson_id', 0);
+        $date = $request->input('date', '');
+        $response = User::lessonAbsent($lessonId, $date);
+        $message = ($response->status ?? true) == false
+            ?   $response->message
+            :   __('pages.lesson-cancel-success');
+
+        return response()->json([
+            'status' => ($response->status ?? true) == true ? 'success' : 'error',
+            'message' => $message
+        ]);
     }
 
 }

@@ -8,6 +8,7 @@
     <title>{{ __('pages.' . $page) }} | {{ config('app.name') }}</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
 
     @if(\App\User::isAuth())
         <meta name="token" content="{{ \App\User::getToken() }}">
@@ -27,6 +28,8 @@
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/pages/support-center/faq-3.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/toastr/toastr.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/swal/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
 
     <!--end::Global Theme Styles -->
@@ -229,6 +232,8 @@
 <!--begin::Page Vendors(used by this page) -->
 <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/plugins/custom/gmaps/gmaps.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/plugins/custom/toastr/toastr.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/plugins/custom/swal/sweetalert.min.js') }}" type="text/javascript"></script>
 
 <!--end::Page Vendors -->
 
@@ -246,6 +251,10 @@
         type: '{{ __('pages.type') }}',
         teacher: '{{ __('pages.teacher') }}',
         status: '{{ __('pages.status') }}',
+        cancel: '{{ __('pages.cancel') }}',
+        yes: '{{ __('pages.yes') }}',
+        no: '{{ __('pages.no') }}',
+        lesson_cancel_alert: '{{ __('pages.lesson-cancel-alert') }}',
         no_payments: '{{ __('pages.no-payments') }}',
         no_reports: '{{ __('pages.no-reports') }}',
         no_lessons: '{{ __('pages.no-lessons') }}',
@@ -268,10 +277,12 @@
 
         today: '{{ __('daterange.today') }}',
         yesterday: '{{ __('daterange.yesterday') }}',
+        tomorrow: '{{ __('daterange.tomorrow') }}',
         last_7_days: '{{ __('daterange.last_7_days') }}',
         last_30_days: '{{ __('daterange.last_30_days') }}',
         this_month: '{{ __('daterange.this_month') }}',
         last_month: '{{ __('daterange.last_month') }}',
+        next_month: '{{ __('daterange.next_month') }}',
 
         daterangepicker_format: '{{ __('daterange.format') }}',
         daterangepicker_separator: '{{ __('daterange.separator') }}',

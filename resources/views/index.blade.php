@@ -118,7 +118,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-7 col-sm-7">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">

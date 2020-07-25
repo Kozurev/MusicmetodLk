@@ -207,10 +207,20 @@ class User
      * @param array $lessonData
      * @return \stdClass|null
      */
-    public static function saveLesson(array $lessonData)
+    public static function lessonSave(array $lessonData)
     {
         $lessonData[\App\Api\Schedule::PARAM_LESSON_CLIENT_ID] = self::current()->id;
-        return Api::instance()->saveLesson(self::getToken(), $lessonData);
+        return Api::instance()->lessonSave(self::getToken(), $lessonData);
+    }
+
+    /**
+     * @param int $lessonId
+     * @param string $date
+     * @return \stdClass|null
+     */
+    public static function lessonAbsent(int $lessonId, string $date)
+    {
+        return Api::instance()->lessonAbsent(self::getToken(), $lessonId, $date);
     }
 
 }
