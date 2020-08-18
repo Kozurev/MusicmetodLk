@@ -10,6 +10,9 @@ use App\Api\Schedule;
 
 class ScheduleController extends Controller
 {
+    /**
+     * ScheduleController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -63,6 +66,8 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Постановка в график (создание занятия)
+     *
      * @param NewLessonRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -96,6 +101,8 @@ class ScheduleController extends Controller
 
 
     /**
+     * Обработчик для AJAX запроса отмены занятия
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

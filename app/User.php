@@ -223,4 +223,31 @@ class User
         return Api::instance()->lessonAbsent(self::getToken(), $lessonId, $date);
     }
 
+    /**
+     * @param array $params
+     * @return \stdClass|null
+     */
+    public static function getAbsentPeriods(array $params = [])
+    {
+        return Api::instance()->getAbsentPeriods(self::getToken(), $params);
+    }
+
+    /**
+     * @param array $params
+     * @return \stdClass|null
+     */
+    public static function saveAbsentPeriod(array $params = [])
+    {
+        return Api::instance()->saveAbsentPeriod(self::getToken(), $params);
+    }
+
+    /**
+     * @param int $id
+     * @return \stdClass|null
+     */
+    public static function deleteAbsentPeriod(int $id)
+    {
+        return Api::instance()->deleteAbsentPeriod(self::getToken(), $id);
+    }
+
 }

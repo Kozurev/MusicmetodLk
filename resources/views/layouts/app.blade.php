@@ -74,49 +74,6 @@
                                 <img alt="Logo" src="{{ asset('assets/media/logos/logo-11.png') }}" />
                             </a>
                         </div>
-{{--                        <div class="kt-header__brand-nav">--}}
-{{--                            <div class="dropdown">--}}
-{{--                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                                    {{ __('pages.nav') }}--}}
-{{--                                </button>--}}
-{{--                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">--}}
-{{--                                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-margin-t-20 kt-margin-b-20">--}}
-{{--                                        <li class="kt-nav__item">--}}
-{{--                                            <a class="kt-nav__link active" href="{{ route('index') }}">--}}
-{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-icon flaticon2-architecture-and-city"></i></span>--}}
-{{--                                                <span class="kt-menu__link-text">{{ __('pages.main') }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                        <li class="kt-nav__separator"></li>--}}
-{{--                                        <li class="kt-nav__item">--}}
-{{--                                            <a class="kt-nav__link" href="{{ route('balance.index') }}">--}}
-{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-piggy-bank"><span>&nbsp;</span></i></span>--}}
-{{--                                                <span class="kt-menu__link-text">{{ __('pages.make-payment') }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                        <li class="kt-nav__item">--}}
-{{--                                            <a class="kt-nav__link" href="{{ route('rates.index') }}">--}}
-{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon2-shopping-cart-1"><span>&nbsp;</span></i></span>--}}
-{{--                                                <span class="kt-menu__link-text">{{ __('pages.buy-rates') }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                        <li class="kt-nav__separator"></li>--}}
-{{--                                        <li class="kt-nav__item">--}}
-{{--                                            <a class="kt-nav__link" href="{{ route('faq.index') }}">--}}
-{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-notes"><span>&nbsp;</span></i></span>--}}
-{{--                                                <span class="kt-menu__link-text">{{ __('pages.faq-info') }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                        <li class="kt-nav__item">--}}
-{{--                                            <a class="kt-nav__link" href="{{ route('faq.feedback') }}">--}}
-{{--                                                <span class="kt-nav__link-icon"><i class="kt-menu__link-bullet flaticon-speech-bubble"><span>&nbsp;</span></i></span>--}}
-{{--                                                <span class="kt-menu__link-text">{{ __('pages.faq-feedback') }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                     </div>
 
                     <div class="kt-header__topbar">
@@ -240,6 +197,7 @@
 <!--begin::Page Scripts(used by this page) -->
 <script src="{{ asset('assets/js/pages/dashboard.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/pages/lang.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/form.js') }}" type="text/javascript"></script>
 
 <script>
     var locales = {
@@ -254,11 +212,15 @@
         cancel: '{{ __('pages.cancel') }}',
         yes: '{{ __('pages.yes') }}',
         no: '{{ __('pages.no') }}',
+        actions: '{{ __('pages.actions') }}',
+        date_from: '{{ __('pages.date_from') }}',
+        date_to: '{{ __('pages.date_to') }}',
         lesson_cancel_alert: '{{ __('pages.lesson-cancel-alert') }}',
         no_payments: '{{ __('pages.no-payments') }}',
         no_reports: '{{ __('pages.no-reports') }}',
         no_lessons: '{{ __('pages.no-lessons') }}',
         no_rates: '{{ __('pages.no-rates') }}',
+        no_periods: '{{ __('pages.no-periods') }}',
         payment_type_1: '{{ \App\Api\Payment::getTypeName(1) }}',
         payment_type_2: '{{ \App\Api\Payment::getTypeName(2) }}',
         payment_type_3: '{{ \App\Api\Payment::getTypeName(3) }}',
@@ -312,6 +274,9 @@
         daterangepicker_month_october: '{{ __('daterange.month-october') }}',
         daterangepicker_month_november: '{{ __('daterange.month-november') }}',
         daterangepicker_month_december: '{{ __('daterange.month-december') }}',
+
+        absent_period_delete_alert: '{{ __('pages.absent-period-delete-alert') }}',
+        absent_period_delete_success: '{{ __('pages.absent-period-delete-success') }}',
     };
     var lang = new Lang(locales);
 </script>

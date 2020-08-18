@@ -30,7 +30,7 @@ Route::post('/rates/buy/{id}', 'RatesController@buyExecute')->name('rate.buy.exe
 
 Route::get('/schedule/time', 'ScheduleController@findTeacherTime')->name('schedule.find_teacher_time');
 Route::post('/schedule/makeLesson', 'ScheduleController@makeLesson')->name('schedule.make_lesson');
-Route::post('/schedule/lessonAbsent', 'ScheduleController@lessonAbsent')->name('schedule.absent_lesson');
+Route::post('/schedule/lesson-absent', 'ScheduleController@lessonAbsent')->name('schedule.absent_lesson');
 
 Route::get('/faq', 'FaqController@index')->name('faq.index');
 Route::get('/faq/feedback', 'FaqController@feedback')->name('faq.feedback');

@@ -12,7 +12,7 @@
                                 <h4 class="kt-widget24__title">{{ __('pages.balance') }}</h4>
                                 <span class="kt-widget24__desc">{{ __('pages.balance-tab-desc') }}</span>
                             </div>
-                            <span class="kt-widget24__stats kt-font-brand">
+                            <span class="kt-widget24__stats kt-font-brand" style="white-space: nowrap">
                                 {{ \App\Format::amount($user->balance->amount) }}
                                 <i class="fa fa-ruble-sign"></i>
                             </span>
@@ -56,7 +56,7 @@
                                 @if(!empty($nextLessons->date))
                                     @foreach($nextLessons->lessons as $lesson)
                                         <span class="kt-widget24__desc">
-                                            <br>{{ $lesson->area->title }}: {{ $lesson->refactored_time_from }} - {{ $lesson->refactored_time_to }}
+                                            <br>{{ $lesson->area->title }}: <span style="white-space: nowrap">{{ $lesson->refactored_time_from }} - {{ $lesson->refactored_time_to }}</span>
                                         </span>
                                     @endforeach
                                 @endif
@@ -78,7 +78,7 @@
     <!--end:: Widgets/Stats-->
 
     <div class="row">
-        <div class="col-md-7 col-sm-12">
+        <div class="col-md-8 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobil ">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
@@ -99,7 +99,59 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 col-sm-12">
+        <div class="col-md-4 col-sm-12">
+            <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title" >
+                            <i class="flaticon-event-calendar-symbol kt-font-brand"></i>
+                            &nbsp;{{ __('pages.schedule.absent_period') }}
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="javascript:$('#absentPeriodModal').modal();">
+                            {{ __('pages.add') }}
+                        </a>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fit">
+                    <div class="kt-datatable" id="kt_datatable_absent_periods"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title" style="width: 110px;">
+                            <i class="flaticon-event-calendar-symbol kt-font-brand"></i>
+                            &nbsp;{{ __('pages.schedule') }}
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a class="btn btn-primary btn-sm kt-subheader__btn-daterange" id="schedule_kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="{{ __('daterange.title') }}" data-placement="left">
+                            <span class="kt-subheader__btn-daterange-title" id="schedule_kt_dashboard_daterangepicker_title"></span>&nbsp;
+                            <span class="kt-subheader__btn-daterange-date" id="schedule_kt_dashboard_daterangepicker_date"></span>
+                        </a>
+                        <input type="hidden" class="form-control" id="schedule_kt_dashboard_daterangepicker_val">
+                        &nbsp;
+                        <a class="btn btn-success btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">
+                            {{ __('pages.get-teacher-time') }}
+                        </a>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fit">
+                    <div class="kt-datatable" id="kt_datatable_schedule"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
@@ -117,36 +169,43 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-7 col-sm-7">
-            <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            <i class="flaticon-event-calendar-symbol kt-font-brand"></i>
-                            &nbsp;{{ __('pages.schedule') }}
-                        </h3>
-                    </div>
-{{--                    <div class="kt-portlet__head-toolbar">--}}
-{{--                        <a class="btn btn-primary btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">--}}
-{{--                            {{ __('pages.get-teacher-time') }}--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-                    <div class="kt-portlet__head-toolbar">
-                        <a class="btn btn-primary btn-sm kt-subheader__btn-daterange" id="schedule_kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="{{ __('daterange.title') }}" data-placement="left">
-                            <span class="kt-subheader__btn-daterange-title" id="schedule_kt_dashboard_daterangepicker_title"></span>&nbsp;
-                            <span class="kt-subheader__btn-daterange-date" id="schedule_kt_dashboard_daterangepicker_date"></span>
-                        </a>
-                        <input type="hidden" class="form-control" id="schedule_kt_dashboard_daterangepicker_val">
-                        &nbsp;
-                        <a class="btn btn-success btn-sm" data-toggle="kt-tooltip" href="{{ route('schedule.find_teacher_time') }}">
-                            {{ __('pages.get-teacher-time') }}
-                        </a>
-                    </div>
+    <!--Модалка для создания периода отсутствия-->
+    <div class="modal fade" id="absentPeriodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('pages.absent-period-create-title') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="kt-portlet__body kt-portlet__body--fit">
-                    <div class="kt-datatable" id="kt_datatable_schedule"></div>
-                </div>
+                <form action="{{ route('schedule.absents.save') }}" method="POST" id="absentPeriodForm">
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ \App\User::getToken() }}">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <label for="period-date-from" class="form-label">{{ __('pages.absent-period-date-from') }}</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <input type="date" id="period-date-from" class="form-control" name="date_from">
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <label for="period-date-to" class="form-label">{{ __('pages.absent-period-date-to') }}</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <input type="date" id="period-date-to" class="form-control" name="date_to">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('pages.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('pages.create') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

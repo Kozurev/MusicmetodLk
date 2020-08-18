@@ -8,6 +8,7 @@ class Facade
 {
     const PARAM_ACTION = 'action';
     const PARAM_TOKEN = 'token';
+    const PARAM_ID = 'id';
     const PARAM_LOGIN = 'login';
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
@@ -20,6 +21,8 @@ class Facade
     const PARAM_DATE = 'date';
     const PARAM_LESSON_DURATION = 'lessonDuration';
     const PARAM_LESSON_ID = 'lessonId';
+    const PARAM_DATE_FROM = 'date_from';
+    const PARAM_DATE_TO = 'date_to';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -39,16 +42,19 @@ class Facade
     const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
     const ACTION_LESSON_SAVE = 'saveLesson';
     const ACTION_LESSON_ABSENT = 'markAbsent';
+    const ACTION_ABSENT_PERIOD_LIST = 'getAbsentPeriods';
+    const ACTION_ABSENT_PERIOD_SAVE = 'saveAbsentPeriod';
+    const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
 
     /**
-     * @var Facade
+     * @var Facade|null
      */
-    private static $_instance;
+    private static ?Facade $_instance = null;
 
     /**
      * @var string
      */
-    private $apiUrl;
+    private string $apiUrl;
 
     /**
      * @var string[]
@@ -69,6 +75,9 @@ class Facade
         self::ACTION_GET_TEACHER_NEAREST_TIME=>'/schedule/index.php',
         self::ACTION_LESSON_SAVE            => '/schedule/index.php',
         self::ACTION_LESSON_ABSENT          => '/schedule/index.php',
+        self::ACTION_ABSENT_PERIOD_LIST     => '/schedule/index.php',
+        self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
+        self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
     ];
 
     /**
@@ -83,7 +92,7 @@ class Facade
     /**
      * @return Facade
      */
-    public static function instance() : Facade
+    public static function instance() : self
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new self(env('SERVER_API_URL', ''));
@@ -360,6 +369,45 @@ class Facade
             self::PARAM_DATE => $date
         ];
         return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_ABSENT), $params, self::METHOD_POST);
+    }
+
+    /**
+     * @param string $token
+     * @param array $params
+     * @return \stdClass|null
+     */
+    public function getAbsentPeriods(string $token, array $params = [])
+    {
+        $params[self::PARAM_TOKEN] = $token;
+        $params[self::PARAM_ACTION] = self::ACTION_ABSENT_PERIOD_LIST;
+        return $this->makeRequest($this->makeUrl(self::ACTION_ABSENT_PERIOD_LIST), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param array $params
+     * @return \stdClass|null
+     */
+    public function saveAbsentPeriod(string $token, array $params = [])
+    {
+        $params[self::PARAM_TOKEN] = $token;
+        $params[self::PARAM_ACTION] = self::ACTION_ABSENT_PERIOD_SAVE;
+        return $this->makeRequest($this->makeUrl(self::ACTION_ABSENT_PERIOD_SAVE), $params, self::METHOD_POST);
+    }
+
+    /**
+     * @param string $token
+     * @param int $id
+     * @return \stdClass|null
+     */
+    public function deleteAbsentPeriod(string $token, int $id)
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_ABSENT_PERIOD_DELETE,
+            self::PARAM_ID => $id
+        ];
+        return $this->makeRequest($this->makeUrl(self::ACTION_ABSENT_PERIOD_DELETE), $params, self::METHOD_POST);
     }
 
 }

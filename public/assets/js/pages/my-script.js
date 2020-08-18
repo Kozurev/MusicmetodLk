@@ -6,6 +6,8 @@ const alert = Swal.mixin({
     buttonsStyling: false
 });
 
+var tablePageSizes = [5, 10, 20, 30, 50, 100];
+
 $(function() {
     //Таблица истории платежей
     if ($('#kt_datatable_payments_history').length != 0) {
@@ -35,7 +37,7 @@ $(function() {
             toolbar: {
                 items: {
                     pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
+                        pageSizeSelect: tablePageSizes
                     }
                 }
             },
@@ -150,7 +152,7 @@ $(function() {
             toolbar: {
                 items: {
                     pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
+                        pageSizeSelect: tablePageSizes
                     }
                 }
             },
@@ -244,7 +246,7 @@ $(function() {
             toolbar: {
                 items: {
                     pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
+                        pageSizeSelect: tablePageSizes
                     }
                 }
             },
@@ -271,10 +273,10 @@ $(function() {
                 field: "area_id",
                 title: lang.get('area'),
                 sortable: false,
-                width: 'auto',
+                width: 150,
                 //type: 'string',
                 class: 'dt-center',
-                autoHide: false,
+                autoHide: true,
                 template: function(data) {
                     let output = '';
                     $.each(data.lessons, function(key, lesson) {
@@ -285,11 +287,11 @@ $(function() {
             }, {
                 field: "teacher_id",
                 title: lang.get('teacher'),
-                width: 'auto',
+                width: 200,
                 sortable: false,
                 //type: 'string',
-                class: 'dt-center',
-                autoHide: false,
+                //class: 'dt-center',
+                autoHide: true,
                 template: function(data) {
                     let output = '';
                     $.each(data.lessons, function(key, lesson) {
@@ -300,11 +302,11 @@ $(function() {
             }, {
                 field: "time",
                 title: lang.get('time'),
-                width: 130,
+                width: 150,
                 sortable: true,
                 type: 'string',
                 class: 'dt-right',
-                autoHide: false,
+                autoHide: true,
                 template: function(data) {
                     let output = '<div style="width: 100%; text-align: right; margin-right: 25px">';
                     $.each(data.lessons, function(key, lesson) {
@@ -443,7 +445,7 @@ $(function() {
             toolbar: {
                 items: {
                     pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
+                        pageSizeSelect: tablePageSizes
                     }
                 }
             },
@@ -510,6 +512,102 @@ $(function() {
         });
     }
 
+    if ($('#kt_datatable_absent_periods').length != 0) {
+        $('#kt_datatable_absent_periods').KTDatatable({
+            data: {
+                type: 'remote',
+                source: {
+                    read: {
+                        url: '/api/schedule/absents/list',
+                        method: 'get',
+                        params: {
+                            token: $('meta[name=token]').attr('content')
+                        }
+                    },
+                },
+                perPage: 5,
+                pageSize: 5,
+                serverPaging: true,
+                serverFiltering: false,
+                serverSorting: false,
+            },
+            translate: {
+                records: {
+                    noRecords: lang.get('no_periods')
+                }
+            },
+            saveState: {
+                cookie: false,
+                webstorage: false
+            },
+            toolbar: {
+                items: {
+                    pagination: {
+                        pageSizeSelect: tablePageSizes
+                    }
+                }
+            },
+            layout: {
+                scroll: false,
+                height: 'auto',
+                footer: false
+            },
+            sortable: true,
+            filterable: false,
+            pagination: false,
+            columns: [{
+                field: "date_from",
+                title: lang.get('date_from'),
+                width: 70,
+                sortable: true,
+                type: 'string',
+                autoHide: false,
+                template: function(data) {
+                    return '<span>'+data.refactored_date_from+'</span>';
+                }
+            }, {
+                field: "date_to",
+                title: lang.get('date_to'),
+                width: 70,
+                sortable: true,
+                type: 'number',
+                className: 'dt-center',
+                template: function(data) {
+                    return '<span>'+data.refactored_date_to+'</span>';
+                }
+            }, {
+                field: "actions",
+                title: '',
+                width: 30,
+                autoHide: false,
+                sortable: false,
+                className: 'dt-center',
+                template: function(data, i) {
+                    return '<div style="width: 100%; text-align: right; margin-right: 25px">' +
+                                '<div class="dropdown" style="display: inline-block">' +
+                                    '<a data-toggle="dropdown" class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-expanded="false">' +
+                                        '<i class="la la-cog"></i>' +
+                                    '</a>' +
+                                    '<div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="display: none; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1474px, 531px, 0px);">' +
+                                        '<a href="#" class="dropdown-item absentPeriodDelete" data-id="'+data.id+'">' +
+                                            '<i class="flaticon2-trash"></i> '+lang.get('cancel')+
+                                        '</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+                }
+            }]
+        });
+    }
+
+    if ($('#absentPeriodForm').length !== 0) {
+        initAjaxForm('#absentPeriodForm', function (response) {
+            ajaxFormSuccessCallbackDefault(response);
+            $('#absentPeriodModal').modal('hide');
+            $('#kt_datatable_absent_periods').KTDatatable().reload();
+        });
+    }
+
     $(document)
         .on('click', '.lessonCancel', function(e) {
             e.preventDefault();
@@ -544,6 +642,38 @@ $(function() {
                         }
                     });
                 }
-            })
+            });
+        })
+        .on('click', '.absentPeriodDelete', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            alert.fire({
+                title: lang.get('absent_period_delete_alert'),
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: lang.get('yes'),
+                cancelButtonText: lang.get('no'),
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/schedule/absents/delete',
+                        dataType: 'json',
+                        data: {
+                            _token: $('meta[name=csrf_token]').attr('content'),
+                            token: $('meta[name=token]').attr('content'),
+                            id: id
+                        },
+                        success: function(response) {
+                            alert.fire({
+                                type: response.status,
+                                title: response.message
+                            });
+                            $('#kt_datatable_absent_periods').KTDatatable().reload();
+                        }
+                    });
+                }
+            });
         });
 });
