@@ -672,6 +672,7 @@ $(function() {
                                 title: response.message
                             });
                             $('#kt_datatable_absent_periods').KTDatatable().reload();
+                            $('#kt_datatable_schedule').KTDatatable().reload();
                         }
                     });
                 }
