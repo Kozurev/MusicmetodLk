@@ -331,42 +331,42 @@ $(function() {
     }
 
     //Указатель периода для занятий
-    if ($('#schedule_kt_dashboard_daterangepicker').length != 0) {
-        let picker = $('#schedule_kt_dashboard_daterangepicker');
-        let format = 'D.MM.YYYY';
-        let start = moment();
-        let end = moment();
+    let $scheduleRangePicker = $('#schedule_kt_dashboard_daterangepicker');
+    if ($scheduleRangePicker.length !== 0) {
+        let
+            $scheduleTable = $('#kt_datatable_schedule'),
+            format = 'DD.MM.YYYY',
+            start = moment(),
+            end = moment().add(6, 'days');
 
         function cb(start, end, label) {
             var title = '';
             var range = '';
 
-            if ((end - start) < 100 || label == lang.get('today')) {
-                title = lang.get('today');
-                range = start.format(format);
-            } else if (label == lang.get('yesterday')) {
-                title = lang.get('yesterday');
-                range = start.format(format);
-            } else {
+            if (label !== lang.get('daterangepicker_customRangeLabel')) {
+                if (label === '') {
+                    label = lang.get('week');
+                }
+                title = label;
                 range = start.format(format) + ' - ' + end.format(format);
             }
 
             $('#schedule_kt_dashboard_daterangepicker_title').html(range);
             $('#schedule_kt_dashboard_daterangepicker_date').html(title);
-            //$('#schedule_kt_dashboard_daterangepicker_val').val(range);
-            if (label != '') {
-                $('#kt_datatable_schedule').KTDatatable().spinnerCallback(true);
-                $('#kt_datatable_schedule').KTDatatable().search(range, 'date');
+            if (label !== '') {
+                $scheduleTable.KTDatatable().spinnerCallback(true);
+                $scheduleTable.KTDatatable().search(range, 'date');
             }
         }
 
         let ranges = {};
-        ranges[lang.get('today')] = [moment(), moment()];
-        ranges[lang.get('tomorrow')] = [moment().add(1, 'days'), moment().add(1, 'days')];
+        //ranges[lang.get('today')] = [moment(), moment()];
+        //ranges[lang.get('tomorrow')] = [moment().add(1, 'days'), moment().add(1, 'days')];
         ranges[lang.get('last_7_days')] = [moment(), moment().add(6, 'days')];
         ranges[lang.get('last_30_days')] = [moment(), moment().add(29, 'days')];
         ranges[lang.get('this_month')] = [moment().startOf('month'), moment().endOf('month')];
-        ranges[lang.get('next_month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+        //ranges[lang.get('next_month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+        ranges[lang.get('next_month')] = [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')];
 
         let locales = {
             "format": lang.get('daterangepicker_format'),
@@ -402,7 +402,7 @@ $(function() {
             "firstDay": 1
         };
 
-        picker.daterangepicker({
+        $scheduleRangePicker.daterangepicker({
             direction: KTUtil.isRTL(),
             startDate: start,
             endDate: end,
@@ -605,6 +605,7 @@ $(function() {
             ajaxFormSuccessCallbackDefault(response);
             $('#absentPeriodModal').modal('hide');
             $('#kt_datatable_absent_periods').KTDatatable().reload();
+            $('#kt_datatable_schedule').KTDatatable().reload();
         });
     }
 
@@ -625,7 +626,7 @@ $(function() {
                 if (result.value) {
                     $.ajax({
                         type: 'POST',
-                        url: '/schedule/lessonAbsent',
+                        url: '/schedule/lesson-absent',
                         dataType: 'json',
                         data: {
                             _token: $('meta[name=csrf_token]').attr('content'),
