@@ -199,6 +199,10 @@
 <script src="{{ asset('assets/js/pages/lang.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/form.js') }}" type="text/javascript"></script>
 
+@if(!empty(\App\Config::instance()->getJivoLink()))
+    <script src="{{ \App\Config::instance()->getJivoLink() }}"></script>
+@endif
+
 <script>
     var locales = {
         area: '{{ __('pages.area') }}',

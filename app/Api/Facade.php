@@ -23,6 +23,7 @@ class Facade
     const PARAM_LESSON_ID = 'lessonId';
     const PARAM_DATE_FROM = 'date_from';
     const PARAM_DATE_TO = 'date_to';
+    const PARAM_CONFIG_TAG = 'tag';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -45,6 +46,7 @@ class Facade
     const ACTION_ABSENT_PERIOD_LIST = 'getAbsentPeriods';
     const ACTION_ABSENT_PERIOD_SAVE = 'saveAbsentPeriod';
     const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
+    const ACTION_CONFIG_GET = 'config_get';
 
     /**
      * @var Facade|null
@@ -78,6 +80,7 @@ class Facade
         self::ACTION_ABSENT_PERIOD_LIST     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
+        self::ACTION_CONFIG_GET             => '/config/index.php',
     ];
 
     /**
@@ -140,6 +143,31 @@ class Facade
         }
         curl_close($ch);
         return $result;
+    }
+
+    /**
+     * @param $response
+     * @return string
+     */
+    public static function getResponseErrorMessage($response) : string
+    {
+        if ($response->message ?? '') {
+            return strval($response->message);
+        } else {
+            return self::getErrorMessage($response->error ?? null);
+        }
+    }
+
+    /**
+     * @param int|null $error
+     * @return string
+     */
+    public static function getErrorMessage(int $error = null) : string
+    {
+        $langTag = !is_null($error)
+            ?   'errors.' . $error
+            :   'error-undefined';
+        return __('api.' . $langTag);
     }
 
     /**
@@ -408,6 +436,21 @@ class Facade
             self::PARAM_ID => $id
         ];
         return $this->makeRequest($this->makeUrl(self::ACTION_ABSENT_PERIOD_DELETE), $params, self::METHOD_POST);
+    }
+
+    /**
+     * @param string $token
+     * @param string $configTag
+     * @return \stdClass|null
+     */
+    public function getConfig(string $token, string $configTag)
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_CONFIG_GET,
+            self::PARAM_CONFIG_TAG => $configTag
+        ];
+        return $this->makeRequest($this->makeUrl(self::ACTION_CONFIG_GET), $params, self::METHOD_GET);
     }
 
 }

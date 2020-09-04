@@ -13,4 +13,6 @@ return [
 
     'report-attendance-0' => 'Отсутствовал(а)',
     'report-attendance-1' => 'Присутствовал(а)',
+
+    'error-undefined' => 'Неизвестная ошибка API',
 ];
