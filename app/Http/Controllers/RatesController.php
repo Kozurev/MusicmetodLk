@@ -8,20 +8,26 @@ use Illuminate\Http\Request;
 
 class RatesController extends Controller
 {
+    /**
+     * RatesController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        User::fresh();
-        $user = User::current();
-
-        return view('rates.index', compact('user'));
+        return view('rates.index');
     }
 
-
+    /**
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function buyPrepare(int $id)
     {
         User::fresh();
@@ -36,15 +42,18 @@ class RatesController extends Controller
             $error = __('pages.not-enough-money-for-buy');
         }
 
-        return view('rates.buy_prepare', compact('user', 'error', 'rate'));
+        return view('rates.buy_prepare', compact('error', 'rate'));
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function buyExecute(Request $request, int $id)
     {
         $result = User::buyRate($id);
-        User::fresh();
-        $user = User::current();
-        return view('rates.buy_result', compact('user', 'result'));
+        return view('rates.buy_result', compact('result'));
     }
 
 }

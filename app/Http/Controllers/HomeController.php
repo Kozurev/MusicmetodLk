@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
+    /**
+     * HomeController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        User::fresh();
-        $user = User::current();
         $nextLessons = User::getNextLessons();
-        return view('index', compact('user', 'nextLessons'));
+        return view('index', compact('nextLessons'));
     }
 }

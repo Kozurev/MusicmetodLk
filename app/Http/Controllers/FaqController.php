@@ -14,15 +14,6 @@ class FaqController extends Controller
 
     public function index()
     {
-        User::fresh();
-        $user = User::current();
-        return view('faq.index', compact('user'));
-    }
-
-    public function feedback()
-    {
-        User::fresh();
-        $user = User::current();
-        return view('faq.feedback', compact('user'));
+        return view('faq.index');
     }
 }

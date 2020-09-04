@@ -33,4 +33,3 @@ Route::post('/schedule/makeLesson', 'ScheduleController@makeLesson')->name('sche
 Route::post('/schedule/lesson-absent', 'ScheduleController@lessonAbsent')->name('schedule.absent_lesson');
 
 Route::get('/faq', 'FaqController@index')->name('faq.index');
-Route::get('/faq/feedback', 'FaqController@feedback')->name('faq.feedback');

@@ -14,18 +14,23 @@ class BalanceController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        User::fresh();
-        $user = User::current();
-        return view('balance.index', compact('user'));
+        return view('balance.index');
     }
 
+    /**
+     * @param DepositRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function makeDeposit(DepositRequest $request)
     {
         $amount = intval($request->input('amount', 0)) * 100;
         $response = User::makeDeposit($amount);
-        //dd($response);
+
         if (is_null($response) || !is_null($response->errorCode ?? null)) {
             return redirect()->back()->withErrors([__('pages.error-deposit')]);
         } else {
@@ -33,20 +38,22 @@ class BalanceController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function depositSuccess(Request $request)
     {
-        User::fresh();
-        $user = User::current();
         $amount = Payment::format(floatval($request->input('amount')));
-        return view('balance.deposit_success', compact('user', 'amount'));
+        return view('balance.deposit_success', compact('amount'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function depositError()
     {
-        User::fresh();
-        $user = User::current();
-        return view('balance.deposit_error', compact('user'));
+        return view('balance.deposit_error');
     }
 
 }

@@ -189,8 +189,8 @@
 <!--begin::Page Vendors(used by this page) -->
 <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/plugins/custom/gmaps/gmaps.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/plugins/custom/toastr/toastr.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/plugins/custom/swal/sweetalert.min.js') }}" type="text/javascript"></script>
+{{--<script src="{{ asset('assets/plugins/custom/toastr/toastr.js') }}" type="text/javascript"></script>--}}
+{{--<script src="{{ asset('assets/plugins/custom/swal/sweetalert.min.js') }}" type="text/javascript"></script>--}}
 
 <!--end::Page Vendors -->
 

@@ -26,8 +26,6 @@ class ScheduleController extends Controller
      */
     public function findTeacherTime(Request $request)
     {
-        User::fresh();
-        $user = User::current();
         $errors = [];
         $teacherId = intval($request->input('teacherId', 0));
         $date = $request->input('date', Carbon::tomorrow()->format('Y-m-d'));
@@ -61,7 +59,7 @@ class ScheduleController extends Controller
             }
         }
 
-        return view('schedule.time', compact('user', 'teachers', 'teacherSchedule', 'teacherNearestTime', 'date', 'scheduleTeacherId'))
+        return view('schedule.time', compact('teachers', 'teacherSchedule', 'teacherNearestTime', 'date', 'scheduleTeacherId'))
             ->with(['customErrors' => collect($errors)]);
     }
 
