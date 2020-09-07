@@ -199,7 +199,7 @@
 <script src="{{ asset('assets/js/pages/lang.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/form.js') }}" type="text/javascript"></script>
 
-@if(!empty(\App\Config::instance()->getJivoLink()))
+@if(\Request::route()->getName() == 'faq.index' && !empty(\App\Config::instance()->getJivoLink()))
     <script src="{{ \App\Config::instance()->getJivoLink() }}"></script>
 @endif
 

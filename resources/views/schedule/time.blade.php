@@ -50,6 +50,14 @@
                                     </div>
                                 </div>
                             @endif
+                            <div class="kt-pricing-1__items row mb-4">
+                                <div class="col-lg-12 col-xl-12 text-center">
+                                    <a href="{{ route('index') }}" class="btn btn-danger btn-bold">{{ __('pages.cancel') }}</a>
+                                    <button type="submit" class="btn btn-primary btn-bold">
+                                        {{ __('pages.get-teacher-time-btm') }}
+                                    </button>
+                                </div>
+                            </div>
                             <div class="kt-pricing-1__items row">
                                 <div class="col-lg-12">
                                     <div class="alert alert-secondary" role="alert">
@@ -92,18 +100,10 @@
                                         <div class="alert alert-outline-primary fade show" role="alert">
                                             <div class="alert-icon"><i class="flaticon-warning"></i></div>
                                             <div class="alert-text">
-                                                {{ __('pages.schedule-time-description') }}
+                                                {!! __('pages.schedule-time-description', ['tel' => \App\Config::instance()->getManagerPhoneNumber()]) !!}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="kt-pricing-1__items row">
-                                <div class="col-lg-12 col-xl-12 text-center">
-                                    <a href="{{ route('index') }}" class="btn btn-danger btn-bold">{{ __('pages.cancel') }}</a>
-                                    <button type="submit" class="btn btn-primary btn-bold">
-                                        {{ __('pages.get-teacher-time-btm') }}
-                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -152,7 +152,19 @@
                                         $teacher = $teachers->where('id', '=', $scheduleTeacherId)->first();
                                         $teacherFio = $teacher->surname . ' ' . $teacher->name;
                                     @endphp
-                                    @if(count($teacherNearestTime) == 0)
+                                    @if(is_null($date))
+                                        <div class="alert alert-warning fade show" role="alert">
+                                            <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                                            <div class="alert-text">
+                                                {{ __('pages.error-date-empty') }}
+                                            </div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true"><i class="la la-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @elseif(count($teacherNearestTime) == 0)
                                         <div class="alert alert-warning fade show" role="alert">
                                             <div class="alert-icon"><i class="flaticon-warning"></i></div>
                                             <div class="alert-text">

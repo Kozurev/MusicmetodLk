@@ -7,6 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Api\Schedule;
+use App\Api\Facade as Api;
 
 class ScheduleController extends Controller
 {
@@ -28,13 +29,20 @@ class ScheduleController extends Controller
     {
         $errors = [];
         $teacherId = intval($request->input('teacherId', 0));
-        $date = $request->input('date', Carbon::tomorrow()->format('Y-m-d'));
-        $date = Carbon::parse($date)->format('Y-m-d');
+        $date = $request->input('date', null);
+        $teachers = [];
+        $teacherSchedule = [];
+        $teacherNearestTime = [];
+        $scheduleTeacherId = null;
+
+        if (!is_null($date)) {
+            $date = Carbon::parse($date)->format('Y-m-d');
+        }
 
         //Получение списка преподавателей клиента
         $teachersResponse = User::getTeachers();
         if ($teachersResponse->status == false) {
-            $errors['teachers'] = $teachersResponse->message ?? '';
+            $errors['teachers'] = Api::getResponseErrorMessage($teachersResponse);
         } else {
             $teachers = collect($teachersResponse->teachers ?? []);
             if (count($teachers) == 0) {
@@ -46,14 +54,16 @@ class ScheduleController extends Controller
                 $scheduleTeacherId = !empty($teacherId) ? $teacherId : $teachers[0]->id ?? 0;
                 $teacherSchedule = User::getTeacherSchedule($scheduleTeacherId);
                 if ($teacherSchedule->status == false) {
-                    $errors['teacher_schedule'] = $teacherSchedule->message ?? '';
+                    $errors['teacher_schedule'] = Api::getResponseErrorMessage($teacherSchedule);
                 } else {
                     $teacherSchedule = (array)$teacherSchedule->schedule;
                     if (empty($teacherSchedule)) {
                         $errors['teacher_schedule'] = __('pages.error-teacher-schedule-empty');
                     } else {
                         //Получение возможного времени занятия преподавателя
-                        $teacherNearestTime = User::getTeacherNearestTime($scheduleTeacherId, $date);
+                        if (!is_null($date)) {
+                            $teacherNearestTime = User::getTeacherNearestTime($scheduleTeacherId, $date);
+                        }
                     }
                 }
             }

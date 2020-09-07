@@ -54,7 +54,7 @@
                             {{ __('login.title', ['app_name' => config('app.name')]) }}
                         </h3>
                         <h4 class="kt-login__subtitle">
-                            {{ __('login.description') }}
+                            {!! __('login.description', ['tel' => \App\Config::instance()->getManagerPhoneNumber()])  !!}
                         </h4>
                     </div>
                 </div>
@@ -67,12 +67,12 @@
                             <a href="{{ config('app.official_site') }}" target="_blank" class="kt-link">
                                 {{ __('login.official-site') }}
                             </a>
-{{--                            <a href="{{ config('app.policy_link') }}" target="_blank" class="kt-link">--}}
-{{--                                {{ __('login.policy') }}--}}
-{{--                            </a>--}}
-{{--                            <a href="{{ config('app.oferta_link') }}" target="_blank" class="kt-link">--}}
-{{--                                {{ __('login.oferta') }}--}}
-{{--                            </a>--}}
+                            <a href="{{ config('app.policy_link') }}" target="_blank" class="kt-link">
+                                {{ __('login.policy') }}
+                            </a>
+                            <a href="{{ config('app.oferta_link') }}" target="_blank" class="kt-link">
+                                {{ __('login.oferta') }}
+                            </a>
                         </div>
                     </div>
                 </div>

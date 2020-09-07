@@ -200,8 +200,8 @@
                 </div>
                 <div id="faq1" class="collapse show" aria-labelledby="faqHeading1" data-parent="#faq">
                     <div class="card-body">
-                        <video width="480" controls poster="https://ecommercenews.eu/wp-content/uploads/2013/06/most_common_payment_methods_in_europe.png" >
-                            <source src="{{ url('storage/faq-payment.avi') }}" type="video/avi">
+                        <video width="480" controls >
+                            <source src="{{ url('public/storage/faq-payment.mp4') }}" type="video/mp4">
                         </video>
                     </div>
                 </div>
@@ -220,8 +220,8 @@
                 </div>
                 <div id="faq2" class="collapse" aria-labelledby="faqHeading2" data-parent="#faq">
                     <div class="card-body">
-                        <video width="480" controls poster="https://ecommercenews.eu/wp-content/uploads/2013/06/most_common_payment_methods_in_europe.png" >
-                            <source src="{{ url('storage/faq-schedule.avi') }}" type="video/avi">
+                        <video width="480" controls >
+                            <source src="{{ url('public/storage/faq-schedule.mp4') }}" type="video/mp4">
                         </video>
                     </div>
                 </div>

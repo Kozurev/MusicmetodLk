@@ -82,4 +82,12 @@ class Config
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getManagerPhoneNumber()
+    {
+        return '+79092012550';
+    }
+
 }
