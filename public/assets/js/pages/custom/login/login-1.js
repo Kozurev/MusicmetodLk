@@ -52,7 +52,7 @@ var KTLoginV1 = function () {
                     KTApp.unprogress(btn[0]);
                     if (response.status === false) {
                         showErrorMsg(form, 'danger', response.message);
-                    } else {
+                    } else if (response.redirect_url !== undefined) {
                         window.location.href = response.redirect_url;
                     }
 				}

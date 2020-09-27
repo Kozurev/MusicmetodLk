@@ -26,7 +26,7 @@ class User
     {
         $response = Api::instance()->auth($login, $password);
         if ($response->token ?? null) {
-            Cookie::queue(self::COOKIE_TOKEN_KEY, $response->token, 60*60*24*30);
+            self::storeAuthToken($response->token);
             return true;
         } else {
             self::setError(__('user.error-' . ($response->errors[0] ?? '')));
@@ -34,9 +34,14 @@ class User
         }
     }
 
+    public static function storeAuthToken(string $token)
+    {
+        Cookie::queue(self::COOKIE_TOKEN_KEY, $token, 60*60*24*30);
+    }
+
     public static function logout()
     {
-        Cookie::forget(self::COOKIE_TOKEN_KEY);
+        Cookie::queue(Cookie::forget(self::COOKIE_TOKEN_KEY));
     }
 
     /**
@@ -60,19 +65,21 @@ class User
      */
     public static function getToken() : string
     {
-        if (!empty(request()->input(self::REQUEST_TOKEN, ''))) {
-            return request()->input(self::REQUEST_TOKEN, '');
+        $requestToken = request()->input(self::REQUEST_TOKEN, null);
+        if (!empty($requestToken)) {
+            self::storeAuthToken($requestToken);
+            return $requestToken;
         }
         return Cookie::has(self::COOKIE_TOKEN_KEY) ? Cookie::get(self::COOKIE_TOKEN_KEY) : '';
     }
 
     /**
      * @param string $token
-     * @return |null
+     * @return \stdClass|null
      */
     public static function getByToken(string $token)
     {
-        $userData = Api::instance()->getUser(self::getToken());
+        $userData = Api::instance()->getUser($token);
         if (is_null($userData)) {
             return null;
         }
@@ -94,7 +101,6 @@ class User
         }
         if (!session()->has(self::SESSION_USER_DATA)) {
             session()->put(self::SESSION_USER_DATA, self::getByToken(self::getToken()));
-            //Session::save();
         }
         return session()->get(self::SESSION_USER_DATA);
     }
