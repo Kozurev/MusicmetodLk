@@ -30,7 +30,7 @@ class ScheduleController extends Controller
         $errors = [];
         $teacherId = intval($request->input('teacherId', 0));
         $date = $request->input('date', null);
-        $teachers = [];
+        $teachers = collect([]);
         $teacherSchedule = [];
         $teacherNearestTime = [];
         $scheduleTeacherId = null;

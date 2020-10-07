@@ -150,7 +150,7 @@
                                 <div class="col-lg-12 col-xl-12">
                                     @php
                                         $teacher = $teachers->where('id', '=', $scheduleTeacherId)->first();
-                                        $teacherFio = $teacher->surname . ' ' . $teacher->name;
+                                        $teacherFio = !is_null($teacher) ? $teacher->surname . ' ' . $teacher->name : '';
                                     @endphp
                                     @if(is_null($date))
                                         <div class="alert alert-warning fade show" role="alert">
