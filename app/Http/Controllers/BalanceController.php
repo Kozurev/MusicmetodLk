@@ -32,7 +32,7 @@ class BalanceController extends Controller
         $response = User::makeDeposit($amount);
 
         if (is_null($response) || !is_null($response->errorCode ?? null)) {
-            return redirect()->back()->withErrors([__('pages.error-deposit')]);
+            return redirect()->back()->withErrors([$response->errorMessage ?? __('pages.error-deposit')]);
         } else {
             return redirect($response->formUrl);
         }
