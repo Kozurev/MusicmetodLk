@@ -8,9 +8,10 @@ const alert = Swal.mixin({
 
 var tablePageSizes = [5, 10, 20, 30, 50, 100];
 
+
 $(function() {
     //Таблица истории платежей
-    if ($('#kt_datatable_payments_history').length != 0) {
+    if ($('#kt_datatable_payments_history').length !== 0) {
         $('#kt_datatable_payments_history').KTDatatable({
             data: {
                 type: 'remote',
@@ -31,7 +32,7 @@ $(function() {
             },
             translate: {
                 records: {
-                    noRecords: lang.get('no_payments')
+                    noRecords: lang('no_payments')
                 }
             },
             toolbar: {
@@ -51,11 +52,10 @@ $(function() {
                 footer: false
             },
             sortable: true,
-            filterable: false,
             pagination: true,
             columns: [{
                 field: "datetime",
-                title: lang.get('date'),
+                title: lang('date'),
                 width: 55,
                 sortable: true,
                 autoHide: false,
@@ -64,39 +64,39 @@ $(function() {
                 }
             }, {
                 field: "type",
-                title: lang.get('type'),
+                title: lang('type'),
                 width: 100,
                 autoHide: false,
                 sortable: true,
                 className: 'dt-center',
                 template: function(data, i) {
                     let statusClass = '';
-                    switch (data.type) {
-                        case '1': statusClass = 'btn-label-success';    break;
-                        case '2': statusClass = 'btn-label-danger';     break;
+                    switch (Number(data.type)) {
+                        case 1: statusClass = 'btn-label-success';    break;
+                        case 2: statusClass = 'btn-label-danger';     break;
                         default:  statusClass = 'btn-label-warning';    break;
                     }
-                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('payment_type_' + data.type)+'</span>';
+                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang('payment_type_' + data.type)+'</span>';
                 }
             }, {
                 field: "status",
-                title: lang.get('status'),
+                title: lang('status'),
                 width: 'auto',
                 autoHide: false,
                 sortable: true,
                 className: 'dt-center',
                 template: function(data, i) {
                     let statusClass = '';
-                    switch (data.status) {
-                        case '1': statusClass = 'btn-label-success';    break;
-                        case '2': statusClass = 'btn-label-danger';     break;
+                    switch (Number(data.status)) {
+                        case 1: statusClass = 'btn-label-success';    break;
+                        case 2: statusClass = 'btn-label-danger';     break;
                         default:  statusClass = 'btn-label-warning';    break;
                     }
-                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('payment_status_' + data.status)+'</span>';
+                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang('payment_status_' + data.status)+'</span>';
                 }
             }, {
                 field: "value",
-                title: lang.get('amount'),
+                title: lang('amount'),
                 width: 60,
                 sortable: true,
                 className: 'dt-center',
@@ -105,7 +105,7 @@ $(function() {
                 }
             }, {
                 field: "description",
-                title: lang.get('note'),
+                title: lang('note'),
                 width: 'auto',
                 sortable: false,
                 type: 'string',
@@ -117,7 +117,8 @@ $(function() {
         });
     }
 
-    if ($('#kt_datatable_schedule_history').length != 0) {
+    //Таблица истории посещения занятий клиентом
+    if ($('#kt_datatable_schedule_history').length !== 0) {
         $('#kt_datatable_schedule_history').KTDatatable({
             data: {
                 type: 'remote',
@@ -138,7 +139,7 @@ $(function() {
             },
             translate: {
                 records: {
-                    noRecords: lang.get('no_reports')
+                    noRecords: lang('no_reports')
                 }
             },
             saveState: {
@@ -166,7 +167,7 @@ $(function() {
             pagination: true,
             columns: [{
                 field: "date",
-                title: lang.get('date'),
+                title: lang('date'),
                 width: 60,
                 sortable: true,
                 type: 'string',
@@ -176,7 +177,7 @@ $(function() {
                 }
             }, {
                 field: "time",
-                title: lang.get('time'),
+                title: lang('time'),
                 width: 80,
                 sortable: false,
                 type: 'string',
@@ -186,23 +187,23 @@ $(function() {
                 }
             }, {
                 field: "attendance",
-                title: lang.get('status'),
+                title: lang('status'),
                 width: 'auto',
                 autoHide: false,
                 sortable: false,
                 className: 'dt-center',
                 template: function(data, i) {
                     let statusClass = '';
-                    switch (data.attendance) {
-                        case '1': statusClass = 'btn-label-success';    break;
-                        case '0': statusClass = 'btn-label-danger';     break;
+                    switch (Number(data.attendance)) {
+                        case 1: statusClass = 'btn-label-success';    break;
+                        case 0: statusClass = 'btn-label-danger';     break;
                         default:  statusClass = 'btn-label-warning';    break;
                     }
-                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang.get('report_attendance_' + data.attendance)+'</span>';
+                    return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang('report_attendance_' + data.attendance)+'</span>';
                 }
             }, {
                 field: "teacher_id",
-                title: lang.get('teacher'),
+                title: lang('teacher'),
                 width: 'auto',
                 sortable: true,
                 type: 'string',
@@ -215,7 +216,7 @@ $(function() {
     }
 
     //Таблица расписания
-    if ($('#kt_datatable_schedule').length != 0) {
+    if ($('#kt_datatable_schedule').length !== 0) {
         $('#kt_datatable_schedule').KTDatatable({
             data: {
                 type: 'remote',
@@ -236,7 +237,7 @@ $(function() {
             },
             translate: {
                 records: {
-                    noRecords: lang.get('no_lessons')
+                    noRecords: lang('no_lessons')
                 }
             },
             saveState: {
@@ -260,10 +261,9 @@ $(function() {
             pagination: false,
             columns: [{
                 field: "date",
-                title: lang.get('date'),
+                title: lang('date'),
                 width: 100,
                 sortable: false,
-                //type: 'string',
                 class: 'dt-center',
                 autoHide: false,
                 template: function(data) {
@@ -271,44 +271,41 @@ $(function() {
                 }
             }, {
                 field: "area_id",
-                title: lang.get('area'),
+                title: lang('area'),
                 sortable: false,
                 width: 150,
-                //type: 'string',
                 class: 'dt-center',
                 autoHide: true,
                 template: function(data) {
                     let output = '';
                     $.each(data.lessons, function(key, lesson) {
-                        output += '<p>'+ lesson.area +'</p>';
+                        output += '<p>'+ lesson.area.title +'</p>';
                     });
                     return output;
                 }
             }, {
                 field: "teacher_id",
-                title: lang.get('teacher'),
+                title: lang('teacher'),
                 width: 200,
                 sortable: false,
-                //type: 'string',
-                //class: 'dt-center',
                 autoHide: true,
                 template: function(data) {
                     let output = '';
                     $.each(data.lessons, function(key, lesson) {
-                        output += '<p>'+ lesson.teacher +'</p>';
+                        output += '<p>'+ lesson.teacher.surname + ' ' + lesson.teacher.name +'</p>';
                     });
                     return output;
                 }
             }, {
                 field: "time",
-                title: lang.get('time'),
+                title: lang('time'),
                 width: 150,
                 sortable: true,
                 type: 'string',
-                class: 'dt-right',
+                // class: 'dt-right',
                 autoHide: true,
                 template: function(data) {
-                    let output = '<div style="width: 100%; text-align: right; margin-right: 25px">';
+                    let output = '<div style="width: 100%; text-align: left; margin-right: 25px">';
                     $.each(data.lessons, function(key, lesson) {
                         output += ''+lesson.refactored_time_from + ' ' + lesson.refactored_time_to + '';
                         output += '<div class="dropdown" style="display: inline-block">' +
@@ -317,7 +314,7 @@ $(function() {
                                         '</a>' +
                                     '<div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="display: none; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1474px, 531px, 0px);">' +
                                         '<a href="#" class="dropdown-item lessonCancel" data-lesson="'+lesson.id+'" data-date="'+data.date+'">' +
-                                            '<i class="flaticon-circle"></i> '+lang.get('cancel')+
+                                            '<i class="flaticon-circle"></i> '+lang('cancel')+
                                         '</a>' +
                                     '</div>' +
                                 '</div>';
@@ -343,9 +340,9 @@ $(function() {
             var title = '';
             var range = '';
 
-            if (label !== lang.get('daterangepicker_customRangeLabel')) {
+            if (label !== lang('daterangepicker_customRangeLabel')) {
                 if (label === '') {
-                    label = lang.get('week');
+                    label = lang('week');
                 }
                 title = label;
                 range = start.format(format) + ' - ' + end.format(format);
@@ -360,47 +357,10 @@ $(function() {
         }
 
         let ranges = {};
-        //ranges[lang.get('today')] = [moment(), moment()];
-        //ranges[lang.get('tomorrow')] = [moment().add(1, 'days'), moment().add(1, 'days')];
-        ranges[lang.get('last_7_days')] = [moment(), moment().add(6, 'days')];
-        ranges[lang.get('last_30_days')] = [moment(), moment().add(29, 'days')];
-        ranges[lang.get('this_month')] = [moment().startOf('month'), moment().endOf('month')];
-        //ranges[lang.get('next_month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-        ranges[lang.get('next_month')] = [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')];
-
-        let locales = {
-            "format": lang.get('daterangepicker_format'),
-            "separator": lang.get('daterangepicker_separator'),
-            "applyLabel": lang.get('daterangepicker_applyLabel'),
-            "cancelLabel": lang.get('daterangepicker_cancelLabel'),
-            "fromLabel": lang.get('daterangepicker_fromLabel'),
-            "toLabel": lang.get('daterangepicker_toLabel'),
-            "customRangeLabel": lang.get('daterangepicker_customRangeLabel'),
-            "daysOfWeek": [
-                lang.get('daterangepicker_day_sunday'),
-                lang.get('daterangepicker_day_monday'),
-                lang.get('daterangepicker_day_tuesday'),
-                lang.get('daterangepicker_day_wednesday'),
-                lang.get('daterangepicker_day_thursday'),
-                lang.get('daterangepicker_day_friday'),
-                lang.get('daterangepicker_day_saturday'),
-            ],
-            "monthNames": [
-                lang.get('daterangepicker_month_january'),
-                lang.get('daterangepicker_month_february'),
-                lang.get('daterangepicker_month_march'),
-                lang.get('daterangepicker_month_april'),
-                lang.get('daterangepicker_month_may'),
-                lang.get('daterangepicker_month_june'),
-                lang.get('daterangepicker_month_july'),
-                lang.get('daterangepicker_month_august'),
-                lang.get('daterangepicker_month_september'),
-                lang.get('daterangepicker_month_october'),
-                lang.get('daterangepicker_month_november'),
-                lang.get('daterangepicker_month_december'),
-            ],
-            "firstDay": 1
-        };
+        ranges[lang('last_7_days')] = [moment(), moment().add(6, 'days')];
+        ranges[lang('last_30_days')] = [moment(), moment().add(29, 'days')];
+        ranges[lang('this_month')] = [moment().startOf('month'), moment().endOf('month')];
+        ranges[lang('next_month')] = [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')];
 
         $scheduleRangePicker.daterangepicker({
             direction: KTUtil.isRTL(),
@@ -408,12 +368,12 @@ $(function() {
             endDate: end,
             opens: 'left',
             ranges: ranges,
-            locale: locales
         }, cb);
 
         cb(start, end, '');
     }
 
+    //Таблица абонементов
     if ($('#kt_datatable_rates').length != 0) {
         $('#kt_datatable_rates').KTDatatable({
             data: {
@@ -435,7 +395,7 @@ $(function() {
             },
             translate: {
                 records: {
-                    noRecords: lang.get('no_rates')
+                    noRecords: lang('no_rates')
                 }
             },
             saveState: {
@@ -459,7 +419,7 @@ $(function() {
             pagination: false,
             columns: [{
                 field: "title",
-                title: lang.get('title'),
+                title: lang('title'),
                 width: 'auto',
                 sortable: true,
                 type: 'string',
@@ -469,7 +429,7 @@ $(function() {
                 }
             }, {
                 field: "countIndiv",
-                title: lang.get('count_indiv'),
+                title: lang('count_indiv'),
                 width: 'auto',
                 sortable: true,
                 type: 'number',
@@ -479,7 +439,7 @@ $(function() {
                 }
             }, {
                 field: "countGroup",
-                title: lang.get('count_group'),
+                title: lang('count_group'),
                 width: 'auto',
                 sortable: true,
                 type: 'number',
@@ -489,7 +449,7 @@ $(function() {
                 }
             }, {
                 field: "price",
-                title: lang.get('price'),
+                title: lang('price'),
                 width: 'auto',
                 autoHide: false,
                 sortable: true,
@@ -506,12 +466,13 @@ $(function() {
                 sortable: false,
                 className: 'dt-center',
                 template: function(data, i) {
-                    return '<a href="/rates/buy/'+data.id+'" class="btn btn-success">'+lang.get('buy')+'</a>';
+                    return '<a href="/client/rates/buy/'+data.id+'" class="btn btn-success">'+lang('buy')+'</a>';
                 }
             }]
         });
     }
 
+    //Таблица периодов отсутствия
     if ($('#kt_datatable_absent_periods').length != 0) {
         $('#kt_datatable_absent_periods').KTDatatable({
             data: {
@@ -533,7 +494,7 @@ $(function() {
             },
             translate: {
                 records: {
-                    noRecords: lang.get('no_periods')
+                    noRecords: lang('no_periods')
                 }
             },
             saveState: {
@@ -557,7 +518,7 @@ $(function() {
             pagination: false,
             columns: [{
                 field: "date_from",
-                title: lang.get('date_from'),
+                title: lang('date_from'),
                 width: 70,
                 sortable: true,
                 type: 'string',
@@ -567,7 +528,7 @@ $(function() {
                 }
             }, {
                 field: "date_to",
-                title: lang.get('date_to'),
+                title: lang('date_to'),
                 width: 70,
                 sortable: true,
                 type: 'number',
@@ -590,7 +551,7 @@ $(function() {
                                     '</a>' +
                                     '<div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="display: none; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1474px, 531px, 0px);">' +
                                         '<a href="#" class="dropdown-item absentPeriodDelete" data-id="'+data.id+'">' +
-                                            '<i class="flaticon2-trash"></i> '+lang.get('cancel')+
+                                            '<i class="flaticon2-trash"></i> '+lang('cancel')+
                                         '</a>' +
                                     '</div>' +
                                 '</div>' +
@@ -605,28 +566,28 @@ $(function() {
             ajaxFormSuccessCallbackDefault(response);
             $('#absentPeriodModal').modal('hide');
             $('#kt_datatable_absent_periods').KTDatatable().reload();
-            $('#kt_datatable_schedule').KTDatatable().reload();
+            $('#client_kt_datatable_schedule').KTDatatable().reload();
         });
     }
 
     $(document)
+        //Отмена занятия клиентом
         .on('click', '.lessonCancel', function(e) {
             e.preventDefault();
             let lessonId = $(this).data('lesson');
             let date = $(this).data('date');
             alert.fire({
-                title: lang.get('lesson_cancel_alert'),
-                //text: "You won't be able to revert this!",
+                title: lang('lesson_cancel_alert'),
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonText: lang.get('yes'),
-                cancelButtonText: lang.get('no'),
+                confirmButtonText: lang('yes'),
+                cancelButtonText: lang('no'),
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
                         type: 'POST',
-                        url: '/schedule/lesson-absent',
+                        url: '/api/schedule/lesson/absent',
                         dataType: 'json',
                         data: {
                             _token: $('meta[name=csrf_token]').attr('content'),
@@ -649,11 +610,11 @@ $(function() {
             e.preventDefault();
             let id = $(this).data('id');
             alert.fire({
-                title: lang.get('absent_period_delete_alert'),
+                title: lang('absent_period_delete_alert'),
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonText: lang.get('yes'),
-                cancelButtonText: lang.get('no'),
+                confirmButtonText: lang('yes'),
+                cancelButtonText: lang('no'),
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
@@ -677,5 +638,63 @@ $(function() {
                     });
                 }
             });
+        })
+        .on('click', '.makeReport', function(e) {
+            e.preventDefault();
+            let
+                $form = $(this).parent().parent().find('form');
+            alert.fire({
+                title: lang('make_lesson_report_alert'),
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: lang('yes'),
+                cancelButtonText: lang('no'),
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $form.find('input[name=token]').val($('meta[name=token]').attr('content'));
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/schedule/lesson/report',
+                        dataType: 'json',
+                        data: $form.serialize(),
+                        success: function(response) {
+                            alert.fire({
+                                type: response.status,
+                                title: response.message
+                            }).then((result) => {
+                                console.log(response);
+                                if (response.status === 'success') {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        })
+        .on('change', 'input[name=attendance]', function(e) {
+            let
+                checked = $(this).is(':checked'),
+                $list = $(this).parent().find('ul.report-attendance-list');
+            if ($list.length > 0) {
+                $list.find('input[type=checkbox]').each(function(key, input) {
+                    if (checked) {
+                        $(input).attr('checked', 'checked');
+                    } else {
+                        $(input).removeAttr('checked');
+                    }
+                });
+            }
         });
+
+
+    if ($('#kt_teacher_short_schedule_datepicker').length !== 0) {
+        $('#kt_teacher_short_schedule_datepicker').datepicker({
+            rtl: KTUtil.isRTL(),
+            orientation: "bottom right",
+            todayHighlight: true,
+            format: 'dd.mm.yyyy'
+        });
+    }
 });

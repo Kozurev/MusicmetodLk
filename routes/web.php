@@ -13,23 +13,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('index');
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/login', 'LoginController@index')->name('login.index');
+    Route::post('/login/auth', 'LoginController@auth')->name('login.make');
+});
 
-Route::get('/login', 'LoginController@index')->name('login.index')->middleware('guest');
-Route::post('/login/auth', 'LoginController@auth')->name('login.make')->middleware('guest');
-Route::get('/logout', 'LoginController@logout')->name('login.logout');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/logout', 'LoginController@logout')->name('login.logout');
+    Route::get('/', 'HomeController@index')->name('index');
+});
 
-Route::get('/balance', 'BalanceController@index')->name('balance.index');
-Route::post('/balance/makePayment', 'BalanceController@makeDeposit')->name('balance.makeDeposit');
-Route::get('/balance/success', 'BalanceController@depositSuccess')->name('balance.depositSuccess');
-Route::get('/balance/error', 'BalanceController@depositError')->name('balance.depositError');
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'auth_client']], function () {
+    Route::get('/', 'HomeController@clientIndex')->name('client.index');
+    Route::get('/balance', 'Client\\BalanceController@index')->name('balance.index');
+    Route::post('/balance/makePayment', 'Client\\BalanceController@makeDeposit')->name('balance.makeDeposit');
+    Route::get('/balance/success', 'Client\\BalanceController@depositSuccess')->name('balance.depositSuccess');
+    Route::get('/balance/error', 'Client\\BalanceController@depositError')->name('balance.depositError');
 
-Route::get('/rates', 'RatesController@index')->name('rates.index');
-Route::get('/rates/buy/{id}', 'RatesController@buyPrepare')->name('rates.buy.prepare');
-Route::post('/rates/buy/{id}', 'RatesController@buyExecute')->name('rate.buy.execute');
+    Route::get('/rates', 'Client\RatesController@index')->name('rates.index');
+    Route::get('/rates/buy/{id}', 'Client\\RatesController@buyPrepare')->name('rates.buy.prepare');
+    Route::post('/rates/buy/{id}', 'Client\\RatesController@buyExecute')->name('rate.buy.execute');
 
-Route::get('/schedule/time', 'ScheduleController@findTeacherTime')->name('schedule.find_teacher_time');
-Route::post('/schedule/makeLesson', 'ScheduleController@makeLesson')->name('schedule.make_lesson');
-Route::post('/schedule/lesson-absent', 'ScheduleController@lessonAbsent')->name('schedule.absent_lesson');
+    Route::get('/schedule/time', 'Client\ScheduleController@findTeacherTime')->name('schedule.find_teacher_time');
+    Route::post('/schedule/makeLesson', 'Client\\ScheduleController@makeLesson')->name('schedule.make_lesson');
 
-Route::get('/faq', 'FaqController@index')->name('faq.index');
+    Route::get('/faq', 'Client\\FaqController@index')->name('faq.index');
+});
+
+Route::group(['prefix' => 'teacher', 'middleware' => ['auth', 'auth_teacher']], function () {
+    Route::get('/', 'HomeController@teacherIndex')->name('teacher.index');
+});

@@ -98,7 +98,9 @@
                                     @endif
                                     <div class="form-group form-group-last">
                                         <div class="alert alert-outline-primary fade show" role="alert">
-                                            <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                                            <div class="alert-icon">
+                                                <i class="flaticon-questions-circular-button"></i>
+                                            </div>
                                             <div class="alert-text">
                                                 {!! __('pages.schedule-time-description', ['tel' => \App\Config::instance()->getManagerPhoneNumber()]) !!}
                                             </div>

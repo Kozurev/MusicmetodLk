@@ -32,7 +32,7 @@
             </li>
             <li class="kt-menu__item kt-menu__item--submenu @if(($partition ?? '') == 'schedule') kt-menu__item--active kt-menu__item--open kt-menu__item--here @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                    <i class="kt-menu__link-icon flaticon-calendar-1"></i>
+                    <i class="kt-menu__link-icon flaticon-event-calendar-symbol"></i>
                     <span class="kt-menu__link-text">{{ __('pages.schedule') }}</span>
                     <i class="kt-menu__ver-arrow la la-angle-right"></i>
                 </a>
@@ -48,28 +48,17 @@
                 </div>
             </li>
 
-{{--            <li class="kt-menu__item kt-menu__item--submenu @if(($partition ?? '') == 'faq') kt-menu__item--active kt-menu__item--open kt-menu__item--here @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">--}}
-{{--                <a href="javascript:;" class="kt-menu__link kt-menu__toggle">--}}
-{{--                    <i class="kt-menu__link-icon fa flaticon-info"></i>--}}
-{{--                    <span class="kt-menu__link-text">{{ __('pages.faq') }}</span>--}}
-{{--                    <i class="kt-menu__ver-arrow la la-angle-right"></i>--}}
-{{--                </a>--}}
-{{--                <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>--}}
-{{--                    <ul class="kt-menu__subnav">--}}
-{{--                        <li class="kt-menu__item @if($page == 'faq.index') kt-menu__item--active @endif" aria-haspopup="true">--}}
-{{--                            <a href="{{ route('faq.index') }}" class="kt-menu__link ">--}}
-{{--                                <i class="kt-menu__link-bullet flaticon-notes"><span>&nbsp;</span></i>--}}
-{{--                                <span class="kt-menu__link-text">{{ __('pages.faq-info') }}</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </li>--}}
-
             <li class="kt-menu__item  @if($page == 'faq') kt-menu__item--active @endif" aria-haspopup="true">
                 <a href="{{ route('faq.index') }}" class="kt-menu__link">
                     <i class="kt-menu__link-icon fa flaticon-info"></i>
                     <span class="kt-menu__link-text">{{ __('pages.faq') }}</span>
+                </a>
+            </li>
+
+            <li class="kt-menu__item" aria-haspopup="true">
+                <a href="{{ route('login.logout') }}" class="kt-menu__link">
+                    <i class="kt-menu__link-icon fa fa-user-alt-slash"></i>
+                    <span class="kt-menu__link-text">{{ __('login.sign-out-btn') }}</span>
                 </a>
             </li>
         </ul>

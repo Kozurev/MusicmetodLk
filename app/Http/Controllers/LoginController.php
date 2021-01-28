@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\JsonResponse;
 
 class LoginController extends Controller
 {
@@ -14,7 +13,11 @@ class LoginController extends Controller
         return view('layouts.login');
     }
 
-    public function auth(LoginRequest $request)
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function auth(LoginRequest $request) : JsonResponse
     {
         $login = $request->input('login', '');
         $password = $request->input('password', '');
@@ -25,6 +28,9 @@ class LoginController extends Controller
         return response()->json(['status' => $status, 'message' => $message, 'redirect_url' => route('index')]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function logout()
     {
         User::logout();

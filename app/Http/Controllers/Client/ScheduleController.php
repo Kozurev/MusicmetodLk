@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\NewLessonRequest;
 use App\User;
 use Carbon\Carbon;
@@ -9,23 +14,19 @@ use Illuminate\Http\Request;
 use App\Api\Schedule;
 use App\Api\Facade as Api;
 
+/**
+ * Class ScheduleController
+ * @package App\Http\Controllers\Client
+ */
 class ScheduleController extends Controller
 {
-    /**
-     * ScheduleController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Страница подбора времени для самостоятельной постановки в график
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function findTeacherTime(Request $request)
+    public function findTeacherTime(Request $request) : View
     {
         $errors = [];
         $teacherId = intval($request->input('teacherId', 0));
@@ -69,7 +70,7 @@ class ScheduleController extends Controller
             }
         }
 
-        return view('schedule.time', compact('teachers', 'teacherSchedule', 'teacherNearestTime', 'date', 'scheduleTeacherId'))
+        return view(User::getRoleTag(User::ROLE_CLIENT) . '.schedule.time', compact('teachers', 'teacherSchedule', 'teacherNearestTime', 'date', 'scheduleTeacherId'))
             ->with(['customErrors' => collect($errors)]);
     }
 
@@ -77,9 +78,9 @@ class ScheduleController extends Controller
      * Постановка в график (создание занятия)
      *
      * @param NewLessonRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function makeLesson(NewLessonRequest $request)
+    public function makeLesson(NewLessonRequest $request) : RedirectResponse
     {
         $teacherId = $request->input('teacherId');
         $lessonTime = json_decode($request->input('time'));
@@ -105,28 +106,6 @@ class ScheduleController extends Controller
         } else {
             return redirect()->back()->withErrors(['request' => $response->message ?? '']);
         }
-    }
-
-
-    /**
-     * Обработчик для AJAX запроса отмены занятия
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function lessonAbsent(Request $request)
-    {
-        $lessonId = $request->input('lesson_id', 0);
-        $date = $request->input('date', '');
-        $response = User::lessonAbsent($lessonId, $date);
-        $message = ($response->status ?? true) == false
-            ?   $response->message
-            :   __('pages.lesson-cancel-success');
-
-        return response()->json([
-            'status' => ($response->status ?? true) == true ? 'success' : 'error',
-            'message' => $message
-        ]);
     }
 
 }

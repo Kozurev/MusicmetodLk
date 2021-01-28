@@ -5,7 +5,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>{{ __('pages.' . $page) }} | {{ config('app.name') }}</title>
+    <title>{{ __('pages.' . $page ?? '') }} | {{ config('app.name') }}</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf_token" content="{{ csrf_token() }}">
@@ -44,8 +44,6 @@
 
 <!-- begin::Body -->
 <body class="kt-page-content-white kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
-{{--<body class="kt-page-content-white kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">--}}
-
 <!-- begin:: Page -->
 
 <!-- begin:: Header Mobile -->
@@ -79,16 +77,18 @@
                     <div class="kt-header__topbar">
                         <div class="kt-header__topbar-item kt-header__topbar-item--user">
                             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
-                                <span class="kt-header__topbar-username kt-visible-desktop">
+                                <span class="kt-header__topbar-welcome kt-visible-desktop kt-visible-mobile">
                                     {{ $user->surname }} {{ $user->name }}
-                                    <b>
-                                        {{ \App\Format::amount($user->balance->amount) ?? 0.00 }}
-                                        <i class="fa fa-ruble-sign"></i>
-                                    </b>
+                                    @if (isset($user->balance))
+                                        <b>
+                                            {{ \App\Format::amount($user->balance->amount) ?? 0.00 }}
+                                            <i class="fa fa-ruble-sign"></i>
+                                        </b>
+                                    @endif
                                 </span>
-                                <span class="kt-header__topbar-icon kt-bg-brand kt-hidden"><b>S</b></span>
                             </div>
                             <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
+                                <!--begin: Navigation -->
                                 <div class="kt-notification">
                                     <div class="kt-notification__custom kt-space-between">
                                         <a href="{{ route('login.logout') }}" class="btn btn-label btn-label-brand btn-sm btn-block btn-bold">
@@ -96,6 +96,7 @@
                                         </a>
                                     </div>
                                 </div>
+                                <!--end: Navigation -->
                             </div>
                         </div>
                     </div>
@@ -107,13 +108,14 @@
 
                     <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
                     <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
-                        @include('layouts.nav')
+                        @include('layouts.nav.'.\App\User::getRoleTag().'.nav')
                     </div>
 
                     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
                         <div class="kt-subheader   kt-grid__item" id="kt_subheader">
                         </div>
                         <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+                            @include('layouts.notifications')
                             @yield('content')
                         </div>
                     </div>
@@ -258,6 +260,14 @@
         daterangepicker_toLabel: '{{ __('daterange.toLabel') }}',
         daterangepicker_customRangeLabel: '{{ __('daterange.customRangeLabel') }}',
 
+        daterangepicker_day_sunday_short: '{{ __('daterange.day-sunday-short') }}',
+        daterangepicker_day_monday_short: '{{ __('daterange.day-monday-short') }}',
+        daterangepicker_day_tuesday_short: '{{ __('daterange.day-tuesday-short') }}',
+        daterangepicker_day_wednesday_short: '{{ __('daterange.day-wednesday-short') }}',
+        daterangepicker_day_thursday_short: '{{ __('daterange.day-thursday-short') }}',
+        daterangepicker_day_friday_short: '{{ __('daterange.day-friday-short') }}',
+        daterangepicker_day_saturday_short: '{{ __('daterange.day-saturday-short') }}',
+
         daterangepicker_day_sunday: '{{ __('daterange.day-sunday') }}',
         daterangepicker_day_monday: '{{ __('daterange.day-monday') }}',
         daterangepicker_day_tuesday: '{{ __('daterange.day-tuesday') }}',
@@ -281,8 +291,12 @@
 
         absent_period_delete_alert: '{{ __('pages.absent-period-delete-alert') }}',
         absent_period_delete_success: '{{ __('pages.absent-period-delete-success') }}',
+
+        make_lesson_report_alert: '{{ __('pages.make-lesson-report-alert') }}'
     };
-    var lang = new Lang(locales);
+    function lang(symbol) {
+        return locales[symbol];
+    }
 </script>
 
 <script>
@@ -310,9 +324,129 @@
             }
         }
     });
+
+    $.fn.daterangepicker.defaultOptions = {
+        locale: {
+            "format": lang('daterangepicker_format'),
+            "separator": lang('daterangepicker_separator'),
+            "applyLabel": lang('daterangepicker_applyLabel'),
+            "cancelLabel": lang('daterangepicker_cancelLabel'),
+            "fromLabel": lang('daterangepicker_fromLabel'),
+            "toLabel": lang('daterangepicker_toLabel'),
+            "customRangeLabel": lang('daterangepicker_customRangeLabel'),
+            "daysOfWeek": [
+                lang('daterangepicker_day_sunday_short'),
+                lang('daterangepicker_day_monday_short'),
+                lang('daterangepicker_day_tuesday_short'),
+                lang('daterangepicker_day_wednesday_short'),
+                lang('daterangepicker_day_thursday_short'),
+                lang('daterangepicker_day_friday_short'),
+                lang('daterangepicker_day_saturday_short'),
+            ],
+            "monthNames": [
+                lang('daterangepicker_month_january'),
+                lang('daterangepicker_month_february'),
+                lang('daterangepicker_month_march'),
+                lang('daterangepicker_month_april'),
+                lang('daterangepicker_month_may'),
+                lang('daterangepicker_month_june'),
+                lang('daterangepicker_month_july'),
+                lang('daterangepicker_month_august'),
+                lang('daterangepicker_month_september'),
+                lang('daterangepicker_month_october'),
+                lang('daterangepicker_month_november'),
+                lang('daterangepicker_month_december')
+            ],
+            "firstDay": 1
+        }
+    };
+
+    //DATE PICKERS
+    var datePickerTemplate;
+    if (KTUtil.isRTL()) {
+        datePickerTemplate = {
+            leftArrow: '<i class="la la-angle-right"></i>',
+            rightArrow: '<i class="la la-angle-left"></i>'
+        }
+    } else {
+        datePickerTemplate = {
+            leftArrow: '<i class="la la-angle-left"></i>',
+            rightArrow: '<i class="la la-angle-right"></i>'
+        }
+    }
+
+    var datepickerLocales = {
+        days: [
+            lang('daterangepicker_day_sunday'),
+            lang('daterangepicker_day_monday'),
+            lang('daterangepicker_day_tuesday'),
+            lang('daterangepicker_day_wednesday'),
+            lang('daterangepicker_day_thursday'),
+            lang('daterangepicker_day_friday'),
+            lang('daterangepicker_day_saturday')
+        ],
+        daysShort: [
+            lang('daterangepicker_day_sunday_short'),
+            lang('daterangepicker_day_monday_short'),
+            lang('daterangepicker_day_tuesday_short'),
+            lang('daterangepicker_day_wednesday_short'),
+            lang('daterangepicker_day_thursday_short'),
+            lang('daterangepicker_day_friday_short'),
+            lang('daterangepicker_day_saturday_short')
+        ],
+        daysMin: [
+            lang('daterangepicker_day_sunday_short'),
+            lang('daterangepicker_day_monday_short'),
+            lang('daterangepicker_day_tuesday_short'),
+            lang('daterangepicker_day_wednesday_short'),
+            lang('daterangepicker_day_thursday_short'),
+            lang('daterangepicker_day_friday_short'),
+            lang('daterangepicker_day_saturday_short')
+        ],
+        months: [
+            lang('daterangepicker_month_january'),
+            lang('daterangepicker_month_february'),
+            lang('daterangepicker_month_march'),
+            lang('daterangepicker_month_april'),
+            lang('daterangepicker_month_may'),
+            lang('daterangepicker_month_june'),
+            lang('daterangepicker_month_july'),
+            lang('daterangepicker_month_august'),
+            lang('daterangepicker_month_september'),
+            lang('daterangepicker_month_october'),
+            lang('daterangepicker_month_november'),
+            lang('daterangepicker_month_december')
+        ],
+        monthsShort: [
+            lang('daterangepicker_month_january'),
+            lang('daterangepicker_month_february'),
+            lang('daterangepicker_month_march'),
+            lang('daterangepicker_month_april'),
+            lang('daterangepicker_month_may'),
+            lang('daterangepicker_month_june'),
+            lang('daterangepicker_month_july'),
+            lang('daterangepicker_month_august'),
+            lang('daterangepicker_month_september'),
+            lang('daterangepicker_month_october'),
+            lang('daterangepicker_month_november'),
+            lang('daterangepicker_month_december')
+        ],
+        today: lang('today'),
+        clear: lang('cancel'),
+        format: "mm.dd.yyyy",
+        weekStart: 0
+    };
+
+    $.extend(true, $.fn.datepicker.defaults, {
+        templates: datePickerTemplate,
+        language: 'ru',
+        locale: 'ru'
+    });
+    $.fn.datepicker.dates['ru'] = datepickerLocales;
+
 </script>
 
-<script src="{{ asset('assets/js/pages/my-script.js?12') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/pages/my-script.js?' . time()) }}" type="text/javascript"></script>
 
 <!--end::Page Scripts -->
 </body>

@@ -12,6 +12,7 @@ class Facade
     const PARAM_LOGIN = 'login';
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
+    const PARAM_DATE_END = 'date_end';
     const PARAM_RATE_ID = 'tarif_id';
     const PARAM_AMOUNT = 'amount';
     const PARAM_DESCRIPTION = 'description';
@@ -21,9 +22,12 @@ class Facade
     const PARAM_DATE = 'date';
     const PARAM_LESSON_DURATION = 'lessonDuration';
     const PARAM_LESSON_ID = 'lessonId';
+    const PARAM_LESSON_ATTENDANCE = 'attendance';
+    const PARAM_LESSON_ATTENDANCE_CLIENTS = 'attendance_clients';
     const PARAM_DATE_FROM = 'date_from';
     const PARAM_DATE_TO = 'date_to';
     const PARAM_CONFIG_TAG = 'tag';
+    const PARAM_WITHOUT_PAGINATE = 'without_paginate';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -31,11 +35,12 @@ class Facade
     const ACTION_AUTH = 'do_auth';
     const ACTION_GET_USER = 'get_user';
     const ACTION_GET_NEAREST_LESSONS = 'get_nearest_lessons';
-    const ACTION_GET_CLIENT_PAYMENTS = 'get_client_payments';
+    const ACTION_GET_PAYMENTS = 'get_payments';
     const ACTION_GET_CLIENT_REPORTS = 'get_client_reports';
-    const ACTION_GET_CLIENT_SCHEDULE = 'get_client_schedule';
     const ACTION_GET_CLIENT_RATES = 'get_list';
     const ACTION_GET_RATE_BY_ID = 'get_rate_by_id';
+    const ACTION_GET_SCHEDULE_SHORT = 'get_schedule_short';
+    const ACTION_GET_TEACHER_SCHEDULE_STATISTIC = 'getReportsStatistic';
     const ACTION_BUY_RATE = 'buy_tarif';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
     const ACTION_GET_TEACHERS = 'getClientTeachers';
@@ -43,6 +48,7 @@ class Facade
     const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
     const ACTION_LESSON_SAVE = 'saveLesson';
     const ACTION_LESSON_ABSENT = 'markAbsent';
+    const ACTION_LESSON_REPORT = 'makeReport';
     const ACTION_ABSENT_PERIOD_LIST = 'getAbsentPeriods';
     const ACTION_ABSENT_PERIOD_SAVE = 'saveAbsentPeriod';
     const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
@@ -65,9 +71,10 @@ class Facade
         self::ACTION_AUTH                   => '/user/index.php',
         self::ACTION_GET_USER               => '/user/index.php',
         self::ACTION_GET_NEAREST_LESSONS    => '/schedule/index.php',
-        self::ACTION_GET_CLIENT_PAYMENTS    => '/payment/index.php',
+        self::ACTION_GET_PAYMENTS           => '/payment/index.php',
         self::ACTION_GET_CLIENT_REPORTS     => '/schedule/index.php',
-        self::ACTION_GET_CLIENT_SCHEDULE    => '/schedule/index.php',
+        self::ACTION_GET_SCHEDULE_SHORT     => '/schedule/index.php',
+        self::ACTION_GET_TEACHER_SCHEDULE_STATISTIC => '/schedule/index.php',
         self::ACTION_GET_CLIENT_RATES       => '/tarif/index.php',
         self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
         self::ACTION_BUY_RATE               => '/tarif/index.php',
@@ -77,6 +84,7 @@ class Facade
         self::ACTION_GET_TEACHER_NEAREST_TIME=>'/schedule/index.php',
         self::ACTION_LESSON_SAVE            => '/schedule/index.php',
         self::ACTION_LESSON_ABSENT          => '/schedule/index.php',
+        self::ACTION_LESSON_REPORT          => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_LIST     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
@@ -136,9 +144,9 @@ class Facade
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $queryParams);
         }
-
+        //Log::info('API action "'.($params[self::PARAM_ACTION] ?? '').'": ' . $url);
         $result = json_decode(curl_exec($ch));
-        if (empty($result) || !is_null($result->error ?? null)) {
+        if (is_null($result) || !is_null($result->error ?? null)) {
             Log::error('Error request for url: ' . $url . ' ' . ($result->message ?? ''), $params);
         }
         curl_close($ch);
@@ -217,13 +225,13 @@ class Facade
     /**
      * @param string $token
      * @param array $params
-     * @return \stdClass|null
+     * @return array
      */
-    public function getPayments(string $token, array $params = [])
+    public function getPayments(string $token, array $params = []) : array
     {
         $params[self::PARAM_TOKEN] = $token;
-        $params[self::PARAM_ACTION] = self::ACTION_GET_CLIENT_PAYMENTS;
-        return $this->makeRequest($this->makeUrl(self::ACTION_GET_CLIENT_PAYMENTS), $params);
+        $params[self::PARAM_ACTION] = self::ACTION_GET_PAYMENTS;
+        return (array)$this->makeRequest($this->makeUrl(self::ACTION_GET_PAYMENTS), $params);
     }
 
     /**
@@ -243,11 +251,23 @@ class Facade
      * @param array $params
      * @return \stdClass|null
      */
-    public function getLessons(string $token, array $params = [])
+    public function getScheduleShort(string $token, array $params = [])
     {
         $params[self::PARAM_TOKEN] = $token;
-        $params[self::PARAM_ACTION] = self::ACTION_GET_CLIENT_SCHEDULE;
-        return $this->makeRequest($this->makeUrl(self::ACTION_GET_CLIENT_SCHEDULE), $params);
+        $params[self::PARAM_ACTION] = self::ACTION_GET_SCHEDULE_SHORT;
+        return $this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_SHORT), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param array $params
+     * @return array|null
+     */
+    public function getTeacherScheduleStatistic(string $token, array $params = []) : ?array
+    {
+        $params[self::PARAM_TOKEN] = $token;
+        $params[self::PARAM_ACTION] = self::ACTION_GET_TEACHER_SCHEDULE_STATISTIC;
+        return (array)$this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHER_SCHEDULE_STATISTIC), $params);
     }
 
     /**
@@ -453,4 +473,15 @@ class Facade
         return $this->makeRequest($this->makeUrl(self::ACTION_CONFIG_GET), $params, self::METHOD_GET);
     }
 
+    /**
+     * @param string $token
+     * @param array $params
+     * @return \stdClass|null
+     */
+    public function lessonReport(string $token, array $params = []) : ?\stdClass
+    {
+        $params[self::PARAM_TOKEN] = $token;
+        $params[self::PARAM_ACTION] = self::ACTION_LESSON_REPORT;
+        return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_REPORT), $params, self::METHOD_POST);
+    }
 }

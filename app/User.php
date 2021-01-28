@@ -12,10 +12,21 @@ class User
     const REQUEST_TOKEN = 'token';
     const SESSION_USER_DATA = 'auth_user_data';
 
+    const ROLE_TEACHER = 4;
+    const ROLE_CLIENT = 5;
+
+    /**
+     * @var array|string[]
+     */
+    protected static array $rolesTags = [
+        self::ROLE_TEACHER => 'teacher',
+        self::ROLE_CLIENT => 'client'
+    ];
+
     /**
      * @var string
      */
-    private static $error = '';
+    private static string $error = '';
 
     /**
      * @param string $login
@@ -34,12 +45,20 @@ class User
         }
     }
 
-    public static function storeAuthToken(string $token)
+    /**
+     * Сохранение авторизационного токена
+     *
+     * @param string $token
+     */
+    public static function storeAuthToken(string $token) : void
     {
         Cookie::queue(self::COOKIE_TOKEN_KEY, $token, 60*60*24*30);
     }
 
-    public static function logout()
+    /**
+     * Выход из учетной записи
+     */
+    public static function logout() : void
     {
         Cookie::queue(Cookie::forget(self::COOKIE_TOKEN_KEY));
     }
@@ -77,7 +96,7 @@ class User
      * @param string $token
      * @return \stdClass|null
      */
-    public static function getByToken(string $token)
+    public static function getByToken(string $token) : ?\stdClass
     {
         $userData = Api::instance()->getUser($token);
         if (is_null($userData)) {
@@ -94,7 +113,7 @@ class User
     /**
      * @return mixed|null
      */
-    public static function current()
+    public static function current() : ?\stdClass
     {
         if (empty(self::getToken())) {
             return null;
@@ -106,7 +125,7 @@ class User
     }
 
     /**
-     *
+     * Очистка кэша данных пользователя
      */
     public static function fresh()
     {
@@ -114,11 +133,29 @@ class User
     }
 
     /**
+     * Проверка на авторизацию
+     *
      * @return bool
      */
     public static function isAuth() : bool
     {
         return !empty(self::getToken());
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isClient() : bool
+    {
+        return (self::current()->group_id ?? null) == self::ROLE_CLIENT;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isTeacher() : bool
+    {
+        return (self::current()->group_id ?? null) == self::ROLE_TEACHER;
     }
 
     /**
@@ -137,9 +174,9 @@ class User
 
     /**
      * @param array $params
-     * @return \stdClass|null
+     * @return array
      */
-    public static function getPayments(array $params = [])
+    public static function getPayments(array $params = []) : array
     {
         return Api::instance()->getPayments(self::getToken(), $params);
     }
@@ -155,11 +192,20 @@ class User
 
     /**
      * @param array $params
-     * @return \stdClass|null
+     * @return array|null
      */
-    public static function getSchedule(array $params = [])
+    public static function getScheduleShort(array $params = []) : array
     {
-        return Api::instance()->getLessons(self::getToken(), $params);
+        return (array)Api::instance()->getScheduleShort(self::getToken(), $params);
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public static function getTeacherScheduleStatistic(array $params = []) : array
+    {
+        return Api::instance()->getTeacherScheduleStatistic(self::getToken(), $params);
     }
 
     /**
@@ -256,4 +302,15 @@ class User
         return Api::instance()->deleteAbsentPeriod(self::getToken(), $id);
     }
 
+    /**
+     * @param int|null $role
+     * @return string
+     */
+    public static function getRoleTag(int $role = null) : string
+    {
+        if (is_null($role)) {
+            $role = self::current()->group_id;
+        }
+        return self::$rolesTags[$role] ?? '';
+    }
 }

@@ -8,6 +8,8 @@ return [
     'faq.index' => 'Помощь',
     'schedule.find_teacher_time' => 'Самозапись',
     'schedule.absent_period' => 'Периоды отсутствия',
+    'schedule.table_short' => 'Ближайшие занятия',
+    'schedule.table_full' => 'Общее расписание',
 
     'nav' => 'Меню',
     'to-main' => 'На главную',
@@ -39,6 +41,7 @@ return [
     'no-reports' => 'Истории занятий не найдено',
     'no-lessons' => 'Занятий не найдено',
     'no-rates' => 'Абонементов не найдено',
+    'consult' => 'Консультация',
 
     'cancel' => 'Отменить',
     'submit' => 'Подтвердить',
@@ -110,4 +113,17 @@ return [
     'faq-subtitle' => 'Инструкция по использованию личного кабинет',
     'faq-1-title' => 'Пополнение баланса и покупка занятий',
     'faq-2-title' => 'Расписание занятий',
+
+    'schedule-short' => 'Ближайшее расписание',
+    'count-lessons' => 'Кол-во занятий',
+    'count-lessons-desc' => 'Общее число проведенных занятий в этом месяце',
+    'salary-earned' => 'Заработано',
+    'salary-payed' => 'Выплачено',
+
+    'reports-table' => 'Отчеты о проведенных занятиях',
+    'reports-results' => 'Результат',
+    'reports-group-clients' => 'состав',
+
+    'make-lesson-report-alert' => 'Отправить отчет?',
+    'lesson-report-success' => 'Отчет был успешно отправлен',
 ];

@@ -2,3 +2,48 @@
     color: white;
     cursor: pointer;
 }
+
+.kt-header__topbar-welcome {
+    color: #fff !important;
+    font-size: 15px !important;
+}
+
+.schedule-short {
+
+}
+
+.schedule-short table td {
+    border: 1px solid #ebedf2;
+}
+
+.schedule-short .date {
+    display: block;
+    text-align: right;
+}
+
+.schedule-short .date-active {
+    color: green;
+}
+
+.schedule-short .area {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.schedule-short .lesson {
+    margin-bottom: 3px;
+}
+
+.schedule-short .lesson.reported,
+.reported {
+    text-decoration: line-through;
+    color: #74788d;
+    font-weight: 400;
+}
+
+.reports-table .report-attendance-list {
+    margin-left: 12px;
+    margin-top: 12px;
+    margin-bottom: 0;
+}

@@ -10,6 +10,7 @@ class Schedule
     const TYPE_GROUP = 2;
     const TYPE_CONSULT = 3;
     const TYPE_GROUP_CONSULT = 4;
+    const TYPE_PRIVATE = 5;
 
     const SCHEDULE_TYPE_MAIN = 1;
     const SCHEDULE_TYPE_CURRENT = 2;
@@ -25,19 +26,20 @@ class Schedule
     const PARAM_LESSON_TIME_TO = 'timeTo';
 
     /**
-     * @var int[]
+     * @var array|int[]
      */
-    public static $types = [
+    public static array $types = [
         self::TYPE_SINGLE,
         self::TYPE_GROUP,
         self::TYPE_CONSULT,
-        self::TYPE_GROUP_CONSULT
+        self::TYPE_GROUP_CONSULT,
+        self::TYPE_PRIVATE
     ];
 
     /**
-     * @var int[]
+     * @var array|int[]
      */
-    public static $scheduleTypes = [
+    public static array $scheduleTypes = [
         self::SCHEDULE_TYPE_MAIN,
         self::SCHEDULE_TYPE_CURRENT
     ];
@@ -56,7 +58,7 @@ class Schedule
      */
     public static function getTypeName(int $type) : string
     {
-        return __('schedule.lesson-type-' . $type);
+        return __('schedule.lesson-types.' . $type);
     }
 
     /**
@@ -85,7 +87,7 @@ class Schedule
      */
     public static function getScheduleTypeName(int $type) : string
     {
-        return __('schedule.schedule-type-' . $type);
+        return __('schedule.schedule-types.' . $type);
     }
 
     /**
