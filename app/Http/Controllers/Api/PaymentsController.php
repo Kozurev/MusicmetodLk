@@ -17,11 +17,11 @@ class PaymentsController extends Controller
     {
         $payments = User::getPayments($request->all());
         return response()->json([
-            'meta' => $payments->pagination,
+            'meta' => $payments['pagination'],
             'data' => array_map(function(\stdClass $payment) : \stdClass {
                 $payment->refactored_date = date('d.m.y', strtotime($payment->datetime));
                 return $payment;
-            }, $payments->data)
+            }, $payments['data'])
         ]);
     }
 }
