@@ -3,11 +3,6 @@
     cursor: pointer;
 }
 
-.kt-header__topbar-welcome {
-    color: #fff !important;
-    font-size: 15px !important;
-}
-
 .schedule-short {
 
 }
@@ -46,4 +41,41 @@
     margin-left: 12px;
     margin-top: 12px;
     margin-bottom: 0;
+}
+
+.schedule-full .cell {
+    color: black;
+    font-weight: 400;
+    border: 1px solid #ddd;
+}
+
+.schedule-full .cell-time {
+    background: #fff;
+}
+
+.schedule-full .cell-empty {
+    background: #fff;
+}
+
+.schedule-full .cell-blocked {
+    background: #ccc;
+}
+
+.schedule-full .cell-self {
+    background: #D8E6F3;
+}
+
+
+
+@media (min-width: 1025px) {
+    .kt-header__topbar-welcome {
+        color: #fff !important;
+        font-size: 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .kt-header__topbar-welcome {
+        font-size: 15px !important;
+    }
 }

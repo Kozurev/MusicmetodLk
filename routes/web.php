@@ -42,4 +42,5 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'auth_client']], fu
 
 Route::group(['prefix' => 'teacher', 'middleware' => ['auth', 'auth_teacher']], function () {
     Route::get('/', 'HomeController@teacherIndex')->name('teacher.index');
+    Route::get('/schedule', 'Teacher\\ScheduleController@index')->name('teacher.schedule');
 });

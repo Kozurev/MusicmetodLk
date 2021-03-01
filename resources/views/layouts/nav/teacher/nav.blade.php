@@ -9,7 +9,7 @@
             </li>
 
             <li class="kt-menu__item @if(($partition ?? '') == 'schedule') kt-menu__item--active kt-menu__item--open kt-menu__item--here @endif" aria-haspopup="true">
-                <a href="#" class="kt-menu__link">
+                <a href="{{ route('teacher.schedule') }}" class="kt-menu__link">
                     <i class="kt-menu__link-icon flaticon-event-calendar-symbol"></i>
                     <span class="kt-menu__link-text">{{ __('pages.schedule') }}</span>
                 </a>

@@ -697,4 +697,15 @@ $(function() {
             format: 'dd.mm.yyyy'
         });
     }
+
+    if ($('.datepicker').length !== 0) {
+        $('.datepicker').each(function(key, input) {
+            $(input).datepicker({
+                rtl: KTUtil.isRTL(),
+                orientation: "bottom right",
+                todayHighlight: true,
+                format: 'dd.mm.yyyy'
+            });
+        });
+    }
 });

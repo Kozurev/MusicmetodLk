@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Api\Facade as Api;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
@@ -33,7 +34,7 @@ class User
      * @param string $password
      * @return bool
      */
-    public static function auth(string $login, string $password) : bool
+    public static function auth(string $login, string $password): bool
     {
         $response = Api::instance()->auth($login, $password);
         if ($response->token ?? null) {
@@ -50,7 +51,7 @@ class User
      *
      * @param string $token
      */
-    public static function storeAuthToken(string $token) : void
+    public static function storeAuthToken(string $token): void
     {
         Cookie::queue(self::COOKIE_TOKEN_KEY, $token, 60*60*24*30);
     }
@@ -58,7 +59,7 @@ class User
     /**
      * Выход из учетной записи
      */
-    public static function logout() : void
+    public static function logout(): void
     {
         Cookie::queue(Cookie::forget(self::COOKIE_TOKEN_KEY));
     }
@@ -66,7 +67,7 @@ class User
     /**
      * @return string
      */
-    public static function getError() : string
+    public static function getError(): string
     {
         return self::$error;
     }
@@ -82,7 +83,7 @@ class User
     /**
      * @return string
      */
-    public static function getToken() : string
+    public static function getToken(): string
     {
         $requestToken = request()->input(self::REQUEST_TOKEN, null);
         if (!empty($requestToken)) {
@@ -96,7 +97,7 @@ class User
      * @param string $token
      * @return \stdClass|null
      */
-    public static function getByToken(string $token) : ?\stdClass
+    public static function getByToken(string $token): ?\stdClass
     {
         $userData = Api::instance()->getUser($token);
         if (is_null($userData)) {
@@ -113,7 +114,7 @@ class User
     /**
      * @return mixed|null
      */
-    public static function current() : ?\stdClass
+    public static function current(): ?\stdClass
     {
         if (empty(self::getToken())) {
             return null;
@@ -137,7 +138,7 @@ class User
      *
      * @return bool
      */
-    public static function isAuth() : bool
+    public static function isAuth(): bool
     {
         return !empty(self::getToken());
     }
@@ -145,7 +146,7 @@ class User
     /**
      * @return bool
      */
-    public static function isClient() : bool
+    public static function isClient(): bool
     {
         return (self::current()->group_id ?? null) == self::ROLE_CLIENT;
     }
@@ -153,7 +154,7 @@ class User
     /**
      * @return bool
      */
-    public static function isTeacher() : bool
+    public static function isTeacher(): bool
     {
         return (self::current()->group_id ?? null) == self::ROLE_TEACHER;
     }
@@ -197,6 +198,16 @@ class User
     public static function getScheduleShort(array $params = []) : array
     {
         return (array)Api::instance()->getScheduleShort(self::getToken(), $params);
+    }
+
+    /**
+     * @param int $areaId
+     * @param string $date
+     * @return \stdClass|null
+     */
+    public static function getScheduleFull(int $areaId, string $date): ?\stdClass
+    {
+        return Api::instance()->getScheduleFull(self::getToken(), $areaId, $date);
     }
 
     /**
@@ -303,10 +314,18 @@ class User
     }
 
     /**
+     * @return Collection
+     */
+    public static function getAreas(): Collection
+    {
+        return collect(Api::instance()->getAreas(self::getToken()));
+    }
+
+    /**
      * @param int|null $role
      * @return string
      */
-    public static function getRoleTag(int $role = null) : string
+    public static function getRoleTag(int $role = null): string
     {
         if (is_null($role)) {
             $role = self::current()->group_id;

@@ -31,6 +31,7 @@ return [
     'area' => 'Филиал',
     'time' => 'Время',
     'class' => 'Класс',
+    'lessons' => 'Занятия',
     'save' => 'Сохранить',
     'create' => 'Создать',
     'actions' => 'Действия',
@@ -115,6 +116,7 @@ return [
     'faq-2-title' => 'Расписание занятий',
 
     'schedule-short' => 'Ближайшее расписание',
+    'schedule-full' => 'Расписание',
     'count-lessons' => 'Кол-во занятий',
     'count-lessons-desc' => 'Общее число проведенных занятий в этом месяце',
     'salary-earned' => 'Заработано',
@@ -126,4 +128,10 @@ return [
 
     'make-lesson-report-alert' => 'Отправить отчет?',
     'lesson-report-success' => 'Отчет был успешно отправлен',
+    'areas-empty' => 'Филиалы отсутствует',
+    'areas-empty-error' => 'У вас нет доступных филиалов. Обратитесь к менеджеру.',
+    'schedule-undefined-client' => 'Неизвестный клиент',
+    'schedule-undefined-group' => 'Неизвестная группа',
+    'schedule-undefined-lid' => 'Неизвестный лид',
+    'schedule-consult' => 'Консультация'
 ];

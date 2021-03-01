@@ -28,6 +28,7 @@ class Facade
     const PARAM_DATE_TO = 'date_to';
     const PARAM_CONFIG_TAG = 'tag';
     const PARAM_WITHOUT_PAGINATE = 'without_paginate';
+    const PARAM_AREA_ID = 'area_id';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -39,7 +40,9 @@ class Facade
     const ACTION_GET_CLIENT_REPORTS = 'get_client_reports';
     const ACTION_GET_CLIENT_RATES = 'get_list';
     const ACTION_GET_RATE_BY_ID = 'get_rate_by_id';
+    const ACTION_GET_SCHEDULE_AREAS = 'getAreasList';
     const ACTION_GET_SCHEDULE_SHORT = 'get_schedule_short';
+    const ACTION_GET_SCHEDULE_FULL = 'get_schedule_full';
     const ACTION_GET_TEACHER_SCHEDULE_STATISTIC = 'getReportsStatistic';
     const ACTION_BUY_RATE = 'buy_tarif';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
@@ -74,6 +77,7 @@ class Facade
         self::ACTION_GET_PAYMENTS           => '/payment/index.php',
         self::ACTION_GET_CLIENT_REPORTS     => '/schedule/index.php',
         self::ACTION_GET_SCHEDULE_SHORT     => '/schedule/index.php',
+        self::ACTION_GET_SCHEDULE_FULL      => '/schedule/index.php',
         self::ACTION_GET_TEACHER_SCHEDULE_STATISTIC => '/schedule/index.php',
         self::ACTION_GET_CLIENT_RATES       => '/tarif/index.php',
         self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
@@ -89,6 +93,7 @@ class Facade
         self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
         self::ACTION_CONFIG_GET             => '/config/index.php',
+        self::ACTION_GET_SCHEDULE_AREAS     => '/schedule/index.php'
     ];
 
     /**
@@ -103,7 +108,7 @@ class Facade
     /**
      * @return Facade
      */
-    public static function instance() : self
+    public static function instance(): self
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new self(env('SERVER_API_URL', ''));
@@ -115,7 +120,7 @@ class Facade
      * @param string $action
      * @return string
      */
-    public function makeUrl(string $action) : string
+    public function makeUrl(string $action): string
     {
         return $this->apiUrl . (self::$action2url[$action] ?? '');
     }
@@ -124,7 +129,7 @@ class Facade
      * @param string $url
      * @param array $params
      * @param string $method
-     * @return \stdClass|null
+     * @return \stdClass|array|null
      */
     public function makeRequest(string $url, array $params, string $method = self::METHOD_GET)
     {
@@ -157,7 +162,7 @@ class Facade
      * @param $response
      * @return string
      */
-    public static function getResponseErrorMessage($response) : string
+    public static function getResponseErrorMessage($response): string
     {
         if ($response->message ?? '') {
             return strval($response->message);
@@ -170,7 +175,7 @@ class Facade
      * @param int|null $error
      * @return string
      */
-    public static function getErrorMessage(int $error = null) : string
+    public static function getErrorMessage(int $error = null): string
     {
         $langTag = !is_null($error)
             ?   'errors.' . $error
@@ -227,7 +232,7 @@ class Facade
      * @param array $params
      * @return array
      */
-    public function getPayments(string $token, array $params = []) : array
+    public function getPayments(string $token, array $params = []): array
     {
         $params[self::PARAM_TOKEN] = $token;
         $params[self::PARAM_ACTION] = self::ACTION_GET_PAYMENTS;
@@ -248,6 +253,19 @@ class Facade
 
     /**
      * @param string $token
+     * @return array
+     */
+    public function getAreas(string $token): array
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_GET_SCHEDULE_AREAS
+        ];
+        return (array)$this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_AREAS), $params, self::METHOD_GET);
+    }
+
+    /**
+     * @param string $token
      * @param array $params
      * @return \stdClass|null
      */
@@ -256,6 +274,25 @@ class Facade
         $params[self::PARAM_TOKEN] = $token;
         $params[self::PARAM_ACTION] = self::ACTION_GET_SCHEDULE_SHORT;
         return $this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_SHORT), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param int $areaId
+     * @param string|null $date
+     * @return \stdClass
+     */
+    public function getScheduleFull(string $token, int $areaId, ?string $date = null): \stdClass
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_GET_SCHEDULE_FULL,
+            self::PARAM_AREA_ID => $areaId
+        ];
+        if (!is_null($date)) {
+            $params[self::PARAM_DATE] = $date;
+        }
+        return $this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_FULL), $params, self::METHOD_GET);
     }
 
     /**
@@ -478,7 +515,7 @@ class Facade
      * @param array $params
      * @return \stdClass|null
      */
-    public function lessonReport(string $token, array $params = []) : ?\stdClass
+    public function lessonReport(string $token, array $params = []): ?\stdClass
     {
         $params[self::PARAM_TOKEN] = $token;
         $params[self::PARAM_ACTION] = self::ACTION_LESSON_REPORT;
