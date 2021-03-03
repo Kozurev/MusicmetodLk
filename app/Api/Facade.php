@@ -4,7 +4,6 @@ namespace App\Api;
 
 use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
-use mysql_xdevapi\Collection;
 
 class Facade
 {
@@ -155,7 +154,7 @@ class Facade
 
         if ($method == self::METHOD_POST) {
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $queryParams);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($queryParams));
         }
         //Log::info('API action "'.($params[self::PARAM_ACTION] ?? '').'": ' . $url);
         $result = json_decode(curl_exec($ch));
@@ -216,11 +215,11 @@ class Facade
     /**
      * @param string $login
      * @param string $password
-     * @return \stdClass|null
+     * @return ApiResponse
      */
-    public function auth(string $login, string $password)
+    public function auth(string $login, string $password): ApiResponse
     {
-        return $this->makeRequest($this->makeUrl(self::ACTION_AUTH), [
+        return $this->getResponse($this->makeUrl(self::ACTION_AUTH), [
             self::PARAM_ACTION => self::ACTION_AUTH,
             self::PARAM_LOGIN => $login,
             self::PARAM_PASSWORD => $password
@@ -236,7 +235,7 @@ class Facade
         return $this->makeRequest($this->makeUrl(self::ACTION_GET_USER), [
             self::PARAM_ACTION => self::ACTION_GET_USER,
             self::PARAM_TOKEN => $token
-        ], self::METHOD_GET);
+        ]);
     }
 
     /**
@@ -471,14 +470,14 @@ class Facade
     /**
      * @param string $token
      * @param array $lessonData
-     * @return \stdClass|null
+     * @return ApiResponse
      */
-    public function lessonSave(string $token, array $lessonData)
+    public function lessonSave(string $token, array $lessonData): ApiResponse
     {
         $lessonData[self::PARAM_TOKEN] = $token;
         $lessonData[self::PARAM_ACTION] = self::ACTION_LESSON_SAVE;
 
-        return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_SAVE), $lessonData, self::METHOD_POST);
+        return $this->getResponse($this->makeUrl(self::ACTION_LESSON_SAVE), $lessonData, self::METHOD_POST);
     }
 
     /**

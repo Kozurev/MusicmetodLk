@@ -97,14 +97,14 @@ class ScheduleController extends Controller
         ];
 
         $response = User::lessonSave($lessonData);
-        if ($response->status == true) {
+        if (!$response->hasErrors()) {
             return redirect()->back()->with('success', __('pages.lesson-saved-success', [
                 'date' => date('d.m.Y', strtotime($lessonTime->date)),
                 'timeFrom' => $lessonTime->refactoredTimeFrom,
                 'timeTo' => $lessonTime->refactoredTimeTo,
             ]));
         } else {
-            return redirect()->back()->withErrors(['request' => $response->message ?? '']);
+            return redirect()->back()->withErrors(['request' => $response->getErrorMessage()]);
         }
     }
 

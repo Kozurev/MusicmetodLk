@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Api\ApiResponse;
 use App\Api\Facade as Api;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
@@ -37,11 +38,11 @@ class User
     public static function auth(string $login, string $password): bool
     {
         $response = Api::instance()->auth($login, $password);
-        if ($response->token ?? null) {
-            self::storeAuthToken($response->token);
+        if ($response->data()->get('token')) {
+            self::storeAuthToken($response->data()->get('token'));
             return true;
         } else {
-            self::setError(__('user.error-' . ($response->errors[0] ?? '')));
+            self::setError(__('user.error-' . ($response->data()->get('errors')[0] ?? '')));
             return false;
         }
     }
@@ -291,9 +292,9 @@ class User
 
     /**
      * @param array $lessonData
-     * @return \stdClass|null
+     * @return ApiResponse
      */
-    public static function lessonSave(array $lessonData)
+    public static function lessonSave(array $lessonData): ApiResponse
     {
         if (self::isClient()) {
             $lessonData[\App\Api\Schedule::PARAM_LESSON_CLIENT_ID] = self::current()->id;
