@@ -158,6 +158,8 @@
 </div>
 <!-- end::Scrolltop -->
 
+@yield('modals')
+
 <!-- begin::Global Config(global config for global JS sciprts) -->
 <script>
     var KTAppOptions = {

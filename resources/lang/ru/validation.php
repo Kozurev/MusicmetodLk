@@ -164,7 +164,13 @@ return [
     'attributes' => [
         'amount' => __('pages.amount'),
         'date' => __('pages.date'),
-        'teacherId' => __('pages.teacher')
+        'teacherId' => __('pages.teacher'),
+        'teacher_id' => __('pages.teacher'),
+        'client_id' => 'Клиент',
+        'area_id' => 'Филиал',
+        'class_id' => 'Класс',
+        'lesson_time_from' => __('pages.lesson-time-from'),
+        'lesson_time_to' => __('pages.lesson-time-to'),
     ],
 
 ];

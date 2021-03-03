@@ -3,6 +3,8 @@
 namespace App\Api;
 
 use Illuminate\Support\Facades\Log;
+use Ixudra\Curl\Facades\Curl;
+use mysql_xdevapi\Collection;
 
 class Facade
 {
@@ -47,6 +49,7 @@ class Facade
     const ACTION_BUY_RATE = 'buy_tarif';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
     const ACTION_GET_TEACHERS = 'getClientTeachers';
+    const ACTION_GET_CLIENTS = 'getTeacherClients';
     const ACTION_GET_TEACHER_SCHEDULE = 'getTeacherSchedule';
     const ACTION_GET_TEACHER_NEAREST_TIME = 'getTeacherNearestTime';
     const ACTION_LESSON_SAVE = 'saveLesson';
@@ -83,6 +86,7 @@ class Facade
         self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
         self::ACTION_BUY_RATE               => '/tarif/index.php',
         self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
+        self::ACTION_GET_CLIENTS            => '/user/index.php',
         self::ACTION_GET_TEACHERS           => '/user/index.php',
         self::ACTION_GET_TEACHER_SCHEDULE   => '/schedule/index.php',
         self::ACTION_GET_TEACHER_NEAREST_TIME=>'/schedule/index.php',
@@ -156,6 +160,27 @@ class Facade
         }
         curl_close($ch);
         return $result;
+    }
+
+    /**
+     * @param string $url
+     * @param array $params
+     * @param string $method
+     * @return ApiResponse
+     */
+    public function getResponse(string $url, array $params, string $method = self::METHOD_GET): ApiResponse
+    {
+        $request = Curl::to($url)
+            ->withHeaders(['Content-Type: application/json', 'Accept: application/json'])
+            ->withData($params)
+            ->returnResponseObject()
+            ->withTimeout(30);
+        if ($method == self::METHOD_GET) {
+            $response = $request->get();
+        } else {
+            $response = $request->post();
+        }
+        return new ApiResponse($response);
     }
 
     /**
@@ -267,22 +292,22 @@ class Facade
     /**
      * @param string $token
      * @param array $params
-     * @return \stdClass|null
+     * @return ApiResponse
      */
-    public function getScheduleShort(string $token, array $params = [])
+    public function getScheduleShort(string $token, array $params = []): ApiResponse
     {
         $params[self::PARAM_TOKEN] = $token;
         $params[self::PARAM_ACTION] = self::ACTION_GET_SCHEDULE_SHORT;
-        return $this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_SHORT), $params);
+        return $this->getResponse($this->makeUrl(self::ACTION_GET_SCHEDULE_SHORT), $params);
     }
 
     /**
      * @param string $token
      * @param int $areaId
      * @param string|null $date
-     * @return \stdClass
+     * @return ApiResponse
      */
-    public function getScheduleFull(string $token, int $areaId, ?string $date = null): \stdClass
+    public function getScheduleFull(string $token, int $areaId, ?string $date = null): ApiResponse
     {
         $params = [
             self::PARAM_TOKEN => $token,
@@ -292,7 +317,7 @@ class Facade
         if (!is_null($date)) {
             $params[self::PARAM_DATE] = $date;
         }
-        return $this->makeRequest($this->makeUrl(self::ACTION_GET_SCHEDULE_FULL), $params, self::METHOD_GET);
+        return $this->getResponse($this->makeUrl(self::ACTION_GET_SCHEDULE_FULL), $params);
     }
 
     /**
@@ -387,6 +412,20 @@ class Facade
         ];
 
         return $this->makeRequest($this->makeUrl(self::ACTION_GET_TEACHERS), $params);
+    }
+
+    /**
+     * @param string $token
+     * @return ApiResponse
+     */
+    public function getClients(string $token): ApiResponse
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_GET_CLIENTS,
+            self::PARAM_TOKEN => $token
+        ];
+
+        return $this->getResponse($this->makeUrl(self::ACTION_GET_CLIENTS), $params);
     }
 
     /**

@@ -7,7 +7,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NewLessonRequest;
+use App\Http\Requests\LessonSaveClientRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -77,10 +77,10 @@ class ScheduleController extends Controller
     /**
      * Постановка в график (создание занятия)
      *
-     * @param NewLessonRequest $request
+     * @param LessonSaveClientRequest $request
      * @return RedirectResponse
      */
-    public function makeLesson(NewLessonRequest $request) : RedirectResponse
+    public function makeLesson(LessonSaveClientRequest $request) : RedirectResponse
     {
         $teacherId = $request->input('teacherId');
         $lessonTime = json_decode($request->input('time'));

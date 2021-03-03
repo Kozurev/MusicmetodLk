@@ -708,4 +708,12 @@ $(function() {
             });
         });
     }
+
+    if ($('#teacherLessonForm')) {
+        initAjaxForm('#teacherLessonForm', function(response) {
+            ajaxFormSuccessCallbackDefault(response, function(modalValue) {
+                window.location.reload();
+            });
+        });
+    }
 });

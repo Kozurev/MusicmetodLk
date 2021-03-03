@@ -36,11 +36,16 @@ function initAjaxForm(formSelector, successCallback, errorCallback) {
  * Калбэк функция по умолчанию для положительного ответа
  *
  * @param response
+ * @param afterModal
  */
-function ajaxFormSuccessCallbackDefault(response) {
+function ajaxFormSuccessCallbackDefault(response, afterModal) {
     alert.fire({
         type: response.status !== undefined ? response.status : 'success',
         title: response.message !== undefined ? response.message : '',
+    }).then((result) => {
+        if (typeof afterModal === 'function') {
+            afterModal(result);
+        }
     });
 }
 

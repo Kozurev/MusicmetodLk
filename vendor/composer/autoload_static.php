@@ -115,6 +115,7 @@ class ComposerStaticInit7ecacddf2bcf67c2ad38e5da895e052c
         ),
         'I' => 
         array (
+            'Ixudra\\Curl\\' => 12,
             'Illuminate\\' => 11,
         ),
         'G' => 
@@ -348,6 +349,10 @@ class ComposerStaticInit7ecacddf2bcf67c2ad38e5da895e052c
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'Ixudra\\Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ixudra/curl/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -460,10 +465,31 @@ class ComposerStaticInit7ecacddf2bcf67c2ad38e5da895e052c
     );
 
     public static $classMap = array (
+        'App\\Api\\ApiResponse' => __DIR__ . '/../..' . '/app/Api/ApiResponse.php',
+        'App\\Api\\Facade' => __DIR__ . '/../..' . '/app/Api/Facade.php',
+        'App\\Api\\Payment' => __DIR__ . '/../..' . '/app/Api/Payment.php',
+        'App\\Api\\Schedule' => __DIR__ . '/../..' . '/app/Api/Schedule.php',
+        'App\\Config' => __DIR__ . '/../..' . '/app/Config.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Format' => __DIR__ . '/../..' . '/app/Format.php',
+        'App\\Helpers\\Cache' => __DIR__ . '/../..' . '/app/Helpers/Cache.php',
+        'App\\Http\\Controllers\\Api\\PaymentsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PaymentsController.php',
+        'App\\Http\\Controllers\\Api\\RatesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RatesController.php',
+        'App\\Http\\Controllers\\Api\\ReportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ReportsController.php',
+        'App\\Http\\Controllers\\Api\\ScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ScheduleController.php',
+        'App\\Http\\Controllers\\Client\\BalanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/BalanceController.php',
+        'App\\Http\\Controllers\\Client\\FaqController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/FaqController.php',
+        'App\\Http\\Controllers\\Client\\RatesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/RatesController.php',
+        'App\\Http\\Controllers\\Client\\ScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/ScheduleController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',
+        'App\\Http\\Controllers\\Teacher\\ScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Teacher/ScheduleController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
+        'App\\Http\\Middleware\\Auth' => __DIR__ . '/../..' . '/app/Http/Middleware/Auth.php',
+        'App\\Http\\Middleware\\AuthClient' => __DIR__ . '/../..' . '/app/Http/Middleware/AuthClient.php',
+        'App\\Http\\Middleware\\AuthTeacher' => __DIR__ . '/../..' . '/app/Http/Middleware/AuthTeacher.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -471,11 +497,19 @@ class ComposerStaticInit7ecacddf2bcf67c2ad38e5da895e052c
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\AbsentPeriodSaveRequest' => __DIR__ . '/../..' . '/app/Http/Requests/AbsentPeriodSaveRequest.php',
+        'App\\Http\\Requests\\DepositRequest' => __DIR__ . '/../..' . '/app/Http/Requests/DepositRequest.php',
+        'App\\Http\\Requests\\LessonReportRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LessonReportRequest.php',
+        'App\\Http\\Requests\\LessonSaveClientRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LessonSaveClientRequest.php',
+        'App\\Http\\Requests\\LessonSaveTeacherRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LessonSaveTeacherRequest.php',
+        'App\\Http\\Requests\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LoginRequest.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\ViewServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ViewServiceProvider.php',
+        'App\\Traits\\CacheTrait' => __DIR__ . '/../..' . '/app/Traits/CacheTrait.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
@@ -2306,6 +2340,10 @@ class ComposerStaticInit7ecacddf2bcf67c2ad38e5da895e052c
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Ixudra\\Curl\\Builder' => __DIR__ . '/..' . '/ixudra/curl/src/Builder.php',
+        'Ixudra\\Curl\\CurlService' => __DIR__ . '/..' . '/ixudra/curl/src/CurlService.php',
+        'Ixudra\\Curl\\CurlServiceProvider' => __DIR__ . '/..' . '/ixudra/curl/src/CurlServiceProvider.php',
+        'Ixudra\\Curl\\Facades\\Curl' => __DIR__ . '/..' . '/ixudra/curl/src/Facades/Curl.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',

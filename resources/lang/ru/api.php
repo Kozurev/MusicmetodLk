@@ -15,4 +15,8 @@ return [
     'report-attendance-1' => 'Присутствовал(а)',
 
     'error-undefined' => 'Неизвестная ошибка API',
+
+    'errors' => [
+
+    ]
 ];

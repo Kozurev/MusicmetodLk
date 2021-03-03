@@ -193,21 +193,31 @@ class User
 
     /**
      * @param array $params
-     * @return array|null
+     * @return Collection
+     * @throws \Exception
      */
-    public static function getScheduleShort(array $params = []) : array
+    public static function getScheduleShort(array $params = []): Collection
     {
-        return (array)Api::instance()->getScheduleShort(self::getToken(), $params);
+        $response = Api::instance()->getScheduleShort(self::getToken(), $params);
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage());
+        }
+        return $response->data();
     }
 
     /**
      * @param int $areaId
      * @param string $date
-     * @return \stdClass|null
+     * @return Collection
+     * @throws \Exception
      */
-    public static function getScheduleFull(int $areaId, string $date): ?\stdClass
+    public static function getScheduleFull(int $areaId, string $date): Collection
     {
-        return Api::instance()->getScheduleFull(self::getToken(), $areaId, $date);
+        $response = Api::instance()->getScheduleFull(self::getToken(), $areaId, $date);
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage());
+        }
+        return $response->data();
     }
 
     /**
@@ -242,9 +252,22 @@ class User
     /**
      * @return \stdClass|null
      */
-    public static function getTeachers()
+    public static function getTeachers(): ?\stdClass
     {
         return Api::instance()->getTeachers(self::getToken());
+    }
+
+    /**
+     * @return Collection
+     * @throws \Exception
+     */
+    public static function getClients(): Collection
+    {
+        $response = Api::instance()->getClients(self::getToken());
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage(), $response->getErrorCode());
+        }
+        return collect($response->data()->get('clients'));
     }
 
     /**
@@ -272,7 +295,12 @@ class User
      */
     public static function lessonSave(array $lessonData)
     {
-        $lessonData[\App\Api\Schedule::PARAM_LESSON_CLIENT_ID] = self::current()->id;
+        if (self::isClient()) {
+            $lessonData[\App\Api\Schedule::PARAM_LESSON_CLIENT_ID] = self::current()->id;
+        } elseif (self::isTeacher()) {
+            $lessonData[\App\Api\Schedule::PARAM_LESSON_TEACHER_ID] = self::current()->id;
+        }
+
         return Api::instance()->lessonSave(self::getToken(), $lessonData);
     }
 

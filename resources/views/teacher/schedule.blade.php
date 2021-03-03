@@ -1,6 +1,7 @@
 @extends('layouts.app', ['partition' => 'schedule', 'page' => 'schedule'])
 
 @section('content')
+{{--    {{ dd($errors->any()) }}--}}
     <!--Расписание занятий-->
     <div class="row">
         <div class="col-md-12 col-sm-12">
@@ -8,7 +9,7 @@
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
                         <h3 class="kt-portlet__head-title">
-                            <i class="fa fa-calendar kt-font-brand"></i>
+                            <i class="kt-menu__link-icon flaticon-event-calendar-symbol kt-font-brand"></i>
                             &nbsp;
                             {{ __('pages.schedule-full') }}
                         </h3>
@@ -39,9 +40,14 @@
                                         <div class="input-group date">
                                             <input type="text" name="date" class="form-control datepicker" value="{{ $date->format('d.m.Y') }}">
                                             <div class="input-group-append">
-                                                <button class="btn btn-primary">
+                                                <button type="submit" class="btn btn-primary">
                                                     <i class="fa flaticon2-search" style="color: #fff"></i>
                                                 </button>
+                                                @if($areas->isNotEmpty() && $schedule->isNotEmpty())
+                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#teacherLessonModal">
+                                                        <i class="fa fa-plus" style="color: #fff"></i>
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -150,4 +156,117 @@
         </div>
     </div>
     <!--end: Расписание занятий-->
+@endsection
+
+@section('modals')
+    <!-- Modal -->
+    <div class="modal fade" id="teacherLessonModal" tabindex="-1" role="dialog" aria-labelledby="teacherLessonModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="teacherLessonModalLabel">
+                        {{ __('pages.schedule-create-lesson-title') }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('teacher.schedule.lesson.save') }}" method="POST" id="teacherLessonForm">
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ \App\User::getToken() }}">
+                        <input type="hidden" name="area_id" value="{{ $areaId }}">
+                        <input type="hidden" name="date" value="{{ $date->format('Y-m-d') }}">
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="type_id" class="form-label">{{ __('pages.lesson-type') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <select name="type_id" id="type_id" class="form-control">
+                                        @foreach($lessonTypes as $typeId => $typeName)
+                                            <option value="{{ $typeId }}">
+                                                {{ $typeName }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="class_id" class="form-label">{{ __('pages.class') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <select name="class_id" id="class_id" class="form-control">
+                                        @foreach($schedule as $class)
+                                            <option value="{{ $class->class_id }}">
+                                                {{ $class->title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="client_id" class="form-label">{{ __('pages.client') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <select name="client_id" id="client_id" class="form-control">
+                                        @foreach($clients as $client)
+                                            <option value="{{ $client->id }}">
+                                                {{ $client->surname }} {{ $client->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="lesson_time_from" class="form-label">{{ __('pages.lesson-time-from') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <input type="time" class="form-control" name="lesson_time_from" id="lesson_time_from" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="lesson_time_to" class="form-label">{{ __('pages.lesson-time-to') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <input type="time" class="form-control" name="lesson_time_to" id="lesson_time_to" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('pages.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('pages.schedule-create-lesson-submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

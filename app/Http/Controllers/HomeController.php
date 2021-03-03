@@ -52,49 +52,49 @@ class HomeController extends Controller
         $dateFrom = (clone $date)->startOfWeek()->format('Y-m-d');
         $dateTo = (clone $date)->addWeeks($countWeeks - 1)->endOfWeek()->format('Y-m-d');
 
-        $scheduleResponse = User::getScheduleShort([
-            Facade::PARAM_DATE_START => $dateFrom,
-            Facade::PARAM_DATE_END => $dateTo
-        ]);
+        try {
+            $schedule = User::getScheduleShort([
+                Facade::PARAM_DATE_START => $dateFrom,
+                Facade::PARAM_DATE_END => $dateTo
+            ]);
+        } catch (\Throwable $throwable) {
+            $errors[] = $throwable->getMessage();
+            $schedule = collect();
+        }
 
         $weeks = [];
-        $todayLessons = [];
-        if (($scheduleResponse['status'] ?? true) === false) {
-            $errors[] = $scheduleResponse['message'] ?? __('api.error-undefined');
-        } else {
-            $schedule = collect($scheduleResponse);
-            $todayLessons = $schedule->where('date', (clone $date)->format('Y-m-d'))->first()->lessons ?? [];
-            for ($weekNum = 0; $weekNum < $countWeeks; $weekNum++) {
-                $weekDateStart = (clone $date)->addWeeks($weekNum)->startOfWeek();
 
-                //формирование данных по каждому дню
-                $days = [];
-                for ($weekDaysNum = 0; $weekDaysNum < 7; $weekDaysNum++) {
-                    $day = [
-                        //дата "текущего" дня
-                        'date' => (clone $weekDateStart)->addDays($weekDaysNum)->format('Y-m-d')
-                    ];
-                    $lessons = collect($schedule->where('date', $day['date'])->first()->lessons ?? []);
+        $todayLessons = $schedule->where('date', (clone $date)->format('Y-m-d'))->first()->lessons ?? [];
+        for ($weekNum = 0; $weekNum < $countWeeks; $weekNum++) {
+            $weekDateStart = (clone $date)->addWeeks($weekNum)->startOfWeek();
 
-                    //данные по филиалам и занятиям в филиалах
-                    if (!empty($lessons)) {
-                        //филиалы, в которых проходят занятия на текущий день
-                        $areas = (clone $lessons)->map(function(\stdClass $lessonData) : \stdClass {
-                            return $lessonData->area;
-                        })->unique('id');
+            //формирование данных по каждому дню
+            $days = [];
+            for ($weekDaysNum = 0; $weekDaysNum < 7; $weekDaysNum++) {
+                $day = [
+                    //дата "текущего" дня
+                    'date' => (clone $weekDateStart)->addDays($weekDaysNum)->format('Y-m-d')
+                ];
+                $lessons = collect($schedule->where('date', $day['date'])->first()->lessons ?? []);
 
-                        //групирование занятий текущего дня по каждому филиалу отдельно
-                        $day['areas'] = $areas->map(function(\stdClass $area) use ($lessons) : \stdClass {
-                            $area->lessons = $lessons->where('area_id', $area->id)->all();
-                            return $area;
-                        });
-                    }
+                //данные по филиалам и занятиям в филиалах
+                if (!empty($lessons)) {
+                    //филиалы, в которых проходят занятия на текущий день
+                    $areas = (clone $lessons)->map(function(\stdClass $lessonData) : \stdClass {
+                        return $lessonData->area;
+                    })->unique('id');
 
-                    $days[] = $day;
+                    //групирование занятий текущего дня по каждому филиалу отдельно
+                    $day['areas'] = $areas->map(function(\stdClass $area) use ($lessons) : \stdClass {
+                        $area->lessons = $lessons->where('area_id', $area->id)->all();
+                        return $area;
+                    });
                 }
 
-                $weeks[$weekNum] = $days;
+                $days[] = $day;
             }
+
+            $weeks[$weekNum] = $days;
         }
 
         /**
