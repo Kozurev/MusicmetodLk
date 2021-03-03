@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Api\Schedule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LessonAbsentRequest;
 use App\Http\Requests\LessonSaveTeacherRequest;
 use App\Http\Requests\LessonTimeModifyRequest;
 use App\User;
@@ -56,6 +57,8 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Постановка в график
+     *
      * @param LessonSaveTeacherRequest $request
      * @return JsonResponse
      */
@@ -93,6 +96,8 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Изменение времени занятия
+     *
      * @param LessonTimeModifyRequest $request
      * @return JsonResponse
      */
@@ -103,6 +108,28 @@ class ScheduleController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => __('pages.lesson-time-modified-success')
+            ]);
+        } catch (\Throwable $throwable) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $throwable->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Отмена занятия
+     *
+     * @param LessonAbsentRequest $request
+     * @return JsonResponse
+     */
+    public function lessonAbsent(LessonAbsentRequest $request): JsonResponse
+    {
+        try {
+            User::lessonAbsent($request->lesson_id, $request->date);
+            return response()->json([
+                'status' => 'success',
+                'message' => __('pages.lesson-cancel-success')
             ]);
         } catch (\Throwable $throwable) {
             return response()->json([

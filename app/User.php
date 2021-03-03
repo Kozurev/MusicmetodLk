@@ -322,11 +322,14 @@ class User
     /**
      * @param int $lessonId
      * @param string $date
-     * @return \stdClass|null
+     * @throws \Exception
      */
-    public static function lessonAbsent(int $lessonId, string $date)
+    public static function lessonAbsent(int $lessonId, string $date): void
     {
-        return Api::instance()->lessonAbsent(self::getToken(), $lessonId, $date);
+        $response = Api::instance()->lessonAbsent(self::getToken(), $lessonId, $date);
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage());
+        }
     }
 
     /**

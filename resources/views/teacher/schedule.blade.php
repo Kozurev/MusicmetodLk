@@ -116,29 +116,36 @@
                                                         @if(!is_null($lesson)) rowspan="{{ $rowspan }}" @endif>
 
                                                         @if(!is_null($lesson) && $lesson->teacher_id == $user->id)
-                                                            @if(in_array($lesson->type_id, [\App\Api\Schedule::TYPE_SINGLE, \App\Api\Schedule::TYPE_PRIVATE]))
-                                                                @if($lesson->client->surname ?? null)
-                                                                    {{ $lesson->client->surname }} {{ $lesson->client->name }}
+                                                            <p class="text-center">
+                                                                @if(in_array($lesson->type_id, [\App\Api\Schedule::TYPE_SINGLE, \App\Api\Schedule::TYPE_PRIVATE]))
+                                                                    @if($lesson->client->surname ?? null)
+                                                                        {{ $lesson->client->surname }} {{ $lesson->client->name }}
+                                                                    @else
+                                                                        {{ __('pages.schedule-undefined-client') }}
+                                                                    @endif
+                                                                @elseif(in_array($lesson->type_id, [\App\Api\Schedule::TYPE_GROUP, \App\Api\Schedule::TYPE_GROUP_CONSULT]))
+                                                                    @if($lesson->client->title ?? null)
+                                                                        {{ $lesson->client->title }}
+                                                                    @else
+                                                                        {{ __('pages.schedule-undefined-group') }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ __('pages.schedule-undefined-client') }}
+                                                                    @if($lesson->client->number ?? null)
+                                                                        {{ __('pages.schedule-consult') }} {{ $lesson->client->number }}
+                                                                    @else
+                                                                        {{ __('pages.schedule-undefined-lid') }}
+                                                                    @endif
                                                                 @endif
-                                                            @elseif(in_array($lesson->type_id, [\App\Api\Schedule::TYPE_GROUP, \App\Api\Schedule::TYPE_GROUP_CONSULT]))
-                                                                @if($lesson->client->title ?? null)
-                                                                    {{ $lesson->client->title }}
-                                                                @else
-                                                                    {{ __('pages.schedule-undefined-group') }}
-                                                                @endif
-                                                            @else
-                                                                @if($lesson->client->number ?? null)
-                                                                    {{ __('pages.schedule-consult') }} {{ $lesson->client->number }}
-                                                                @else
-                                                                    {{ __('pages.schedule-undefined-lid') }}
-                                                                @endif
-                                                            @endif
+                                                            </p>
 
-                                                            <button class="btn btn-sm btn-link lesson-time-modify text-center" data-lesson_id="{{ $lesson->id }}">
-                                                                <i class="fa fa-clock"></i>
-                                                            </button>
+                                                            <p class="text-center">
+                                                                <button class="btn btn-sm btn-link lesson-time-modify" data-lesson_id="{{ $lesson->id }}">
+                                                                    <i class="fa fa-clock"></i>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-link lesson-cancel" data-lesson_id="{{ $lesson->id }}" data-date="{{ $date->format('Y-m-d') }}">
+                                                                    <i class="fa flaticon-circle"></i>
+                                                                </button>
+                                                            </p>
                                                         @endif
                                                     </td>
                                                 @endif

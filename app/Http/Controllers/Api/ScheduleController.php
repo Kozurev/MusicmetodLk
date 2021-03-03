@@ -51,15 +51,18 @@ class ScheduleController extends Controller
     {
         $lessonId = $request->input('lesson_id', 0);
         $date = $request->input('date', '');
-        $response = User::lessonAbsent($lessonId, $date);
-        $message = ($response->status ?? true) == false
-            ?   $response->message
-            :   __('pages.lesson-cancel-success');
-
-        return response()->json([
-            'status' => ($response->status ?? true) == true ? 'success' : 'error',
-            'message' => $message
-        ]);
+        try {
+            User::lessonAbsent($lessonId, $date);
+            return response()->json([
+                'status' => 'success',
+                'message' => __('pages.lesson-cancel-success')
+            ]);
+        } catch (\Throwable $throwable) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $throwable->getMessage()
+            ], 500);
+        }
     }
 
     /**

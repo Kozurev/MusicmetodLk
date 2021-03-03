@@ -487,9 +487,9 @@ class Facade
      * @param string $token
      * @param int $lessonId
      * @param string $date
-     * @return \stdClass|null
+     * @return ApiResponse
      */
-    public function lessonAbsent(string $token, int $lessonId, string $date)
+    public function lessonAbsent(string $token, int $lessonId, string $date): ApiResponse
     {
         $params = [
             self::PARAM_TOKEN => $token,
@@ -497,7 +497,7 @@ class Facade
             self::PARAM_LESSON_ID => $lessonId,
             self::PARAM_DATE => $date
         ];
-        return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_ABSENT), $params, self::METHOD_POST);
+        return $this->getResponse($this->makeUrl(self::ACTION_LESSON_ABSENT), $params, self::METHOD_POST);
     }
 
     /**

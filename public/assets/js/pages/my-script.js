@@ -692,6 +692,38 @@ $(function() {
             let $modal = $('#lessonTimeModifyModal');
             $modal.find('input[name=lesson_id]').val($(this).data('lesson_id'));
             $modal.modal();
+        })
+        .on('click', '.lesson-cancel', function(e) {
+            e.preventDefault();
+            alert.fire({
+                title: lang('lesson_cancel_alert'),
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: lang('yes'),
+                cancelButtonText: lang('no'),
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/teacher/schedule/lesson/absent',
+                        data: {
+                            _token: $('meta[name=csrf_token]').attr('content'),
+                            token: $('meta[name=token]').attr('content'),
+                            lesson_id: $(this).data('lesson_id'),
+                            date: $(this).data('date')
+                        },
+                        success: function(response) {
+                            ajaxFormSuccessCallbackDefault(response, function(result) {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(response) {
+                            ajaxFormErrorCallbackDefault(response);
+                        }
+                    });
+                }
+            });
         });
 
 
