@@ -307,6 +307,21 @@ class User
     /**
      * @param int $lessonId
      * @param string $date
+     * @param string $timeFrom
+     * @param string $timeTo
+     * @throws \Exception
+     */
+    public static function lessonTimeModify(int $lessonId, string $date, string $timeFrom, string $timeTo): void
+    {
+        $response = Api::instance()->lessonTimeModify(self::getToken(), $lessonId, $date, $timeFrom, $timeTo);
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage());
+        }
+    }
+
+    /**
+     * @param int $lessonId
+     * @param string $date
      * @return \stdClass|null
      */
     public static function lessonAbsent(int $lessonId, string $date)

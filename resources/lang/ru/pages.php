@@ -109,6 +109,7 @@ return [
     'lesson-saved-success' => 'Запись успешно принята. Дата занятия :date, время: :timeFrom - :timeTo',
     'lesson-cancel-alert' => 'Вы уверены что хотите отменить занятие?',
     'lesson-cancel-success' => 'Занятие успешно отменено',
+    'lesson-time-modified-success' => 'Время занятия успешно изменено',
 
     'no-periods' => 'Периодов отсутствия не найдено',
     'absent-period-create' => 'Добавить период отсутствия',
@@ -147,4 +148,6 @@ return [
     'schedule-consult' => 'Консультация',
     'schedule-create-lesson-title' => 'Постановка в график',
     'schedule-create-lesson-submit' => 'Добавить в график',
+    'schedule-lesson-time-modify-title' => 'Изменение времени занятия',
+    'schedule-lesson-time-modify-submit' => 'Изменить',
 ];

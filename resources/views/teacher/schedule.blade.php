@@ -135,6 +135,10 @@
                                                                     {{ __('pages.schedule-undefined-lid') }}
                                                                 @endif
                                                             @endif
+
+                                                            <button class="btn btn-sm btn-link lesson-time-modify text-center" data-lesson_id="{{ $lesson->id }}">
+                                                                <i class="fa fa-clock"></i>
+                                                            </button>
                                                         @endif
                                                     </td>
                                                 @endif
@@ -159,7 +163,59 @@
 @endsection
 
 @section('modals')
-    <!-- Modal -->
+    <div class="modal fade" id="lessonTimeModifyModal" tabindex="-1" role="dialog" aria-labelledby="lessonTimeModifyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lessonTimeModifyModalLabel">
+                        {{ __('pages.schedule-lesson-time-modify-title') }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('teacher.schedule.lesson.time_modify') }}" method="POST" id="lessonTimeModifyForm">
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ \App\User::getToken() }}">
+                        <input type="hidden" name="date" value="{{ $date->format('Y-m-d') }}">
+                        <input type="hidden" name="lesson_id" value="">
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="time_from" class="form-label">{{ __('pages.lesson-time-from') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <input type="time" name="time_from" id="time_from" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <div class="form-group">
+                                    <label for="time_to" class="form-label">{{ __('pages.lesson-time-to') }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <input type="time" name="time_to" id="time_to" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('pages.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('pages.schedule-lesson-time-modify-submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="teacherLessonModal" tabindex="-1" role="dialog" aria-labelledby="teacherLessonModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

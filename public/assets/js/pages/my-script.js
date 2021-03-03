@@ -686,6 +686,12 @@ $(function() {
                     }
                 });
             }
+        })
+        .on('click', '.lesson-time-modify', function(e) {
+            e.preventDefault();
+            let $modal = $('#lessonTimeModifyModal');
+            $modal.find('input[name=lesson_id]').val($(this).data('lesson_id'));
+            $modal.modal();
         });
 
 
@@ -709,8 +715,15 @@ $(function() {
         });
     }
 
-    if ($('#teacherLessonForm')) {
+    if ($('#teacherLessonForm').length !== 0) {
         initAjaxForm('#teacherLessonForm', function(response) {
+            ajaxFormSuccessCallbackDefault(response, function(modalValue) {
+                window.location.reload();
+            });
+        });
+    }
+    if ($('#lessonTimeModifyForm').length !== 0) {
+        initAjaxForm('#lessonTimeModifyForm', function(response) {
             ajaxFormSuccessCallbackDefault(response, function(modalValue) {
                 window.location.reload();
             });

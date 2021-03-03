@@ -44,4 +44,5 @@ Route::group(['prefix' => 'teacher', 'middleware' => ['auth', 'auth_teacher']], 
     Route::get('/', 'HomeController@teacherIndex')->name('teacher.index');
     Route::get('/schedule', 'Teacher\\ScheduleController@index')->name('teacher.schedule');
     Route::post('/schedule/lesson/save', 'Teacher\\ScheduleController@saveLesson')->name('teacher.schedule.lesson.save');
+    Route::post('/schedule/lesson/time_modify', 'Teacher\\ScheduleController@lessonTimeModify')->name('teacher.schedule.lesson.time_modify');
 });

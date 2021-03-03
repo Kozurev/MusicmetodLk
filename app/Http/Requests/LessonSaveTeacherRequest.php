@@ -6,6 +6,18 @@ use App\Api\Schedule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property int $type_id
+ * @property int $client_id
+ * @property int $area_id
+ * @property int $class_id
+ * @property string $date
+ * @property string $lesson_time_from
+ * @property string $lesson_time_to
+ *
+ * Class LessonSaveTeacherRequest
+ * @package App\Http\Requests
+ */
 class LessonSaveTeacherRequest extends FormRequest
 {
     /**
@@ -26,13 +38,13 @@ class LessonSaveTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type_id' => ['required', 'integer', Rule::in([Schedule::TYPE_SINGLE, Schedule::TYPE_PRIVATE])],
-            'client_id' => ['required', 'integer'],
-            'area_id' => ['required', 'integer', 'min:1'],
-            'class_id' => ['required', 'integer', 'min:1'],
-            'date' => ['required' , 'date_format:Y-m-d'],
-            'lesson_time_from' => ['required', 'string', 'date_format:H:i'],
-            'lesson_time_to' => ['required', 'string', 'date_format:H:i'],
+            'type_id'           => ['required', 'integer', Rule::in([Schedule::TYPE_SINGLE, Schedule::TYPE_PRIVATE])],
+            'client_id'         => ['required', 'integer'],
+            'area_id'           => ['required', 'integer', 'min:1'],
+            'class_id'          => ['required', 'integer', 'min:1'],
+            'date'              => ['required' , 'date_format:Y-m-d'],
+            'lesson_time_from'  => ['required', 'string', 'date_format:H:i'],
+            'lesson_time_to'    => ['required', 'string', 'date_format:H:i'],
         ];
     }
 
@@ -42,18 +54,18 @@ class LessonSaveTeacherRequest extends FormRequest
     public function messages(): array
     {
         $messages = parent::messages();
-        $messages['time.required'] = __('pages.make-lesson-time-required');
-        $messages['time.date_format'] = __('pages.make-lesson-time-format');
-        $messages['date.required'] = __('pages.make-lesson-date-required');
-        $messages['date.date_format'] = __('pages.make-lesson-date-format');
-        $messages['client_id.required'] = __('pages.make-lesson-client-id-required');
-        $messages['client_id.min'] = __('pages.make-lesson-client-id-required');
-        $messages['area_id.required'] = __('pages.make-lesson-area-id-required');
-        $messages['area_id.min'] = __('pages.make-lesson-area-id-required');
-        $messages['lesson_time_from.required'] = __('pages.make-lesson-time-from-required');
+        $messages['time.required'] =                __('pages.make-lesson-time-required');
+        $messages['time.date_format'] =             __('pages.make-lesson-time-format');
+        $messages['date.required'] =                __('pages.make-lesson-date-required');
+        $messages['date.date_format'] =             __('pages.make-lesson-date-format');
+        $messages['client_id.required'] =           __('pages.make-lesson-client-id-required');
+        $messages['client_id.min'] =                __('pages.make-lesson-client-id-required');
+        $messages['area_id.required'] =             __('pages.make-lesson-area-id-required');
+        $messages['area_id.min'] =                  __('pages.make-lesson-area-id-required');
+        $messages['lesson_time_from.required'] =    __('pages.make-lesson-time-from-required');
         $messages['lesson_time_from.date_format'] = __('pages.make-lesson-time-from-required');
-        $messages['lesson_time_to.required'] = __('pages.make-lesson-time-to-required');
-        $messages['lesson_time_to.date_format'] = __('pages.make-lesson-time-to-required');
+        $messages['lesson_time_to.required'] =      __('pages.make-lesson-time-to-required');
+        $messages['lesson_time_to.date_format'] =   __('pages.make-lesson-time-to-required');
         return $messages;
     }
 }

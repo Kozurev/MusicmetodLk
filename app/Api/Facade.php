@@ -28,6 +28,8 @@ class Facade
     const PARAM_LESSON_ATTENDANCE_CLIENTS = 'attendance_clients';
     const PARAM_DATE_FROM = 'date_from';
     const PARAM_DATE_TO = 'date_to';
+    const PARAM_TIME_FROM = 'time_from';
+    const PARAM_TIME_TO = 'time_to';
     const PARAM_CONFIG_TAG = 'tag';
     const PARAM_WITHOUT_PAGINATE = 'without_paginate';
     const PARAM_AREA_ID = 'area_id';
@@ -55,6 +57,7 @@ class Facade
     const ACTION_LESSON_SAVE = 'saveLesson';
     const ACTION_LESSON_ABSENT = 'markAbsent';
     const ACTION_LESSON_REPORT = 'makeReport';
+    const ACTION_LESSON_CHANGE_TIME = 'lessonChangeTime';
     const ACTION_ABSENT_PERIOD_LIST = 'getAbsentPeriods';
     const ACTION_ABSENT_PERIOD_SAVE = 'saveAbsentPeriod';
     const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
@@ -93,6 +96,7 @@ class Facade
         self::ACTION_LESSON_SAVE            => '/schedule/index.php',
         self::ACTION_LESSON_ABSENT          => '/schedule/index.php',
         self::ACTION_LESSON_REPORT          => '/schedule/index.php',
+        self::ACTION_LESSON_CHANGE_TIME     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_LIST     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
@@ -173,6 +177,7 @@ class Facade
         $request = Curl::to($url)
             ->withHeaders(['Content-Type: application/json', 'Accept: application/json'])
             ->withData($params)
+            ->asJsonRequest()
             ->returnResponseObject()
             ->withTimeout(30);
         if ($method == self::METHOD_GET) {
@@ -493,6 +498,26 @@ class Facade
             self::PARAM_DATE => $date
         ];
         return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_ABSENT), $params, self::METHOD_POST);
+    }
+
+    /**
+     * @param string $token
+     * @param int $lessonId
+     * @param string $date
+     * @param string $timeFrom
+     * @param string $timeTo
+     * @return ApiResponse
+     */
+    public function lessonTimeModify(string $token, int $lessonId, string $date, string $timeFrom, string $timeTo): ApiResponse
+    {
+        return $this->getResponse($this->makeUrl(self::ACTION_LESSON_CHANGE_TIME), [
+            self::PARAM_ACTION => self::ACTION_LESSON_CHANGE_TIME,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_LESSON_ID => $lessonId,
+            self::PARAM_DATE => $date,
+            self::PARAM_TIME_FROM => $timeFrom,
+            self::PARAM_TIME_TO => $timeTo
+        ], self::METHOD_POST);
     }
 
     /**

@@ -169,6 +169,7 @@ return [
         'client_id' => 'Клиент',
         'area_id' => 'Филиал',
         'class_id' => 'Класс',
+        'lesson_id' => 'Занятие',
         'lesson_time_from' => __('pages.lesson-time-from'),
         'lesson_time_to' => __('pages.lesson-time-to'),
     ],

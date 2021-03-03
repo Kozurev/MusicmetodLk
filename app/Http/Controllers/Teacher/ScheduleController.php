@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Api\ApiResponse;
 use App\Api\Schedule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LessonSaveTeacherRequest;
+use App\Http\Requests\LessonTimeModifyRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Psy\Util\Json;
 
 /**
  * Class ScheduleController
@@ -92,5 +90,25 @@ class ScheduleController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    /**
+     * @param LessonTimeModifyRequest $request
+     * @return JsonResponse
+     */
+    public function lessonTimeModify(LessonTimeModifyRequest $request): JsonResponse
+    {
+        try {
+            User::lessonTimeModify($request->lesson_id, $request->date, $request->time_from . ':00', $request->time_to . ':00');
+            return response()->json([
+                'status' => 'success',
+                'message' => __('pages.lesson-time-modified-success')
+            ]);
+        } catch (\Throwable $throwable) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $throwable->getMessage()
+            ], 500);
+        }
     }
 }

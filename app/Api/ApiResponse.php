@@ -40,7 +40,7 @@ class ApiResponse
 
     public function hasErrors(): bool
     {
-        return $this->status !== self::STATUS_OK || $this->data()->get('status', true) === false;
+        return $this->status !== self::STATUS_OK || (bool)$this->data()->get('status', true) === false;
     }
 
     /**

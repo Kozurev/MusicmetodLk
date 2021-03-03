@@ -65,6 +65,10 @@
     background: #D8E6F3;
 }
 
+.btn i {
+    padding-right: 0;
+}
+
 
 
 @media (min-width: 1025px) {
