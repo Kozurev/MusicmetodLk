@@ -154,7 +154,7 @@ class Facade
 
         if ($method == self::METHOD_POST) {
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($queryParams));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $queryParams);
         }
         //Log::info('API action "'.($params[self::PARAM_ACTION] ?? '').'": ' . $url);
         $result = json_decode(curl_exec($ch));
