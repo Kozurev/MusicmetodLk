@@ -38,6 +38,14 @@ class ApiResponse
         return $this->responseData;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSuccess(): bool
+    {
+        return !$this->hasErrors();
+    }
+
     public function hasErrors(): bool
     {
         return $this->status !== self::STATUS_OK || (bool)$this->data()->get('status', true) === false;

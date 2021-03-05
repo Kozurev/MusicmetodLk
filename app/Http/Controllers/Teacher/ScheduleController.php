@@ -76,7 +76,7 @@ class ScheduleController extends Controller
         ];
 
         $response = User::lessonSave($lessonData);
-        if ($response->status == true) {
+        if ($response->isSuccess()) {
             $response = [
                 'status' => 'success',
                 'message' => __('pages.lesson-saved-success', [
@@ -88,7 +88,7 @@ class ScheduleController extends Controller
         } else {
             $response = [
                 'status' => 'error',
-                'message' => $response->message
+                'message' => $response->getErrorMessage()
             ];
         }
 
