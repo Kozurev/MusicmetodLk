@@ -147,7 +147,14 @@ class HomeController extends Controller
         }
         $dashboardsData->put('salary_payed', $salaryPayed);
 
-        return view(User::getRoleTag(User::ROLE_TEACHER) . '.index', compact('date', 'weeks', 'dashboardsData', 'todayLessons'))
+        try {
+            $clients = User::getClients();
+        } catch (\Throwable $throwable) {
+            $errors[] = $throwable->getMessage();
+            $clients = collect();
+        }
+
+        return view(User::getRoleTag(User::ROLE_TEACHER) . '.index', compact('date', 'weeks', 'dashboardsData', 'todayLessons', 'clients'))
             ->withErrors($errors);
     }
 }

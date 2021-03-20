@@ -135,7 +135,8 @@
     <!--end: Расписание занятий-->
 
     <div class="row">
-        <div class="col-md-12 col-sm-12">
+        <!--start: Таблица с отчетами о проведенных занятиях-->
+        <div class="col-md-8 col-sm-12">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobil ">
                 <div class="kt-portlet__head">
                     <div class="kt-portlet__head-label">
@@ -219,5 +220,57 @@
                 </div>
             </div>
         </div>
+        <!--end: Таблица с отчетами о проведенных занятиях-->
+
+        <!--start: Таблица с клиентами-->
+        <div class="col-md-4 col-sm-12">
+            <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobil">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            <i class="fa flaticon-users-1 kt-font-brand"></i>
+                            &nbsp;
+                            {{ __('pages.clients-table') }}
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                    </div>
+                </div>
+                <div class="kt-portlet__body @if($clients->isNotEmpty()) kt-portlet__body--fit @endif">
+                    @if($clients->isEmpty())
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 offset-md-3 offset-sm-0">
+                                <div class="alert alert-outline-danger fade show" role="alert">
+                                    <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                                    <div class="alert-text">
+                                        {{ __('pages.clients-empty-error') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr class="text-center">
+                                    <th>{{ __('pages.client-name') }}</th>
+                                    <th>{{ __('pages.phone-number') }}</th>
+                                </tr>
+                                @foreach($clients as $client)
+                                    <tr class="text-center">
+                                        <td>
+                                            {{ $client->surname }} {{ $client->name }}
+                                        </td>
+                                        <td>
+                                            {{ $client->phone_number }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <!--end: таблица с клиентами-->
     </div>
 @endsection

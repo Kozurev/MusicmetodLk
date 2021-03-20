@@ -138,10 +138,15 @@ return [
     'reports-results' => 'Результат',
     'reports-group-clients' => 'состав',
 
+    'clients-table' => 'Список клиентов',
+    'client-name' => 'ФИО клиента',
+    'phone-number' => 'Номер телефона',
+
     'make-lesson-report-alert' => 'Отправить отчет?',
     'lesson-report-success' => 'Отчет был успешно отправлен',
     'areas-empty' => 'Филиалы отсутствует',
     'areas-empty-error' => 'У вас нет доступных филиалов. Обратитесь к менеджеру.',
+    'clients-empty-error' => 'У вас пока нет клиентов. Обратитесь к менеджеру.',
     'schedule-undefined-client' => 'Неизвестный клиент',
     'schedule-undefined-group' => 'Неизвестная группа',
     'schedule-undefined-lid' => 'Неизвестный лид',
