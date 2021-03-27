@@ -108,6 +108,8 @@ class User
             self::setError($userData->error);
             return null;
         } else {
+            $user = $userData->user;
+            $user->group = self::getRoleTag($user->group_id);
             return $userData->user;
         }
     }

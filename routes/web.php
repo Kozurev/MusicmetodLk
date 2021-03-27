@@ -21,6 +21,9 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', 'LoginController@logout')->name('login.logout');
     Route::get('/', 'HomeController@index')->name('index');
+
+    Route::get('/{group}/profile/edit', 'ProfileController@index')->name('profile.edit');
+    Route::post('/{group}/profile/save', 'ProfileController@save')->name('profile.save');
 });
 
 Route::group(['prefix' => 'client', 'middleware' => ['auth', 'auth_client']], function () {

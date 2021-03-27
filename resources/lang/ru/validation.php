@@ -172,6 +172,8 @@ return [
         'lesson_id' => 'Занятие',
         'lesson_time_from' => __('pages.lesson-time-from'),
         'lesson_time_to' => __('pages.lesson-time-to'),
+        'surname' => __('profile.first_name'),
+        'name' => __('profile.last_name')
     ],
 
 ];

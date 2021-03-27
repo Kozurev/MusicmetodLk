@@ -761,4 +761,8 @@ $(function() {
             });
         });
     }
+
+    if ($('.masked-phone').length !== 0) {
+        $('.masked-phone').mask('+79999999999');
+    }
 });
