@@ -14,7 +14,7 @@ class Facade
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
     const PARAM_DATE_END = 'date_end';
-    const PARAM_RATE_ID = 'tarif_id';
+    const PARAM_RATE_ID = 'tariff_id';
     const PARAM_AMOUNT = 'amount';
     const PARAM_DESCRIPTION = 'description';
     const PARAM_SUCCESS_URL = 'successUrl';
