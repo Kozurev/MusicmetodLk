@@ -94,6 +94,7 @@
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
+                                                <span class="form-text text-muted">{{ __('profile.email_description') }}</span>
                                             </div>
                                         </div>
 
