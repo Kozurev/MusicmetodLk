@@ -54,7 +54,7 @@ class Facade
     const ACTION_GET_SCHEDULE_SHORT = 'get_schedule_short';
     const ACTION_GET_SCHEDULE_FULL = 'get_schedule_full';
     const ACTION_GET_TEACHER_SCHEDULE_STATISTIC = 'getReportsStatistic';
-    const ACTION_BUY_RATE = 'buy_tarif';
+    const ACTION_BUY_RATE = 'buy_tariff';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
     const ACTION_GET_TEACHERS = 'getClientTeachers';
     const ACTION_GET_CLIENTS = 'getTeacherClients';
