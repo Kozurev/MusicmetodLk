@@ -121,7 +121,12 @@ class User
             return null;
         }
         if (!session()->has(self::SESSION_USER_DATA)) {
-            session()->put(self::SESSION_USER_DATA, self::getByToken(self::getToken()));
+            $user = self::getByToken(self::getToken());
+            if (is_null($user)) {
+                self::logout();
+                return null;
+            }
+            session()->put(self::SESSION_USER_DATA, $user);
         }
         return session()->get(self::SESSION_USER_DATA);
     }
@@ -141,7 +146,7 @@ class User
      */
     public static function isAuth(): bool
     {
-        return !empty(self::getToken());
+        return !empty(self::current());
     }
 
     /**

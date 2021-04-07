@@ -28,11 +28,11 @@
                                 <h4 class="kt-widget24__title">{{ __('pages.indiv-lessons') }}</h4>
                             </div>
                             <span class="kt-widget24__stats
-                                @if($user->balance->lessons_indiv >= 1)         kt-font-success
-                                @elseif($user->balance->lessons_indiv < 0)      kt-font-danger
-                                @else                                           kt-font-warning
+                                @if($user->balance->individual_lessons_count >= 1)      kt-font-success
+                                @elseif($user->balance->individual_lessons_count < 0)   kt-font-danger
+                                @else                                                   kt-font-warning
                             @endif">
-                                {{ $user->balance->lessons_indiv }}
+                                {{ $user->balance->individual_lessons_count }}
                             </span>
                         </div>
                         <div class="kt-widget24__details">
@@ -40,10 +40,10 @@
                                 <h4 class="kt-widget24__title">{{ __('pages.group-lessons') }}</h4>
                             </div>
                             <span class="kt-widget24__stats
-                                @if($user->balance->lessons_group >= 1)         kt-font-success
-                                @elseif($user->balance->lessons_group < 0)      kt-font-danger
-                                @else                                           kt-font-warning
-                            @endif">{{ $user->balance->lessons_group }}</span>
+                                @if($user->balance->group_lessons_count >= 1)       kt-font-success
+                                @elseif($user->balance->group_lessons_count < 0)    kt-font-danger
+                                @else                                               kt-font-warning
+                            @endif">{{ $user->balance->group_lessons_count }}</span>
                         </div>
                     </div>
                     <!--end::New Feedbacks-->
