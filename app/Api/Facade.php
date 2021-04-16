@@ -14,7 +14,7 @@ class Facade
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
     const PARAM_DATE_END = 'date_end';
-    const PARAM_RATE_ID = 'tarif_id';
+    const PARAM_RATE_ID = 'tariff_id';
     const PARAM_AMOUNT = 'amount';
     const PARAM_DESCRIPTION = 'description';
     const PARAM_SUCCESS_URL = 'successUrl';
@@ -32,6 +32,13 @@ class Facade
     const PARAM_CONFIG_TAG = 'tag';
     const PARAM_WITHOUT_PAGINATE = 'without_paginate';
     const PARAM_AREA_ID = 'area_id';
+    const PARAM_USER_FIRST_NAME = 'surname';
+    const PARAM_USER_LAST_NAME = 'name';
+    const PARAM_USER_EMAIL = 'email';
+    const PARAM_USER_PHONE_NUMBER = 'phoneNumber';
+    const PARAM_USER_PASSWORD_OLD = 'password_old';
+    const PARAM_USER_PASSWORD = 'password_new';
+    const PARAM_USER_PASSWORD_CONFIRMATION = 'password_confirmation';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -47,7 +54,7 @@ class Facade
     const ACTION_GET_SCHEDULE_SHORT = 'get_schedule_short';
     const ACTION_GET_SCHEDULE_FULL = 'get_schedule_full';
     const ACTION_GET_TEACHER_SCHEDULE_STATISTIC = 'getReportsStatistic';
-    const ACTION_BUY_RATE = 'buy_tarif';
+    const ACTION_BUY_RATE = 'buy_tariff';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
     const ACTION_GET_TEACHERS = 'getClientTeachers';
     const ACTION_GET_CLIENTS = 'getTeacherClients';
@@ -61,6 +68,7 @@ class Facade
     const ACTION_ABSENT_PERIOD_SAVE = 'saveAbsentPeriod';
     const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
     const ACTION_CONFIG_GET = 'config_get';
+    const ACTION_PROFILE_SAVE = 'profile_save';
 
     /**
      * @var Facade|null
@@ -75,7 +83,7 @@ class Facade
     /**
      * @var string[]
      */
-    private static $action2url = [
+    private static array $action2url = [
         self::ACTION_AUTH                   => '/user/index.php',
         self::ACTION_GET_USER               => '/user/index.php',
         self::ACTION_GET_NEAREST_LESSONS    => '/schedule/index.php',
@@ -100,7 +108,8 @@ class Facade
         self::ACTION_ABSENT_PERIOD_SAVE     => '/schedule/index.php',
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
         self::ACTION_CONFIG_GET             => '/config/index.php',
-        self::ACTION_GET_SCHEDULE_AREAS     => '/schedule/index.php'
+        self::ACTION_GET_SCHEDULE_AREAS     => '/schedule/index.php',
+        self::ACTION_PROFILE_SAVE           => '/user/index.php'
     ];
 
     /**
@@ -583,5 +592,19 @@ class Facade
         $params[self::PARAM_TOKEN] = $token;
         $params[self::PARAM_ACTION] = self::ACTION_LESSON_REPORT;
         return $this->makeRequest($this->makeUrl(self::ACTION_LESSON_REPORT), $params, self::METHOD_POST);
+    }
+
+    /**
+     * @param string $token
+     * @param array $profileData
+     * @return ApiResponse
+     */
+    public function saveProfile(string $token, array $profileData): ApiResponse
+    {
+        $profileData = array_merge([
+            self::PARAM_ACTION => self::ACTION_PROFILE_SAVE,
+            self::PARAM_TOKEN => $token
+        ], $profileData);
+        return $this->getResponse($this->makeUrl(self::ACTION_PROFILE_SAVE), $profileData, self::METHOD_POST);
     }
 }

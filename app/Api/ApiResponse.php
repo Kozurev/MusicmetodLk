@@ -10,6 +10,16 @@ class ApiResponse
 {
     const STATUS_OK = 200;
 
+    const ERROR_CODE_EMPTY = 0;         //Ошибки отсутствуют
+    const ERROR_CODE_AUTH = 1;          //Пользователь не авторизован
+    const ERROR_CODE_ACCESS = 2;        //Недостаточно прав
+    const ERROR_CODE_NOT_FOUND = 3;     //Объект не найден
+    const ERROR_CODE_TIME = 4;          //Неподходящее время
+    const ERROR_CODE_REQUIRED_PARAM = 5;//Отсутствует обязательный параметр
+    const ERROR_CODE_PASSWORD_CONFIRMATION = 6; //Пароли не совпаают
+    const ERROR_CODE_PASSWORD_OLD = 7;          //Неверно введен старый пароль
+    const ERROR_CODE_CUSTOM = 999;      //Кастомная ошибка
+
     /**
      * @var int
      */

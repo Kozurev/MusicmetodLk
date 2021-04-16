@@ -10,6 +10,7 @@ return [
     'schedule.absent_period' => 'Периоды отсутствия',
     'schedule.table_short' => 'Ближайшие занятия',
     'schedule.table_full' => 'Общее расписание',
+    'profile' => 'Профиль',
 
     'nav' => 'Меню',
     'to-main' => 'На главную',

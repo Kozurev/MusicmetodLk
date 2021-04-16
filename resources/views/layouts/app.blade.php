@@ -90,8 +90,21 @@
                             <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
                                 <!--begin: Navigation -->
                                 <div class="kt-notification">
-                                    <div class="kt-notification__custom kt-space-between">
-                                        <a href="{{ route('login.logout') }}" class="btn btn-label btn-label-brand btn-sm btn-block btn-bold">
+                                    <a href="{{ route('profile.edit', $user->group) }}" class="kt-notification__item">
+                                        <div class="kt-notification__item-icon">
+                                            <i class="flaticon2-calendar-3 kt-font-success"></i>
+                                        </div>
+                                        <div class="kt-notification__item-details">
+                                            <div class="kt-notification__item-title kt-font-bold">
+                                                {{ __('profile.title') }}
+                                            </div>
+                                            <div class="kt-notification__item-time">
+                                                {{ __('profile.subtitle') }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="kt-notification__custom kt-space-between text-right">
+                                        <a href="{{ route('login.logout') }}" class="btn btn-label btn-label-brand btn-sm btn-bold">
                                             {{ __('login.sign-out-btn') }}
                                         </a>
                                     </div>
@@ -105,12 +118,10 @@
 
             <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch" id="kt_body">
                 <div class="kt-container  kt-container--fluid  kt-grid kt-grid--ver">
-
                     <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
                     <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
                         @include('layouts.nav.'.\App\User::getRoleTag().'.nav')
                     </div>
-
                     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
                         <div class="kt-subheader   kt-grid__item" id="kt_subheader">
                         </div>
@@ -187,6 +198,7 @@
 <!--begin::Global Theme Bundle(used by all pages) -->
 <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/plugins/jquery.maskedinput/src/jquery.maskedinput.js') }}" type="text/javascript"></script>
 
 <!--end::Global Theme Bundle -->
 
