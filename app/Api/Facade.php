@@ -32,6 +32,7 @@ class Facade
     const PARAM_CONFIG_TAG = 'tag';
     const PARAM_WITHOUT_PAGINATE = 'without_paginate';
     const PARAM_AREA_ID = 'area_id';
+    const PARAM_TYPES = 'types';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
