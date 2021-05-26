@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Api\Facade;
+use App\Api\Payment;
 use App\Api\Schedule;
 use App\User;
 use Illuminate\Http\Request;
@@ -109,13 +110,22 @@ class HomeController extends Controller
             Facade::PARAM_DATE_TO => $monthDateTo
         ]);
 
+        $salaryEarnedResponse = collect(User::getPayments([
+            Facade::PARAM_WITHOUT_PAGINATE => true,
+            Facade::PARAM_DATE_FROM => $monthDateFrom,
+            Facade::PARAM_DATE_TO => $monthDateTo,
+            Facade::PARAM_TYPES => [
+                Payment::TYPE_BONUS_ADD
+            ]
+        ]));
+
         if (($scheduleStatisticResponse['status'] ?? true) === false) {
             $errors[] = $scheduleStatisticResponse['message'] ?? __('api.error-undefined');
         } else {
             $scheduleStatistic = collect($scheduleStatisticResponse);
             $totalCountLessons = $scheduleStatistic->whereIn('id', [Schedule::TYPE_SINGLE, Schedule::TYPE_GROUP, Schedule::TYPE_PRIVATE]);
             $dashboardsData->put('count_lessons', $totalCountLessons->sum('count_attendance') + $totalCountLessons->sum('count_absence'));
-            $dashboardsData->put('salary_earned', $scheduleStatistic->sum('teacher_rate'));
+            $dashboardsData->put('salary_earned', $salaryEarnedResponse->sum('value') + $scheduleStatistic->sum('teacher_rate'));
 
             $singleStatistic = $scheduleStatistic->where('id', Schedule::TYPE_SINGLE)->first();
             $groupStatistic = $scheduleStatistic->where('id', Schedule::TYPE_GROUP)->first();
@@ -137,7 +147,11 @@ class HomeController extends Controller
         $paymentsResponse = User::getPayments([
             Facade::PARAM_WITHOUT_PAGINATE => true,
             Facade::PARAM_DATE_FROM => $monthDateFrom,
-            Facade::PARAM_DATE_TO => $monthDateTo
+            Facade::PARAM_DATE_TO => $monthDateTo,
+            Facade::PARAM_TYPES => [
+                Payment::TYPE_TEACHER,
+                Payment::TYPE_BONUS_PAY
+            ]
         ]);
         if (($paymentsResponse['status'] ?? true) === false) {
             $salaryPayed = 0;

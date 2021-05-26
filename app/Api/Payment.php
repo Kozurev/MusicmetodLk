@@ -11,6 +11,7 @@ class Payment
     const TYPE_CASHBACK = 15;
     const TYPE_BONUS_ADD = 16;
     const TYPE_BONUS_PAY = 17;
+    const TYPE_BONUS_CLIENT = 21;
 
     const STATUS_PENDING = 0;
     const STATUS_COMPLETE = 1;
@@ -26,7 +27,8 @@ class Payment
         self::TYPE_TEACHER,
         self::TYPE_CASHBACK,
         self::TYPE_BONUS_ADD,
-        self::TYPE_BONUS_PAY
+        self::TYPE_BONUS_PAY,
+        self::TYPE_BONUS_CLIENT
     ];
 
     /**
