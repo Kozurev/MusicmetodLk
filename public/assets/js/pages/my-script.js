@@ -425,6 +425,7 @@ $(function() {
                 type: 'string',
                 autoHide: false,
                 template: function(data) {
+                    console.log(data);
                     return '<span>'+data.title+'</span>';
                 }
             }, {
@@ -435,7 +436,7 @@ $(function() {
                 type: 'number',
                 className: 'dt-center',
                 template: function(data) {
-                    return '<span>'+data.countIndiv+'</span>';
+                    return '<span>'+data.count_indiv+'</span>';
                 }
             }, {
                 field: "countGroup",
@@ -445,7 +446,7 @@ $(function() {
                 type: 'number',
                 className: 'dt-center',
                 template: function(data) {
-                    return '<span>'+data.countGroup+'</span>';
+                    return '<span>'+data.count_group+'</span>';
                 }
             }, {
                 field: "price",
@@ -466,7 +467,8 @@ $(function() {
                 sortable: false,
                 className: 'dt-center',
                 template: function(data, i) {
-                    return '<a href="/client/rates/buy/'+data.id+'" class="btn btn-success">'+lang('buy')+'</a>';
+                    return '<a href="/client/rates/buy/'+data.id+'" class="btn btn-success">'+lang('buy')+'</a>&nbsp;'
+                        +   '<a href="/client/rates/buy/' + data.id + '/credit" class="btn btn-warning">'+lang('buy_credit')+'</a>';
                 }
             }]
         });

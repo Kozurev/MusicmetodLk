@@ -14,7 +14,7 @@ class Facade
     const PARAM_PASSWORD = 'password';
     const PARAM_DATE_START = 'date_start';
     const PARAM_DATE_END = 'date_end';
-    const PARAM_RATE_ID = 'tarif_id';
+    const PARAM_RATE_ID = 'tariff_id';
     const PARAM_AMOUNT = 'amount';
     const PARAM_DESCRIPTION = 'description';
     const PARAM_SUCCESS_URL = 'successUrl';
@@ -48,7 +48,8 @@ class Facade
     const ACTION_GET_SCHEDULE_SHORT = 'get_schedule_short';
     const ACTION_GET_SCHEDULE_FULL = 'get_schedule_full';
     const ACTION_GET_TEACHER_SCHEDULE_STATISTIC = 'getReportsStatistic';
-    const ACTION_BUY_RATE = 'buy_tarif';
+    const ACTION_BUY_RATE = 'buy_tariff';
+    const ACTION_BUY_RATE_CREDIT = 'createOrder';
     const ACTION_MAKE_DEPOSIT = 'registerOrder';
     const ACTION_GET_TEACHERS = 'getClientTeachers';
     const ACTION_GET_CLIENTS = 'getTeacherClients';
@@ -76,7 +77,7 @@ class Facade
     /**
      * @var string[]
      */
-    private static $action2url = [
+    private static array $action2url = [
         self::ACTION_AUTH                   => '/user/index.php',
         self::ACTION_GET_USER               => '/user/index.php',
         self::ACTION_GET_NEAREST_LESSONS    => '/schedule/index.php',
@@ -85,9 +86,10 @@ class Facade
         self::ACTION_GET_SCHEDULE_SHORT     => '/schedule/index.php',
         self::ACTION_GET_SCHEDULE_FULL      => '/schedule/index.php',
         self::ACTION_GET_TEACHER_SCHEDULE_STATISTIC => '/schedule/index.php',
-        self::ACTION_GET_CLIENT_RATES       => '/tarif/index.php',
-        self::ACTION_GET_RATE_BY_ID         => '/tarif/index.php',
-        self::ACTION_BUY_RATE               => '/tarif/index.php',
+        self::ACTION_GET_CLIENT_RATES       => '/tariff/index.php',
+        self::ACTION_GET_RATE_BY_ID         => '/tariff/index.php',
+        self::ACTION_BUY_RATE               => '/tariff/index.php',
+        self::ACTION_BUY_RATE_CREDIT        => '/credit/index.php',
         self::ACTION_MAKE_DEPOSIT           => '/payment/index.php',
         self::ACTION_GET_CLIENTS            => '/user/index.php',
         self::ACTION_GET_TEACHERS           => '/user/index.php',
@@ -375,6 +377,21 @@ class Facade
             self::PARAM_RATE_ID => $rateId
         ];
         return $this->makeRequest($this->makeUrl(self::ACTION_BUY_RATE), $params);
+    }
+
+    /**
+     * @param string $token
+     * @param int $rateId
+     * @return \stdClass|null
+     */
+    public function buyRateCredit(string $token, int $rateId)
+    {
+        $params = [
+            self::PARAM_TOKEN => $token,
+            self::PARAM_ACTION => self::ACTION_BUY_RATE_CREDIT,
+            self::PARAM_RATE_ID => $rateId
+        ];
+        return $this->makeRequest($this->makeUrl(self::ACTION_BUY_RATE_CREDIT), $params);
     }
 
     /**

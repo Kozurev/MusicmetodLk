@@ -32,19 +32,21 @@
                     </p>
                 </div>
             </div>
-            <div class="kt-pricing-1__items row">
-                <div class="col-lg-9 col-xl-6">
-                    <form method="POST" action="{{ route('rate.buy.execute', ['id' => $rate->id]) }}" id="confirmRateBuy">
-                        @if(empty($error))
-                            @csrf
-                            <a href="#" onclick="$('#confirmRateBuy').submit(); return false;" class="btn btn-success btn-bold">
-                                {{ __('pages.submit') }}
-                            </a>
-                        @endif
-                        <a href="{{ route('rates.index') }}" class="btn btn-danger btn-bold">{{ __('pages.cancel') }}</a>
-                    </form>
+            @if(empty($error))
+                <div class="kt-pricing-1__items row">
+                    <div class="col-lg-9 col-xl-6">
+                        <form method="POST" action="{{ route('rate.buy.execute', ['id' => $rate->id]) }}" id="confirmRateBuy">
+                            @if(empty($error))
+                                @csrf
+                                <a href="#" onclick="$('#confirmRateBuy').submit(); return false;" class="btn btn-success btn-bold">
+                                    {{ __('pages.submit') }}
+                                </a>
+                            @endif
+                            <a href="{{ route('rates.index') }}" class="btn btn-danger btn-bold">{{ __('pages.cancel') }}</a>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>

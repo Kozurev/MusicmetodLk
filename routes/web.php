@@ -36,6 +36,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'auth_client']], fu
     Route::get('/rates', 'Client\RatesController@index')->name('rates.index');
     Route::get('/rates/buy/{id}', 'Client\\RatesController@buyPrepare')->name('rates.buy.prepare');
     Route::post('/rates/buy/{id}', 'Client\\RatesController@buyExecute')->name('rate.buy.execute');
+    Route::get('/rates/buy/{id}/credit', 'Client\\RatesController@byCredit')->name('rates.buy.credit');
 
     Route::get('/schedule/time', 'Client\ScheduleController@findTeacherTime')->name('schedule.find_teacher_time');
     Route::post('/schedule/makeLesson', 'Client\\ScheduleController@makeLesson')->name('schedule.make_lesson');

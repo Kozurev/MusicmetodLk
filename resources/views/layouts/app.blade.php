@@ -256,6 +256,7 @@
         count_group: '{{ __('pages.count-group') }}',
         price: '{{ __('pages.price') }}',
         buy: '{{ __('pages.buy') }}',
+        buy_credit: '{{ __('pages.buy-credit') }}',
 
         today: '{{ __('daterange.today') }}',
         yesterday: '{{ __('daterange.yesterday') }}',
