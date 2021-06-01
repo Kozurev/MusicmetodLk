@@ -18,7 +18,7 @@
                 <div class="kt-pricing-1__items row">
                     <div class="col-lg-6">
                         <form method="GET" action="{{ route('schedule.find_teacher_time') }}">
-                            @if($customErrors->count() == 0)
+                            @if($customErrors->get('teachers') == null)
                                 <div class="kt-pricing-1__items row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group row">
