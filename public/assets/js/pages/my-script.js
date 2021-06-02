@@ -452,7 +452,7 @@ $(function() {
                 field: "price",
                 title: lang('price'),
                 width: 'auto',
-                autoHide: false,
+                // autoHide: false,
                 sortable: true,
                 type: 'number',
                 className: 'dt-center',
@@ -467,8 +467,8 @@ $(function() {
                 sortable: false,
                 className: 'dt-center',
                 template: function(data, i) {
-                    return '<a href="/client/rates/buy/'+data.id+'" class="btn btn-success">'+lang('buy')+'</a>&nbsp;'
-                        +   '<a href="/client/rates/buy/' + data.id + '/credit" class="btn btn-warning">'+lang('buy_credit')+'</a>';
+                    return '<a href="/client/rates/buy/'+data.id+'" class="btn btn-sm btn-success">'+lang('buy')+'</a>&nbsp;'
+                        +   '<a href="/client/rates/buy/' + data.id + '/credit" class="btn btn-sm btn-warning">'+lang('buy_credit')+'</a>';
                 }
             }]
         });
