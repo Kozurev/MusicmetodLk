@@ -7,6 +7,7 @@ return [
     'payment-type-16' => 'Зачисление премии',
     'payment-type-17' => 'Выплата премии',
     'payment-type-21' => 'Бонус',
+    'payment-type-23' => 'Возврат средств',
 
     'payment-status-0' => 'Обрабатывается',
     'payment-status-1' => 'Выполнен',

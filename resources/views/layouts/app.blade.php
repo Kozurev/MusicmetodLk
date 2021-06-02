@@ -245,6 +245,8 @@
         payment_type_2: '{{ \App\Api\Payment::getTypeName(2) }}',
         payment_type_3: '{{ \App\Api\Payment::getTypeName(3) }}',
         payment_type_15: '{{ \App\Api\Payment::getTypeName(15) }}',
+        payment_type_21: '{{ \App\Api\Payment::getTypeName(21) }}',
+        payment_type_23: '{{ \App\Api\Payment::getTypeName(23) }}',
         payment_status_0: '{{ \App\Api\Payment::getStatusName(0) }}',
         payment_status_1: '{{ \App\Api\Payment::getStatusName(1) }}',
         payment_status_2: '{{ \App\Api\Payment::getStatusName(2) }}',

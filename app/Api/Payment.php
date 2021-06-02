@@ -12,6 +12,7 @@ class Payment
     const TYPE_BONUS_ADD = 16;
     const TYPE_BONUS_PAY = 17;
     const TYPE_BONUS_CLIENT = 21;
+    const TYPE_REFUND_CLIENT = 23;
 
     const STATUS_PENDING = 0;
     const STATUS_COMPLETE = 1;
@@ -20,7 +21,7 @@ class Payment
     /**
      * @var int[]
      */
-    protected static $types = [
+    protected static array $types = [
         self::TYPE_INCOME,
         self::TYPE_INCOME,
         self::TYPE_DEBIT,
@@ -28,13 +29,14 @@ class Payment
         self::TYPE_CASHBACK,
         self::TYPE_BONUS_ADD,
         self::TYPE_BONUS_PAY,
-        self::TYPE_BONUS_CLIENT
+        self::TYPE_BONUS_CLIENT,
+        self::TYPE_REFUND_CLIENT
     ];
 
     /**
      * @var int[]
      */
-    protected static $statuses = [
+    protected static array $statuses = [
         self::STATUS_PENDING,
         self::STATUS_COMPLETE,
         self::STATUS_ERROR

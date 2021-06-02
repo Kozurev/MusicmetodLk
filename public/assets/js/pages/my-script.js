@@ -73,7 +73,10 @@ $(function() {
                     let statusClass = '';
                     switch (Number(data.type)) {
                         case 1: statusClass = 'btn-label-success';    break;
+                        case 15: statusClass = 'btn-label-success';    break;
+                        case 21: statusClass = 'btn-label-success';    break;
                         case 2: statusClass = 'btn-label-danger';     break;
+                        case 23: statusClass = 'btn-label-danger';     break;
                         default:  statusClass = 'btn-label-warning';    break;
                     }
                     return '<span class="btn btn-bold btn-sm btn-font-sm '+statusClass+'">'+lang('payment_type_' + data.type)+'</span>';
