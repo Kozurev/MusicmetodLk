@@ -22,7 +22,14 @@ class HomeController extends Controller
      */
     public function index() : RedirectResponse
     {
-        return redirect(route(User::getRoleTag() . '.index'));
+        $roleTag = User::getRoleTag();
+        if (empty($roleTag)) {
+            User::logout();
+            $route = 'logout';
+        } else {
+            $route = $roleTag . '.index';
+        }
+        return redirect(route($route));
     }
 
     /**
