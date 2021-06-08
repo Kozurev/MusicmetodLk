@@ -166,7 +166,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                    @elseif(count($teacherNearestTime) == 0)
+                                    @elseif(empty($teacherNearestTime))
                                         <div class="alert alert-warning fade show" role="alert">
                                             <div class="alert-icon"><i class="flaticon-warning"></i></div>
                                             <div class="alert-text">
