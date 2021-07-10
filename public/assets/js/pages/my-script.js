@@ -606,6 +606,12 @@ $(function() {
                                 title: response.message
                             });
                             $('#kt_datatable_schedule').KTDatatable().reload();
+                        },
+                        error: function(response) {
+                            alert.fire({
+                                type: response.responseJSON.status,
+                                title: response.responseJSON.message
+                            });
                         }
                     });
                 }
