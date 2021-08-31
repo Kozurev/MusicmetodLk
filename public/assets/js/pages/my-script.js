@@ -339,7 +339,7 @@ $(function() {
             start = moment(),
             end = moment().add(6, 'days');
 
-        function cb(start, end, label) {
+        function cb(start, end, label, isFirstInit = false) {
             var title = '';
             var range = '';
 
@@ -353,7 +353,7 @@ $(function() {
 
             $('#schedule_kt_dashboard_daterangepicker_title').html(range);
             $('#schedule_kt_dashboard_daterangepicker_date').html(title);
-            if (label !== '') {
+            if (label !== '' && !isFirstInit) {
                 $scheduleTable.KTDatatable().spinnerCallback(true);
                 $scheduleTable.KTDatatable().search(range, 'date');
             }
@@ -373,7 +373,7 @@ $(function() {
             ranges: ranges,
         }, cb);
 
-        cb(start, end, '');
+        cb(start, end, '', true);
     }
 
     //Таблица абонементов

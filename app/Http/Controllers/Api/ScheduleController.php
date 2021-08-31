@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Api\Facade;
 use App\Http\Requests\LessonReportRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AbsentPeriodSaveRequest;
@@ -11,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Api\Facade as Api;
-use Illuminate\Support\Facades\Cookie;
 
 class ScheduleController extends Controller
 {
@@ -24,7 +22,7 @@ class ScheduleController extends Controller
         $params = $request->all();
         if (empty($params['query']['date'] ?? '')) {
             $params['date_start'] = date('Y-m-d');
-            $params['date_end'] = $params['date_start'];
+            $params['date_end'] = Carbon::make($params['date_start'])->addDays(6)->format('Y-m-d');
         } else {
             $dates = explode(' - ', $params['query']['date'] ?? '');
             $params['date_start'] = !empty($dates[0]) ? $dates[0] : date('Y-m-d');
