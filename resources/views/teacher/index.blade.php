@@ -116,7 +116,7 @@
                                                             @elseif (!empty($lesson->group))
                                                                 {{ $lesson->group->title }}
                                                             @elseif (!empty($lesson->lid))
-                                                                {{ __('pages.consult') }} {{ $lesson->lid->number }}
+                                                                {{ __('pages.consult') }}
                                                             @endif
                                                         </span>
                                                     </p>
@@ -201,7 +201,7 @@
                                                 </ul>
                                             @else
                                                 <label for="attendance_{{ $lesson->id }}">
-                                                    {{ __('pages.consult') }} {{ $lesson->lid->number ?? '' }}
+                                                    {{ __('pages.consult') }}
                                                 </label>
                                             @endif
                                         </form>
