@@ -386,4 +386,9 @@ class User
         }
         return self::$rolesTags[$role] ?? '';
     }
+
+    public static function getSalaryInfo(array $params = []): Collection
+    {
+        return collect(Api::instance()->getSalaryInfo(self::getToken(), $params));
+    }
 }

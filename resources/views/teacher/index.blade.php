@@ -15,6 +15,14 @@
                                 {{ $dashboardsData->get('count_lessons') }}
                             </span>
                         </div>
+                        <div class="kt-widget24__details">
+                            <div class="kt-widget24__info">
+                                <h4 class="kt-widget24__title">{{ __('pages.salary-info') }}</h4>
+                            </div>
+                            <a class="btn btn-primary btn-sm kt-font-warning text-right" data-toggle="modal" data-target="#salaryInfoModal">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-4 col-xl-4">
@@ -272,5 +280,42 @@
             </div>
         </div>
         <!--end: таблица с клиентами-->
+    </div>
+
+    <div class="modal fade" id="salaryInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ __('pages.lesson-type') }}</th>
+                                <th>{{ __('pages.report-attendance-short') }}/{{ __('pages.report-absence-short') }}</th>
+                                <th>{{ __('pages.salary-earned') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($scheduleStatistic as $lessonType)
+                            <tr>
+                                <td>{{ $lessonType->title }}</td>
+                                <td>{{ $lessonType->count_attendance }} / {{ $lessonType->count_absence }}</td>
+                                <td>{{ $lessonType->teacher_rate }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

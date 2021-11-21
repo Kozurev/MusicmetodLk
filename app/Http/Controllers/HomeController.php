@@ -128,6 +128,7 @@ class HomeController extends Controller
 
         if (($scheduleStatisticResponse['status'] ?? true) === false) {
             $errors[] = $scheduleStatisticResponse['message'] ?? __('api.error-undefined');
+            $scheduleStatistic = collect();
         } else {
             $scheduleStatistic = collect($scheduleStatisticResponse);
             $totalCountLessons = $scheduleStatistic->whereIn('id', [Schedule::TYPE_SINGLE, Schedule::TYPE_GROUP, Schedule::TYPE_PRIVATE]);
@@ -175,7 +176,7 @@ class HomeController extends Controller
             $clients = collect();
         }
 
-        return view(User::getRoleTag(User::ROLE_TEACHER) . '.index', compact('date', 'weeks', 'dashboardsData', 'todayLessons', 'clients'))
+        return view(User::getRoleTag(User::ROLE_TEACHER) . '.index', compact('date', 'weeks', 'dashboardsData', 'todayLessons', 'clients', 'scheduleStatistic'))
             ->withErrors($errors);
     }
 }

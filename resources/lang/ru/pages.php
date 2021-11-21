@@ -135,6 +135,10 @@ return [
     'count-lessons-desc' => 'Общее число проведенных занятий в этом месяце',
     'salary-earned' => 'Заработано',
     'salary-payed' => 'Выплачено',
+    'salary-info' => 'Подробная информация',
+
+    'report-attendance-short' => 'Прис.',
+    'report-absence-short' => 'Отс.',
 
     'reports-table' => 'Отчеты о проведенных занятиях',
     'reports-results' => 'Результат',
