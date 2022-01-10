@@ -4,13 +4,15 @@ namespace Illuminate\Cache;
 
 use Closure;
 use Exception;
+use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 
-class DatabaseStore implements Store
+class DatabaseStore implements LockProvider, Store
 {
     use InteractsWithTime, RetrievesMultipleKeys;
 
@@ -43,7 +45,7 @@ class DatabaseStore implements Store
     protected $lockTable;
 
     /**
-     * A array representation of the lock lottery odds.
+     * An array representation of the lock lottery odds.
      *
      * @var array
      */
@@ -116,9 +118,7 @@ class DatabaseStore implements Store
     public function put($key, $value, $seconds)
     {
         $key = $this->prefix.$key;
-
         $value = $this->serialize($value);
-
         $expiration = $this->getTime() + $seconds;
 
         try {
@@ -128,6 +128,35 @@ class DatabaseStore implements Store
 
             return $result > 0;
         }
+    }
+
+    /**
+     * Store an item in the cache if the key doesn't exist.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  int  $seconds
+     * @return bool
+     */
+    public function add($key, $value, $seconds)
+    {
+        $key = $this->prefix.$key;
+        $value = $this->serialize($value);
+        $expiration = $this->getTime() + $seconds;
+
+        try {
+            return $this->table()->insert(compact('key', 'value', 'expiration'));
+        } catch (QueryException $e) {
+            return $this->table()
+                ->where('key', $key)
+                ->where('expiration', '<=', $this->getTime())
+                ->update([
+                    'value' => $value,
+                    'expiration' => $expiration,
+                ]) >= 1;
+        }
+
+        return false;
     }
 
     /**
