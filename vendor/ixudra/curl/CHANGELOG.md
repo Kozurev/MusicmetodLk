@@ -2,6 +2,14 @@
 
 All Notable changes to `ixudra/curl` will be documented in this file
 
+## 6.22.2 - 2024-04-22
+### Fixed
+- Use correct default values for ssl_verifypeer
+
+## 6.22.1 - 2022-07-31
+### Fixed
+- Use correct default values for http_build_query
+
 ## 6.22.0 - 2021-11-14
 ### Added
 - Added HEAD request support

@@ -10,3 +10,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
+/docker/*
+docker-compose.yml
+Dockerfile
+/vendor
