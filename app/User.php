@@ -4,6 +4,8 @@ namespace App;
 
 use App\Api\ApiResponse;
 use App\Api\Facade as Api;
+use App\DTO\P2P\ReceiverDataMapper;
+use App\DTO\P2P\ReceiversCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -390,5 +392,15 @@ class User
     public static function getSalaryInfo(array $params = []): Collection
     {
         return collect(Api::instance()->getSalaryInfo(self::getToken(), $params));
+    }
+
+    public static function getP2PReceiversData(float $amount): ReceiversCollection
+    {
+        $response = Api::instance()->getP2PReceiversData(self::getToken(), $amount);
+        if ($response->hasErrors()) {
+            throw new \Exception($response->getErrorMessage());
+        }
+
+        return (new ReceiverDataMapper())->mapReceiversDataCollection($response->data()->get('data'));
     }
 }

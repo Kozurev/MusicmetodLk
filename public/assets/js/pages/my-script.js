@@ -735,6 +735,10 @@ $(function() {
                     });
                 }
             });
+        })
+        .on('change', 'input[name=receiver]', function (e) {
+            e.preventDefault();
+            // TODO: добавить добавление данных в модалку и триггер change при загрузке страницы
         });
 
 
@@ -776,4 +780,6 @@ $(function() {
     if ($('.masked-phone').length !== 0) {
         $('.masked-phone').mask('+79999999999');
     }
+
+
 });

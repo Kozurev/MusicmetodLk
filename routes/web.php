@@ -32,6 +32,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'auth_client']], fu
     Route::post('/balance/makePayment', 'Client\\BalanceController@makeDeposit')->name('balance.makeDeposit');
     Route::get('/balance/success', 'Client\\BalanceController@depositSuccess')->name('balance.depositSuccess');
     Route::get('/balance/error', 'Client\\BalanceController@depositError')->name('balance.depositError');
+    Route::post('/balance/p2p/create', 'Client\\BalanceController@createP2PTransaction')->name('balance.createP2PTransaction');
 
     Route::get('/rates', 'Client\RatesController@index')->name('rates.index');
     Route::get('/rates/buy/{id}', 'Client\\RatesController@buyPrepare')->name('rates.buy.prepare');

@@ -40,19 +40,19 @@
                     </div>
                     <div class="kt-pricing-1__items row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            @if($errors->any())
-                                @foreach($errors->all() as $error)
-                                    <div class="alert alert-danger fade show" role="alert">
-                                        <div class="alert-icon"><i class="flaticon-warning"></i></div>
-                                        <div class="alert-text">{{ $error }}</div>
-                                        <div class="alert-close">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true"><i class="la la-close"></i></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif
+{{--                            @if($errors->any())--}}
+{{--                                @foreach($errors->all() as $error)--}}
+{{--                                    <div class="alert alert-danger fade show" role="alert">--}}
+{{--                                        <div class="alert-icon"><i class="flaticon-warning"></i></div>--}}
+{{--                                        <div class="alert-text">{{ $error }}</div>--}}
+{{--                                        <div class="alert-close">--}}
+{{--                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">--}}
+{{--                                                <span aria-hidden="true"><i class="la la-close"></i></span>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
+{{--                            @endif--}}
 
                             <div class="form-group form-group-last">
                                 <div class="alert alert-secondary" role="alert">

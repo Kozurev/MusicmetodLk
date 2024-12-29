@@ -71,6 +71,7 @@ class Facade
     const ACTION_ABSENT_PERIOD_DELETE = 'deleteScheduleAbsent';
     const ACTION_CONFIG_GET = 'config_get';
     const ACTION_PROFILE_SAVE = 'profile_save';
+    const ACTION_GET_P2P_AVAILABLE = 'check_p2p_available';
 
     /**
      * @var Facade|null
@@ -112,7 +113,8 @@ class Facade
         self::ACTION_ABSENT_PERIOD_DELETE   => '/schedule/index.php',
         self::ACTION_CONFIG_GET             => '/config/index.php',
         self::ACTION_GET_SCHEDULE_AREAS     => '/schedule/index.php',
-        self::ACTION_PROFILE_SAVE           => '/user/index.php'
+        self::ACTION_PROFILE_SAVE           => '/user/index.php',
+        self::ACTION_GET_P2P_AVAILABLE      => '/payment/index.php',
     ];
 
     /**
@@ -624,5 +626,15 @@ class Facade
             self::PARAM_TOKEN => $token
         ], $profileData);
         return $this->getResponse($this->makeUrl(self::ACTION_PROFILE_SAVE), $profileData, self::METHOD_POST);
+    }
+
+    public function getP2PReceiversData(string $token, float $amount): ApiResponse
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_GET_P2P_AVAILABLE,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_AMOUNT => $amount,
+        ];
+        return $this->getResponse($this->makeUrl(self::ACTION_GET_P2P_AVAILABLE), $params, self::METHOD_GET);
     }
 }

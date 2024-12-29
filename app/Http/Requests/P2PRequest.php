@@ -6,9 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property-read float $amount
- * @property-read int|null $without_p2p
  */
-class DepositRequest extends FormRequest
+class P2PRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +28,7 @@ class DepositRequest extends FormRequest
     {
         return [
             'amount' => 'required|integer|min:100',
-            'without_p2p' => 'integer|min:0|max:1',
+            'receiver_id' => 'required|integer|min:1',
         ];
     }
 
