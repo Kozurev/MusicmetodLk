@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('balance.makeDeposit') }}" method="POST" id="p2pChooseForm">
+            <form action="{{ route('balance.makeDeposit') }}" method="GET" id="p2pChooseForm">
                 @csrf
                 <input type="hidden" name="without_p2p" value="1">
                 <input type="hidden" name="amount" value="{{ $amount }}">
