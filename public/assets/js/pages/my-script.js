@@ -736,9 +736,37 @@ $(function() {
                 }
             });
         })
-        .on('change', 'input[name=receiver]', function (e) {
+        .on('change', '.p2p_receiver', function (e) {
             e.preventDefault();
-            // TODO: добавить добавление данных в модалку и триггер change при загрузке страницы
+            let fio = $(this).data('fio'),
+                card_number = $(this).data('card_number'),
+                phone_number = $(this).data('phone_number'),
+                comment = $(this).data('comment'),
+                $modalFio = $('#p2p_fio'),
+                $modalCardNumber = $('#p2p_card'),
+                $modalPhoneNumber = $('#p2p_phone'),
+                $modalComment = $('#p2p_comment');
+
+            $('#receiver_id').val($(this).val());
+            $modalFio.text(fio);
+            if (card_number !== '') {
+                $modalCardNumber.text(card_number);
+                $modalCardNumber.parent().parent().show();
+            } else {
+                $modalCardNumber.parent().parent().hide();
+            }
+            if (phone_number !== '') {
+                $modalPhoneNumber.text(phone_number);
+                $modalPhoneNumber.parent().parent().show();
+            } else {
+                $modalPhoneNumber.parent().parent().hide();
+            }
+            if (comment !== '') {
+                $modalComment.text(comment);
+                $modalComment.parent().parent().show();
+            } else {
+                $modalComment.parent().parent().hide();
+            }
         });
 
 
@@ -781,5 +809,8 @@ $(function() {
         $('.masked-phone').mask('+79999999999');
     }
 
+    if ($('.p2p_receiver').length) {
+        $('.p2p_receiver').trigger('change');
+    }
 
 });

@@ -4,6 +4,9 @@ return [
     'balance.index' => 'Пополнение баланса',
     'balance.deposit.success' => 'Баланс успешно пополнен',
     'balance.deposit.error' => 'Ошибка пополнения баланса',
+    'balance.p2p.index' => 'Пополнение баланса переводом',
+    'balance.p2p.deposit.success' => 'Перевод успешно сохранен',
+    'balance.p2p.deposit.error' => 'Ошибка перевода',
     'rates.index' => 'Абонементы',
     'faq.index' => 'Помощь',
     'schedule.find_teacher_time' => 'Самозапись',
@@ -88,6 +91,7 @@ return [
 
     'p2p-title' => 'P2P перевод самозанятому',
     'p2p-choose-receiver' => 'Выберите получателя',
+    'p2p-receiver-fio' => 'Выберите получателя',
     'p2p-card-number' => 'Номер банковской карты',
     'p2p-phone-number' => 'Номер телефона для перевода по СБП',
     'p2p-comment' => 'Номер телефона для перевода по СБП',
@@ -95,6 +99,10 @@ return [
     'p2p-submit' => 'Подтвердить',
     'p2p-submit-confirmation-title' => 'Подтверждение перевода',
     'p2p-submit-confirmation-button' => 'Перевел(а)',
+    'p2p-transaction-created-success-title' => 'Платеж №:payment_id успешно создан.',
+    'p2p-transaction-created-success-text' => 'Перевод на сумму :amount рублей успешно создан. Номер транзакции в сервисе посреднике <b>:transaction_id</b>. После подтверждения перевода средства будут зачислены на ваш баланс.',
+    'p2p-transaction-created-error-title' => 'Возникли проблемы с созданием платежа',
+    'p2p-transaction-created-error-text' => 'При создании перевода произошла ошибка: :error_text. Обратитесь к менеджеру.',
 
     'get-teacher-time' => 'Подобрать время занятия',
     'get-teacher-time-btm' => 'Подобрать время',

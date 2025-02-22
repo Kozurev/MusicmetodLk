@@ -1,7 +1,8 @@
 <?php
 
-namespace App\DTO\P2P;
+namespace App\Collections\P2P;
 
+use App\DTO\P2P\ReceiverDataDTO;
 use Illuminate\Support\Collection;
 
 /**

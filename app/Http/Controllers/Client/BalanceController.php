@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Client;
 
 
-use App\DTO\P2P\ReceiversCollection;
-use App\Http\Requests\P2PRequest;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\Controller;
 use App\Api\Payment;
-use App\User;
+use App\Collections\P2P\ReceiversCollection;
+use App\Exceptions\P2P\P2PResponseException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DepositRequest;
+use App\Http\Requests\P2PRequest;
+use App\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * Class BalanceController
@@ -81,6 +82,15 @@ class BalanceController extends Controller
 
     public function createP2PTransaction(P2PRequest $request): View
     {
-        // TODO: добавить создание p2p транзакции
+        try {
+            $remotePaymentDTO = User::createP2PTransaction(
+                amount: $request->amount,
+                receiverId: $request->receiver_id,
+            );
+            return view(User::getRoleTag(User::ROLE_CLIENT) . '.balance.p2p_deposit_success', compact('remotePaymentDTO'));
+        } catch (\Throwable|P2PResponseException $e) {
+            $error = $e instanceof P2PResponseException ? $e->getErrorHash() : $e->getMessage();
+            return view(User::getRoleTag(User::ROLE_CLIENT) . '.balance.p2p_deposit_error', compact('error'));
+        }
     }
 }

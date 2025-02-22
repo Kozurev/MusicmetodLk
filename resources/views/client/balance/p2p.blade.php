@@ -1,4 +1,4 @@
-@extends('layouts.app', ['partition' => 'balance', 'page' => 'balance.index'])
+@extends('layouts.app', ['partition' => 'balance', 'page' => 'balance.p2p.index'])
 
 @section('content')
     <div class="kt-portlet">
@@ -39,6 +39,7 @@
                                         <span class="kt-radio">
                                             <input type="radio"
                                                    name="receiver"
+                                                   class="p2p_receiver"
                                                    value="{{ $receiver->getPaymentDataDTO()->getReceiverId() }}"
                                                    data-fio="{{ $receiver->getTeacherDTO()->getFio() }}"
                                                    data-card_number="{{ $receiver->getPaymentDataDTO()->getCardNumber() }}"
@@ -117,7 +118,7 @@
                     <div class="modal-body">
                         @csrf
                         <input type="hidden" name="amount" value="{{ $amount }}" />
-                        <input type="hidden" name="receiver_id" value="" />
+                        <input type="hidden" name="receiver_id" value="" id="receiver_id" />
                         <div class="row" id="p2p_fio_row">
                             <div class="col-md-4 col-sm-12 text-right">
                                 <label for="" class="form-label">{{ __('pages.p2p-receiver-fio') }}</label>
@@ -153,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('pages.cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('pages.p2p-submit-confirmation-button') }}</button>
+                        <button type="button" class="btn btn-primary" onclick="$('#submitP2PTransactionForm').submit()">{{ __('pages.p2p-submit-confirmation-button') }}</button>
                     </div>
                 </form>
             </div>

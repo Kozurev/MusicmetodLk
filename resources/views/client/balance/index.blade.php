@@ -15,8 +15,7 @@
 {{--        {{ dd($errors->has('amount'), $errors->first('amount')) }}--}}
         <div class="kt-portlet__body">
             <div class="kt-pricing-1 kt-pricing-1--fixed">
-                <form method="POST" action="{{ route('balance.makeDeposit') }}">
-                    @csrf
+                <form method="GET" action="{{ route('balance.makeDeposit') }}">
                     <div class="kt-pricing-1__items row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group row">

@@ -4,8 +4,13 @@ namespace App;
 
 use App\Api\ApiResponse;
 use App\Api\Facade as Api;
-use App\DTO\P2P\ReceiverDataMapper;
-use App\DTO\P2P\ReceiversCollection;
+use App\Collections\P2P\ReceiversCollection;
+use App\DTO\P2P\RemotePaymentDTO;
+use App\Exceptions\P2P\P2PResponseException;
+use App\Mappers\P2P\PaymentMapper;
+use App\Mappers\P2P\ReceiverDataMapper;
+use App\Mappers\P2P\RemotePaymentMapper;
+use App\Mappers\P2P\TransactionMapper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -397,10 +402,29 @@ class User
     public static function getP2PReceiversData(float $amount): ReceiversCollection
     {
         $response = Api::instance()->getP2PReceiversData(self::getToken(), $amount);
-        if ($response->hasErrors()) {
-            throw new \Exception($response->getErrorMessage());
+        if ($response->hasError()) {
+            throw new P2PResponseException(
+                errorHash: $response->getErrorHash(),
+                errorMessage: $response->getErrorMessage(),
+            );
         }
 
-        return (new ReceiverDataMapper())->mapReceiversDataCollection($response->data()->get('data'));
+        return (new ReceiverDataMapper())->mapReceiversDataCollection($response->getData()->toArray());
+    }
+
+    public static function createP2PTransaction(float $amount, int $receiverId): RemotePaymentDTO
+    {
+        $response = Api::instance()->createP2PPayment(self::getToken(), $receiverId, $amount);
+        if ($response->hasError()) {
+            throw new P2PResponseException(
+                errorHash: $response->getErrorHash(),
+                errorMessage: $response->getErrorMessage(),
+            );
+        }
+
+        return (new RemotePaymentMapper(
+            new PaymentMapper(),
+            new TransactionMapper(),
+        ))->mapRemotePaymentDTO($response->getData()->toArray());
     }
 }

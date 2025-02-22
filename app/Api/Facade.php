@@ -40,6 +40,7 @@ class Facade
     const PARAM_USER_PASSWORD_OLD = 'password_old';
     const PARAM_USER_PASSWORD = 'password_new';
     const PARAM_USER_PASSWORD_CONFIRMATION = 'password_confirmation';
+    const PARAM_RECEIVER_ID = 'receiverId';
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
@@ -72,6 +73,7 @@ class Facade
     const ACTION_CONFIG_GET = 'config_get';
     const ACTION_PROFILE_SAVE = 'profile_save';
     const ACTION_GET_P2P_AVAILABLE = 'check_p2p_available';
+    const ACTION_CREATE_P2P_TRANSACTION = 'create_p2p_transaction';
 
     /**
      * @var Facade|null
@@ -115,6 +117,7 @@ class Facade
         self::ACTION_GET_SCHEDULE_AREAS     => '/schedule/index.php',
         self::ACTION_PROFILE_SAVE           => '/user/index.php',
         self::ACTION_GET_P2P_AVAILABLE      => '/payment/index.php',
+        self::ACTION_CREATE_P2P_TRANSACTION => '/payment/index.php',
     ];
 
     /**
@@ -199,6 +202,23 @@ class Facade
             $response = $request->post();
         }
         return new ApiResponse($response);
+    }
+
+    public function getP2PResponse(string $url, array $params, string $method = self::METHOD_GET): P2PApiResponse
+    {
+        $request = Curl::to($url)
+            ->withHeaders(['Content-Type: application/json', 'Accept: application/json'])
+            ->withData($params)
+            ->asJsonRequest()
+            ->returnResponseObject()
+            ->withTimeout(30);
+        if ($method == self::METHOD_GET) {
+            $response = $request->get();
+        } else {
+            $response = $request->post();
+        }
+
+        return new P2PApiResponse($response);
     }
 
     /**
@@ -628,13 +648,24 @@ class Facade
         return $this->getResponse($this->makeUrl(self::ACTION_PROFILE_SAVE), $profileData, self::METHOD_POST);
     }
 
-    public function getP2PReceiversData(string $token, float $amount): ApiResponse
+    public function getP2PReceiversData(string $token, float $amount): P2PApiResponse
     {
         $params = [
             self::PARAM_ACTION => self::ACTION_GET_P2P_AVAILABLE,
             self::PARAM_TOKEN => $token,
             self::PARAM_AMOUNT => $amount,
         ];
-        return $this->getResponse($this->makeUrl(self::ACTION_GET_P2P_AVAILABLE), $params, self::METHOD_GET);
+        return $this->getP2PResponse($this->makeUrl(self::ACTION_GET_P2P_AVAILABLE), $params, self::METHOD_GET);
+    }
+
+    public function createP2PPayment(string $token, int $receiverId, float $amount): P2PApiResponse
+    {
+        $params = [
+            self::PARAM_ACTION => self::ACTION_CREATE_P2P_TRANSACTION,
+            self::PARAM_TOKEN => $token,
+            self::PARAM_RECEIVER_ID => $receiverId,
+            self::PARAM_AMOUNT => $amount,
+        ];
+        return $this->getP2PResponse($this->makeUrl(self::ACTION_CREATE_P2P_TRANSACTION), $params, self::METHOD_POST);
     }
 }

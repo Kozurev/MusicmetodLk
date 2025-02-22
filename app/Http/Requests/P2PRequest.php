@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property-read float $amount
+ * @property-read int $receiver_id
  */
 class P2PRequest extends FormRequest
 {

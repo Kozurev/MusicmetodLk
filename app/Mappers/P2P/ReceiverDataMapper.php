@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\P2P;
+namespace App\Mappers\P2P;
+
+use App\Collections\P2P\ReceiversCollection;
+use App\DTO\P2P\ReceiverDataDTO;
+use App\DTO\P2P\ReceiverPaymentDataDTO;
+use App\DTO\P2P\ReceiverTeacherDTO;
 
 /**
  * @author Marketplace Team <trade-services-dev@b2b-center.ru>
@@ -37,7 +42,7 @@ final class ReceiverDataMapper
     public function mapReceiverPaymentDataDTO(?\stdClass $receiverPaymentDataDTO): ReceiverPaymentDataDTO
     {
         return new ReceiverPaymentDataDTO(
-            receiverId: (int)($receiverPaymentDataDTO?->receiverId ?? 0),
+            receiverId: (int)($receiverPaymentDataDTO?->receiver_id ?? 0),
             cardNumber: null !== $receiverPaymentDataDTO?->card_number
                 ? (string)($receiverPaymentDataDTO->card_number)
                 : null,
